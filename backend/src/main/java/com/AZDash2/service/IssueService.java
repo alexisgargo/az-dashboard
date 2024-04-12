@@ -1,7 +1,4 @@
-package com.AZDash2.service;
-import com.AZDash2.valueobject.Issue;
-
-
+package com.azdash2.service;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 
 import org.springframework.stereotype.Service;
 
+import com.azdash2.valueobject.Issue;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

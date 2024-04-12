@@ -1,4 +1,4 @@
-package com.AZDash2.valueobject;
+package com.azdash2.valueobject;
 
 public class Issue {
     private String key;

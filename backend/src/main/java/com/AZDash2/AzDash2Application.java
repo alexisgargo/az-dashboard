@@ -1,4 +1,4 @@
-package com.AZDash2;
+package com.azdash2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

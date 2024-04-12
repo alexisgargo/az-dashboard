@@ -1,4 +1,4 @@
-package com.AZDash2.controller;
+package com.azdash2.controller;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.AZDash2.service.IssueService;
-import com.AZDash2.valueobject.Issue;
+import com.azdash2.service.IssueService;
+import com.azdash2.valueobject.Issue;
 
 
 @RestController
