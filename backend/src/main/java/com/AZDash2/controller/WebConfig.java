@@ -1,5 +1,5 @@
-package com.AZDash2;
-import org.springframework.context.annotation.Bean;
+//para que el front end pueda traer info del back end, se tuvo que agregar este documento.
+package com.AZDash2.controller;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
