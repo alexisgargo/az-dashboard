@@ -1,6 +1,6 @@
 package com.AZDash2.service;
 import com.AZDash2.valueobject.Issue;
-
+import com.AZDash2.valueobject.TeamProgress;
 
 import java.io.IOException;
 import java.net.URI;
@@ -107,4 +107,34 @@ public class IssueService {
         
         return issues;
     }
-}
+
+
+    public List<TeamProgress> getTeamsProgress(String version) throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder() 
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=type=" + version))  //aqui se le especifica cuanta info de dicho proyecto queremos traer
+        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+        .GET()
+        .build();
+
+        HttpResponse<String> response = client.send(request,
+        HttpResponse.BodyHandlers.ofString());
+        logger.debug("Response Http Status {}", response.statusCode());
+        logger.debug("Response Body {}", response.body());
+
+        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
+
+        JsonArray allProgress = issueJson.getAsJsonArray("progress");
+        
+        List<TeamProgress> teamProgresses = new ArrayList<>();
+
+        for (JsonElement issueElement : allProgress) {
+            TeamProgress teamProgress = new TeamProgress();
+            JsonObject issueObject = issueElement.getAsJsonObject();
+            String progress = issueObject.get("issueType").getAsString();
+            //JsonObject fieldsObject = issueElement.getAsJsonObject().getAsJsonObject("fields");
+            teamProgress.setProgress(progress);
+        }
+        
+        return teamProgresses;
+}}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.AZDash2.service.IssueService;
 import com.AZDash2.valueobject.Issue;
+import com.AZDash2.valueobject.TeamProgress;
 
 
 @RestController
@@ -50,5 +51,18 @@ public class IssueController {
         }
 
         return new ResponseEntity<>(issues, HttpStatus.OK);
+    }
+
+    @GetMapping("/progress/{version}")
+    public ResponseEntity<List<TeamProgress>> pullTeamsProgress(@PathVariable String version) { //pullAllIssues? huh
+    List<TeamProgress> teamProgress;
+        try {
+            teamProgress = issueService.getTeamsProgress(version);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            logger.error("JIRA API failed", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+        }
+
+        return new ResponseEntity<>(teamProgress, HttpStatus.OK);
     }
 }
