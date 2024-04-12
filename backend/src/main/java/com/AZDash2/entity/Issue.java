@@ -1,4 +1,4 @@
-package com.azdash2.entity;
+package com.AZDash2.entity;
 
 import org.springframework.stereotype.Repository;
 
