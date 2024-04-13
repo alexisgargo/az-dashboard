@@ -1,21 +1,22 @@
 package com.AZDash2.valueobject;
 
 public class TeamProgress {
-    private String Progress;
+    private String progress;
     
 
 
     public TeamProgress() {}
 
     public TeamProgress(String Progress) {
-        this.Progress = Progress;
+        this.progress = Progress;
     }
 
     public String getProgress() {
-        return Progress;
+        return progress;
     }
 
     public void setProgress(String progress) {
-        Progress = progress;
+        this.progress = progress;
     }
 }
+

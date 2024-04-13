@@ -41,7 +41,7 @@ public class IssueController {
 
     //pull all issues from Jira of given project name
     @GetMapping("/project/{projectIdOrKey}")
-    public ResponseEntity<List<Issue>> pullAllIssues(@PathVariable String projectIdOrKey) { //pullAllIssues? huh
+    public ResponseEntity<List<Issue>> pullAllIssues(@PathVariable String projectIdOrKey) {
     List<Issue> issues;
         try {
             issues = issueService.getAllIssues(projectIdOrKey);
@@ -54,12 +54,12 @@ public class IssueController {
     }
 
     @GetMapping("/progress/{version}")
-    public ResponseEntity<List<TeamProgress>> pullTeamsProgress(@PathVariable String version) { //pullAllIssues? huh
+    public ResponseEntity<List<TeamProgress>> pullTeamsProgress(@PathVariable String version) {
     List<TeamProgress> teamProgress;
         try {
             teamProgress = issueService.getTeamsProgress(version);
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            logger.error("JIRA API failed", e);
+            logger.error("Progress JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
         }
 

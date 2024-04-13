@@ -112,7 +112,7 @@ public class IssueService {
     public List<TeamProgress> getTeamsProgress(String version) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder() 
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=type=" + version))  //aqui se le especifica cuanta info de dicho proyecto queremos traer
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=" + version)) //http://localhost:8080/progress/teamprogress
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -124,16 +124,17 @@ public class IssueService {
 
         JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
 
-        JsonArray allProgress = issueJson.getAsJsonArray("progress");
-        
+        JsonArray issues = issueJson.getAsJsonArray("issues");
         List<TeamProgress> teamProgresses = new ArrayList<>();
 
-        for (JsonElement issueElement : allProgress) {
+        for (JsonElement issueElement : issues) {
             TeamProgress teamProgress = new TeamProgress();
+
             JsonObject issueObject = issueElement.getAsJsonObject();
-            String progress = issueObject.get("issueType").getAsString();
-            //JsonObject fieldsObject = issueElement.getAsJsonObject().getAsJsonObject("fields");
+            JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
+            String progress = fieldsObject.get("customfield_10049").getAsString();
             teamProgress.setProgress(progress);
+            teamProgresses.add(teamProgress);
         }
         
         return teamProgresses;
