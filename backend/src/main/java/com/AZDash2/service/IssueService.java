@@ -108,11 +108,13 @@ public class IssueService {
         return issues;
     }
 
-
-    public List<TeamProgress> getTeamsProgress(String version) throws URISyntaxException, IOException, InterruptedException {
+    /*
+     * Gets the %amount stated on Jira´s custom field "Progress" of all tickets of type "TeamProgress"
+     */
+    public List<TeamProgress> getTeamsProgress() throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder() 
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=" + version)) //http://localhost:8080/progress/teamprogress
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -133,9 +135,16 @@ public class IssueService {
             JsonObject issueObject = issueElement.getAsJsonObject();
             JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
             String progress = fieldsObject.get("customfield_10049").getAsString();
+            JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
+            String team = teamObject.get("value").getAsString();
+            String version = fieldsObject.get("customfield_10046").getAsString();
+
             teamProgress.setProgress(progress);
+            teamProgress.setTeam(team);
+            teamProgress.setVersion(version);
             teamProgresses.add(teamProgress);
         }
         
         return teamProgresses;
-}}
+    }
+}

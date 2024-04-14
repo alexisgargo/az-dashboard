@@ -21,9 +21,6 @@ public class Issue {
         this.assignee = assignee;
     }
 
-
-
-
     public String getKey() {
         return key;
     }

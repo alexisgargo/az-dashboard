@@ -53,11 +53,11 @@ public class IssueController {
         return new ResponseEntity<>(issues, HttpStatus.OK);
     }
 
-    @GetMapping("/progress/{version}")
-    public ResponseEntity<List<TeamProgress>> pullTeamsProgress(@PathVariable String version) {
+    @GetMapping("/progress")
+    public ResponseEntity<List<TeamProgress>> pullTeamsProgress() {
     List<TeamProgress> teamProgress;
         try {
-            teamProgress = issueService.getTeamsProgress(version);
+            teamProgress = issueService.getTeamsProgress();
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("Progress JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
