@@ -1,6 +1,5 @@
 'use client'
 import { Input } from "@nextui-org/react";
-import { Button } from "@nextui-org/react";
 import { useState } from 'react'
 export default function App() {
   const [value, setValue] = useState("");
