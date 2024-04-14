@@ -11,42 +11,42 @@ import jakarta.persistence.Id;
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long issue_number;
+    private String issue_number;
     private String issue_status;
     private String issue_description;
     // Getters y setters
 
-    public Issue(Long issue_number, String issue_status, String issue_description) {
+    public Issue(String issue_number, String issue_status, String issue_description) {
         this.issue_number = issue_number;
         this.issue_status = issue_status;
         this.issue_description = issue_description;
     }
+
     public Issue() {
     }
 
-    public Long getIssueNum() {
+    public String getIssueNum() {
         return issue_number;
     }
 
-
-    public void setIssueNum(Long issue_number) {
+    public void setIssueNum(String issue_number) {
         this.issue_number = issue_number;
     }
+
     public String getStatus() {
         return issue_status;
     }
+
     public void setStatus(String issue_status) {
         this.issue_status = issue_status;
     }
+
     public String getDescription() {
         return issue_description;
     }
+
     public void setDescription(String issue_description) {
         this.issue_description = issue_description;
     }
-    
+
 }
-
-
-
-
