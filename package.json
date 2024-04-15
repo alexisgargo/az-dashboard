@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@nextui-org/react": "^2.2.10"
+    "cors": "^2.8.5"
   }
 }
