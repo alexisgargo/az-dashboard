@@ -63,12 +63,14 @@ public class IssueService {
         return issue;
     }
 
-
+    /*
+     * Gets all the information specified on all kind of tickets
+     */
     public List<Issue> getAllIssues(final String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
-        HttpRequest request = HttpRequest.newBuilder() ///rest/api/2/search?jql=project=DAS&maxResults=100&fields=id,summary,assignee
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator"))  //aqui se le especifica cuanta info de dicho proyecto queremos traer
+        HttpRequest request = HttpRequest.newBuilder()
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
