@@ -4,7 +4,7 @@ public class Issue {
     private String key;
     private String status;
     private String description;
-    private String author;
+    private String creator;
     private String summary;
     private String assignee;
     
@@ -12,11 +12,11 @@ public class Issue {
 
     public Issue() {}
 
-    public Issue(String key, String status, String description, String author, String summary, String assignee) {
+    public Issue(String key, String status, String description, String creator, String summary, String assignee) {
         this.key = key;
         this.status = status;
         this.description = description;
-        this.author = author;
+        this.creator = creator;
         this.summary = summary;
         this.assignee = assignee;
     }
@@ -39,11 +39,11 @@ public class Issue {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getAuthor() {
-        return author;
+    public String getCreator() {
+        return creator;
     }
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
     public String getSummary() {
         return summary;

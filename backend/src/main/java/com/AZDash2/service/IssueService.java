@@ -68,7 +68,7 @@ public class IssueService {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder() ///rest/api/2/search?jql=project=DAS&maxResults=100&fields=id,summary,assignee
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee"))  //aqui se le especifica cuanta info de dicho proyecto queremos traer
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator"))  //aqui se le especifica cuanta info de dicho proyecto queremos traer
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -79,9 +79,7 @@ public class IssueService {
         logger.debug("Response Body {}", response.body());
 
         JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
-
         JsonArray allIssues = issueJson.getAsJsonArray("issues");
-        
         List<Issue> issues = new ArrayList<>();
 
         for (JsonElement issueElement : allIssues) {
@@ -90,7 +88,10 @@ public class IssueService {
             String key = issueObject.get("key").getAsString();
             JsonObject fieldsObject = issueElement.getAsJsonObject().getAsJsonObject("fields");
             String summary = fieldsObject.get("summary").getAsString();
-            //logger.debug("ASSIGNEE {}", fieldsObject.get("assignee").toString().equals("null"));
+            JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
+            String creator = creatorObject.get("displayName").getAsString();
+        
+
             if (!fieldsObject.get("assignee").toString().equals("null")) {
                 JsonObject assigneeObject = fieldsObject.getAsJsonObject("assignee");
                 String displayName = assigneeObject.get("displayName").getAsString();
@@ -102,6 +103,7 @@ public class IssueService {
 
             issue.setKey(key);
             issue.setSummary(summary);
+            issue.setCreator(creator);
             issues.add(issue);
         }
         
@@ -109,7 +111,7 @@ public class IssueService {
     }
 
     /*
-     * Gets the %amount stated on Jira´s custom field "Progress" of all tickets of type "TeamProgress"
+     * Gets the  percent amount stated on Jira´s custom field "Progress" of all tickets of type "TeamProgress"
      */
     public List<TeamProgress> getTeamsProgress() throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
