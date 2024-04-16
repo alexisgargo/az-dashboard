@@ -64,13 +64,12 @@ public class IssueService {
     }
 
     /*
-     * Gets all the information specified on all kind of tickets
+     * Gets all ISSUES' (or BUGS') specified information.
      */
-    public List<Issue> getAllIssues(final String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
+    public List<Issue> getAllBugsOrIssues(String type, String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator"))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType" + type + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -102,7 +101,6 @@ public class IssueService {
                 issue.setAssignee("Unassigned");
             }
             
-
             issue.setKey(key);
             issue.setSummary(summary);
             issue.setCreator(creator);
@@ -152,3 +150,4 @@ public class IssueService {
         return teamProgresses;
     }
 }
+
