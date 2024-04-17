@@ -7,8 +7,6 @@ public class Issue {
     private String creator;
     private String summary;
     private String assignee;
-    
-
 
     public Issue() {}
 
