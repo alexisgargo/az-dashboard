@@ -69,7 +69,7 @@ public class IssueService {
     public List<Issue> getAllBugsOrIssues(String type, String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType" + type + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created"))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType" + type + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -101,12 +101,20 @@ public class IssueService {
             } else {
                 issue.setAssignee("Unassigned");
             }
+
+            if (!fieldsObject.get("resolutiondate").toString().equals("null")) {
+                String resolved = fieldsObject.get("resolutiondate").getAsString();
+                issue.setResolved(resolved);
+            } else {
+                issue.setResolved("Unfinished, hola nachooooo");
+            }
             
             issue.setKey(key);
             issue.setSummary(summary);
             issue.setCreator(creator);
             issue.setCreated(created);
             issues.add(issue);
+
         }
         
         return issues;

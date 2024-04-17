@@ -8,11 +8,12 @@ public class Issue {
     private String summary;
     private String assignee;
     private String created;
+    private String resolved;
 
 
     public Issue() {}
 
-    public Issue(String key, String status, String description, String creator, String summary, String assignee, String created) {
+    public Issue(String key, String status, String description, String creator, String summary, String assignee, String created, String resolved) {
         this.key = key;
         this.status = status;
         this.description = description;
@@ -20,6 +21,8 @@ public class Issue {
         this.summary = summary;
         this.assignee = assignee;
         this.created = created;
+        this.resolved = resolved;
+
     }
     public String getKey() {
         return key;
@@ -64,6 +67,14 @@ public class Issue {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public String getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(String resolved) {
+        this.resolved = resolved;
     }
 }
 
