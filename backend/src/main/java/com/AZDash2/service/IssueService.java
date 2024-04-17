@@ -106,7 +106,7 @@ public class IssueService {
                 String resolved = fieldsObject.get("resolutiondate").getAsString();
                 issue.setResolved(resolved);
             } else {
-                issue.setResolved("Unfinished, hola nachooooo");
+                issue.setResolved("Unfinished");
             }
             
             issue.setKey(key);
