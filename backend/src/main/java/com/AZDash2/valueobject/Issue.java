@@ -7,18 +7,20 @@ public class Issue {
     private String creator;
     private String summary;
     private String assignee;
+    private String created;
+
 
     public Issue() {}
 
-    public Issue(String key, String status, String description, String creator, String summary, String assignee) {
+    public Issue(String key, String status, String description, String creator, String summary, String assignee, String created) {
         this.key = key;
         this.status = status;
         this.description = description;
         this.creator = creator;
         this.summary = summary;
         this.assignee = assignee;
+        this.created = created;
     }
-
     public String getKey() {
         return key;
     }
@@ -55,6 +57,13 @@ public class Issue {
 
     public void setAssignee(String assignee) {
         this.assignee = assignee;
+    }
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 }
 

@@ -68,6 +68,7 @@ public class IssueController {
     @GetMapping("/progress")
     public ResponseEntity<List<TeamProgress>> pullTeamsProgress() {
     List<TeamProgress> teamProgress;
+    
         try {
             teamProgress = issueService.getTeamsProgress();
         } catch (URISyntaxException | IOException | InterruptedException e) {
