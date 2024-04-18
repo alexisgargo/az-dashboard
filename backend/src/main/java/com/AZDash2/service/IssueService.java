@@ -160,11 +160,11 @@ public class IssueService {
         return teamProgresses;
     }
 
-    public List<TeamProgress> getOneTeamProgress(String teamName) 
+    public List<TeamProgress> getProgressByVersion(String versionGiven) 
     throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder() 
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10048]=" + teamName))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~" + versionGiven))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();

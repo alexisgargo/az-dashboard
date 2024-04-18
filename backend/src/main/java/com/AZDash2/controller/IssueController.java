@@ -78,12 +78,12 @@ public class IssueController {
 
         return new ResponseEntity<>(teamProgress, HttpStatus.OK);
     }
-    @GetMapping("/progress/{team}")
-    public ResponseEntity<List<TeamProgress>> pullOneTeamProgress(@PathVariable String team) {
+    @GetMapping("/progress/{version}")
+    public ResponseEntity<List<TeamProgress>> pullProgressByVersion(@PathVariable String version) {
     List<TeamProgress> teamProgress;
     
         try {
-            teamProgress = issueService.getOneTeamProgress(team);
+            teamProgress = issueService.getProgressByVersion(version);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("Progress JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
