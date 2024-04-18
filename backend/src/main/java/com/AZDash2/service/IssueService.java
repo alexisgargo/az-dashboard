@@ -159,5 +159,43 @@ public class IssueService {
         
         return teamProgresses;
     }
+
+    public List<TeamProgress> getOneTeamProgress(String teamName) 
+    throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder() 
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10048]=" + teamName))
+        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+        .GET()
+        .build();
+
+        HttpResponse<String> response = client.send(request,
+        HttpResponse.BodyHandlers.ofString());
+        logger.debug("Response Http Status {}", response.statusCode());
+        logger.debug("Response Body {}", response.body());
+
+        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
+
+        JsonArray issues = issueJson.getAsJsonArray("issues");
+        List<TeamProgress> teamProgresses = new ArrayList<>();
+
+        for (JsonElement issueElement : issues) {
+            TeamProgress teamProgress = new TeamProgress();
+
+            JsonObject issueObject = issueElement.getAsJsonObject();
+            JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
+            String progress = fieldsObject.get("customfield_10049").getAsString();
+            JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
+            String team = teamObject.get("value").getAsString();
+            String version = fieldsObject.get("customfield_10046").getAsString();
+
+            teamProgress.setProgress(progress);
+            teamProgress.setTeam(team);
+            teamProgress.setVersion(version);
+            teamProgresses.add(teamProgress);
+        }
+        
+        return teamProgresses;
+    }
 }
 
