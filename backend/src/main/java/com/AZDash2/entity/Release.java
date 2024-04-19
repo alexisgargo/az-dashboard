@@ -1,7 +1,7 @@
 package com.AZDash2.entity;
 
 import jakarta.persistence.*;
-import java.util.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "releases")
