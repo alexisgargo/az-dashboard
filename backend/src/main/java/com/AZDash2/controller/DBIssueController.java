@@ -19,10 +19,11 @@ public class DBIssueController {
     private DBIssueService issueService;
 
     @GetMapping("/issues/{date}/{idRelease}")
-    public ResponseEntity<List<Issue>> getIssuesByDateAndRelease(@PathVariable("date") Date date,@PathVariable("idRelease") Long idRelease) {
+    public ResponseEntity<List<Issue>> getLatestIssuesByDateAndRelease(@PathVariable("date") Date date,
+            @PathVariable("idRelease") Long idRelease) {
         List<Issue> issues;
         try {
-            issues = issueService.getIssuesByDateAndRelease(date, idRelease);
+            issues = issueService.getLatestIssuesByDateAndRelease(date, idRelease);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

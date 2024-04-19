@@ -1,68 +1,87 @@
 package com.AZDash2.entity;
+
 import java.sql.Date;
-import org.springframework.stereotype.Repository;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.sql.Time;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "issues")
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String issue_number;
     private String issue_status;
     private String issue_description;
-    private long idRelease;
-    private Date date;
-    // Getters y setters
 
-    public Issue(String issue_number, String issue_status, String issue_description,Date date,long idRelease) {
+    @ManyToOne
+    @JoinColumn(name = "id_release")
+    private Release release;
+
+    @Column(name = "record_date")
+    private Date recordDate;
+
+    @Column(name = "record_time")
+    private Time recordTime;
+
+    public Issue(String issue_number, String issue_status, String issue_description, Release release, Date recordDate,
+            Time recordTime) {
         this.issue_number = issue_number;
         this.issue_status = issue_status;
         this.issue_description = issue_description;
-        this.idRelease =idRelease;
-        this.date = date; 
+        this.release = release;
+        this.recordDate = recordDate;
+        this.recordTime = recordTime;
     }
 
     public Issue() {
     }
 
-    public String getIssueNum() {
+    public String getIssue_number() {
         return issue_number;
     }
 
-    public void setIssueNum(String issue_number) {
+    public void setIssue_number(String issue_number) {
         this.issue_number = issue_number;
     }
 
-    public String getStatus() {
+    public String getIssue_status() {
         return issue_status;
     }
 
-    public void setStatus(String issue_status) {
+    public void setIssue_status(String issue_status) {
         this.issue_status = issue_status;
     }
 
-    public String getDescription() {
+    public String getIssue_description() {
         return issue_description;
     }
 
-    public void setDescription(String issue_description) {
+    public void setIssue_description(String issue_description) {
         this.issue_description = issue_description;
     }
-    public Long getIdRelease() {
-        return idRelease;
+
+    public Release getRelease() {
+        return release;
     }
 
-    public void setIdRelease(Long idRelease) {
-        this.idRelease = idRelease;
-    }
-    public Date getDate() {
-        return date;
+    public void setRelease(Release release) {
+        this.release = release;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public Date getRecordDate() {
+        return recordDate;
     }
+
+    public void setRecordDate(Date recordDate) {
+        this.recordDate = recordDate;
+    }
+
+    public Time getRecordTime() {
+        return recordTime;
+    }
+
+    public void setRecordTime(Time recordTime) {
+        this.recordTime = recordTime;
+    }
+
 }
