@@ -17,20 +17,18 @@ public class Issue {
     @JoinColumn(name = "id_release")
     private Release release;
 
-    @Column(name = "record_date")
-    private Date recordDate;
+    private Date record_date;
 
-    @Column(name = "record_time")
-    private Time recordTime;
+    private Time record_time;
 
-    public Issue(String issue_number, String issue_status, String issue_description, Release release, Date recordDate,
-            Time recordTime) {
+    public Issue(String issue_number, String issue_status, String issue_description, Release release, Date record_date,
+            Time record_time) {
         this.issue_number = issue_number;
         this.issue_status = issue_status;
         this.issue_description = issue_description;
         this.release = release;
-        this.recordDate = recordDate;
-        this.recordTime = recordTime;
+        this.record_date = record_date;
+        this.record_time = record_time;
     }
 
     public Issue() {
@@ -68,20 +66,22 @@ public class Issue {
         this.release = release;
     }
 
-    public Date getRecordDate() {
-        return recordDate;
+    public Date getRecord_date() {
+        return record_date;
     }
 
-    public void setRecordDate(Date recordDate) {
-        this.recordDate = recordDate;
+    public void setRecord_date(Date record_date) {
+        this.record_date = record_date;
     }
 
-    public Time getRecordTime() {
-        return recordTime;
+    public Time getRecord_time() {
+        return record_time;
     }
 
-    public void setRecordTime(Time recordTime) {
-        this.recordTime = recordTime;
+    public void setRecord_time(Time record_time) {
+        this.record_time = record_time;
     }
+
+   
 
 }

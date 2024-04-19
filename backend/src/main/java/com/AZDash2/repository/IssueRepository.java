@@ -12,10 +12,10 @@ import com.AZDash2.entity.Issue;
 
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Long> {
-    @Query("SELECT MAX(i.recordTime) FROM Issue i WHERE i.recordDate = :date AND i.release.id_release = :idRelease")
+    @Query("SELECT MAX(i.record_time) FROM Issue i WHERE i.record_date = :date AND i.release.id_release = :idRelease")
     Time findLatestTimeByDateAndIdRelease(@Param("date") Date date, @Param("idRelease") Long idRelease);
 
-    @Query("SELECT i FROM Issue i WHERE i.recordDate = :date AND i.release.id_release = :idRelease AND i.recordTime = :time")
+    @Query("SELECT i FROM Issue i WHERE i.record_date = :date AND i.release.id_release = :idRelease AND i.record_time = :time")
     List<Issue> findByDateAndIdReleaseAndTime(@Param("date") Date date, @Param("idRelease") Long idRelease,
             @Param("time") Time time);
 }
