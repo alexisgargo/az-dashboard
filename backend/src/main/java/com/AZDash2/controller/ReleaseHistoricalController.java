@@ -10,7 +10,7 @@ import com.AZDash2.service.ReleaseHistoricalService;
 import com.AZDash2.entity.ReleaseHistorical;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.sql.Date;
-
+import java.util.Optional;
 
 @RestController
 @RequestMapping("az_dashboard")
@@ -22,13 +22,17 @@ public class ReleaseHistoricalController {
     @GetMapping("/historical/{date}/{idRelease}")
     public ResponseEntity<ReleaseHistorical> getIssuesByDateAndRelease(@PathVariable("date") Date date,
             @PathVariable("idRelease") Long idRelease) {
-        ReleaseHistorical record;
+        Optional<ReleaseHistorical> record;
         try {
             record = releaseHistoricalService.getIssuesByDateAndRelease(date, idRelease);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(record, HttpStatus.OK);
+        if (!record.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(record.get(), HttpStatus.OK);
     }
 }
