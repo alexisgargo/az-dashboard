@@ -23,9 +23,10 @@ public class AzDash2Application {
 						.allowedMethods("GET", "POST") // Permitir métodos GET y POST
 						.allowCredentials(true); // Permitir credenciales (por ejemplo, cookies)
 
-				registry.addMapping("/az_dashboard/issues")
+				registry.addMapping("/az_dashboard/issues/{date}/{idRelease}")
 						.allowedOrigins("http://localhost:3000")
 						.allowedMethods("GET"); // Permitir solo el método GET para esta ruta
+						
 			}
 		};
 	}
