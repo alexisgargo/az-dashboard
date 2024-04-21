@@ -1,11 +1,17 @@
 package com.AZDash2.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.AZDash2.service.DBIssueService;
+
+import jakarta.validation.Valid;
+
 import com.AZDash2.entity.Issue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.sql.Date;
@@ -16,7 +22,20 @@ import java.util.List;
 public class DBIssueController {
 
     @Autowired
-    private DBIssueService issueService;
+    DBIssueService issueService;
+
+    @GetMapping("/issues")
+    public ResponseEntity<List<Issue>> getIssues() {
+        List<Issue> issues = issueService.getIssues();
+        return new ResponseEntity<>(issues, HttpStatus.OK);
+    }
+
+    // to save issues data
+    @PostMapping("/issue")
+    public ResponseEntity<Issue> saveIssues(@RequestBody @Valid Issue issues) {
+        issueService.saveIssues(issues);
+        return new ResponseEntity<>(issues, HttpStatus.CREATED);
+    }
 
     @GetMapping("/issues/{date}/{idRelease}")
     public ResponseEntity<List<Issue>> getLatestIssuesByDateAndRelease(@PathVariable("date") Date date,
@@ -30,4 +49,5 @@ public class DBIssueController {
 
         return new ResponseEntity<>(issues, HttpStatus.OK);
     }
+
 }

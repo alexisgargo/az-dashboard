@@ -1,4 +1,5 @@
 package com.AZDash2.service;
+
 import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,19 @@ import java.sql.Time;
 public class DBIssueService {
 
     @Autowired
-    private IssueRepository issueRepository;
+    IssueRepository issueRepository;
+
+    public List<Issue> getIssues() {
+        return issueRepository.findAll();
+    }
+
+    public void saveIssues(Issue issue) {
+        issueRepository.save(issue);
+    }
 
     public List<Issue> getLatestIssuesByDateAndRelease(Date date, Long idRelease) {
         Time latestTime = issueRepository.findLatestTimeByDateAndIdRelease(date, idRelease);
         return issueRepository.findByDateAndIdReleaseAndTime(date, idRelease, latestTime);
     }
+
 }
-
-
-

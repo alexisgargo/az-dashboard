@@ -22,10 +22,14 @@ public class AzDash2Application {
 						.allowedOrigins("http://localhost:3000")
 						.allowedMethods("GET", "POST") // Permitir métodos GET y POST
 						.allowCredentials(true); // Permitir credenciales (por ejemplo, cookies)
-
+				registry.addMapping("/az_dashboard/issue")
+						.allowedOrigins("http://localhost:3000")
+						.allowedMethods("POST") // Permitir métodos GET y POST
+						.allowCredentials(true); // Permitir credenciales (por ejemplo, cookies)
 				registry.addMapping("/az_dashboard/issues")
 						.allowedOrigins("http://localhost:3000")
 						.allowedMethods("GET"); // Permitir solo el método GET para esta ruta
+
 			}
 		};
 	}
