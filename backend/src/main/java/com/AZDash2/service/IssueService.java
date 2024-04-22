@@ -67,6 +67,11 @@ public class IssueService {
      * Gets all ISSUES' (or BUGS') specified information.
      */
     public List<Issue> getAllBugsOrIssues(String type, String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
+        if ("issue".equals(type)){ 
+            type = "%20in%20(story%2C%20task)";
+        } else if ("bug".equals(type)) {
+            type = "%3Dbug";
+        };
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
         .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType" + type + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate"))
@@ -159,7 +164,9 @@ public class IssueService {
         
         return teamProgresses;
     }
-
+    /*
+     * Gets the  percent amount stated on Jira´s custom field "Progress" for all tickets of type "TeamProgress" of specified version
+     */
     public List<TeamProgress> getProgressByVersion(String versionGiven) 
     throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();

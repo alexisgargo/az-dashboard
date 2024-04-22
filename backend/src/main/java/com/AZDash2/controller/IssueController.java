@@ -46,13 +46,6 @@ public class IssueController {
     public ResponseEntity<List<Issue>> pullAllBugsOrIssues(@PathVariable String type, @PathVariable String projectIdOrKey) {
     List<Issue> issues;
         try {
-
-            if ("issue".equals(type)){ 
-                type = "%20in%20(story%2C%20task)";
-            } else if ("bug".equals(type)) {
-                type = "%3Dbug";
-            };
-            
             issues = issueService.getAllBugsOrIssues(type, projectIdOrKey);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
@@ -63,7 +56,7 @@ public class IssueController {
     }
 
     /*
-     * pull all BUGS or ISSUES from Jira of given project name
+     * pull all BUGS and ISSUES from Jira of given project name
      */
     @GetMapping("/progress")
     public ResponseEntity<List<TeamProgress>> pullTeamsProgress() {
@@ -78,6 +71,9 @@ public class IssueController {
 
         return new ResponseEntity<>(teamProgress, HttpStatus.OK);
     }
+    /*
+     * pull all BUGS from Jira of any given version
+     */
     @GetMapping("/progress/{version}")
     public ResponseEntity<List<TeamProgress>> pullProgressByVersion(@PathVariable String version) {
     List<TeamProgress> teamProgress;
