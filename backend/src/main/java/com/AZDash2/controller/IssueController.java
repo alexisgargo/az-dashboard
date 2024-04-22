@@ -57,8 +57,9 @@ public class IssueController {
 
         return new ResponseEntity<>(issues, HttpStatus.OK);
     }
+    
     /*
-     * pull progress from all tickets
+     * pull progress from all tickets of type 'TeamProgress'
      */
     @GetMapping("/progress")
     public ResponseEntity<List<TeamProgress>> pullTeamsProgress() {
@@ -73,8 +74,9 @@ public class IssueController {
 
         return new ResponseEntity<>(teamProgress, HttpStatus.OK);
     }
+    
     /*
-     * pull all BUGS from Jira of any given version
+     * pull progress from all tickets of type 'TeamProgress' and specified version
      */
     @GetMapping("/progress/{version}")
     public ResponseEntity<List<TeamProgress>> pullProgressByVersion(@PathVariable String version) {
