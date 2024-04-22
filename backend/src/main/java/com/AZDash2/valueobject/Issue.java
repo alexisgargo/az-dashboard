@@ -9,11 +9,11 @@ public class Issue {
     private String assignee;
     private String created;
     private String resolved;
-
+    private String version;
 
     public Issue() {}
 
-    public Issue(String key, String status, String description, String creator, String summary, String assignee, String created, String resolved) {
+    public Issue(String key, String status, String description, String creator, String summary, String assignee, String created, String resolved, String version) {
         this.key = key;
         this.status = status;
         this.description = description;
@@ -22,6 +22,7 @@ public class Issue {
         this.assignee = assignee;
         this.created = created;
         this.resolved = resolved;
+        this.version = version;
 
     }
     public String getKey() {
@@ -75,6 +76,14 @@ public class Issue {
 
     public void setResolved(String resolved) {
         this.resolved = resolved;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
 

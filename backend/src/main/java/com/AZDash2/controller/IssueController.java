@@ -26,27 +26,14 @@ public class IssueController {
     @Autowired
     IssueService issueService;
 
-    @GetMapping("/issue/{issueIdOrKey}")
-    public ResponseEntity<Issue> testJira(@PathVariable String issueIdOrKey) {
-    Issue issue;
-        try {
-            issue = issueService.getIssue(issueIdOrKey);
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            logger.error("JIRA API failed", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
-        }
-
-        return new ResponseEntity<>(issue, HttpStatus.OK);
-    }
-
     /*
-     * pull all BUGS or ISSUES from Jira of given project name
+     * pull all ISSUES from Jira of given project name and version
      */
-    @GetMapping("/project/{type}/{projectIdOrKey}")
-    public ResponseEntity<List<Issue>> pullAllBugsOrIssues(@PathVariable String type, @PathVariable String projectIdOrKey) {
+    @GetMapping("/issue/{projectIdOrKey}/{versionGiven}")
+    public ResponseEntity<List<Issue>> pullIssues(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
     List<Issue> issues;
         try {
-            issues = issueService.getAllBugsOrIssues(type, projectIdOrKey);
+            issues = issueService.getIssues(projectIdOrKey, versionGiven);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
@@ -56,7 +43,22 @@ public class IssueController {
     }
 
     /*
-     * pull all BUGS and ISSUES from Jira of given project name
+     * pull all BUGS from Jira of given project name and version
+     */
+    @GetMapping("/bugs/{projectIdOrKey}/{versionGiven}")
+    public ResponseEntity<List<Issue>> pullBugs(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
+    List<Issue> issues;
+        try {
+            issues = issueService.getBugs(projectIdOrKey, versionGiven);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            logger.error("JIRA API failed", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+        }
+
+        return new ResponseEntity<>(issues, HttpStatus.OK);
+    }
+    /*
+     * pull progress from all tickets
      */
     @GetMapping("/progress")
     public ResponseEntity<List<TeamProgress>> pullTeamsProgress() {
