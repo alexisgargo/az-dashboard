@@ -1,7 +1,5 @@
 package com.AZDash2.service;
-import com.AZDash2.valueobject.Bug;
-import com.AZDash2.valueobject.Issue;
-import com.AZDash2.valueobject.TeamProgress;
+import com.AZDash2.entity.Issue;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +19,7 @@ import org.springframework.http.HttpHeaders;
 
 import org.springframework.stereotype.Service;
 
-import com.AZDash2.valueobject.Issue;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -60,28 +58,28 @@ public class IssueService {
         for (JsonElement issueElement : allIssues) {
             Issue issue = new Issue();
             JsonObject issueObject = issueElement.getAsJsonObject();
-            String key = issueObject.get("key").getAsString();
+            String issue_number = issueObject.get("key").getAsString();
             JsonObject fieldsObject = issueElement.getAsJsonObject().getAsJsonObject("fields");
-            String summary = fieldsObject.get("summary").getAsString();
+            String issue_summary = fieldsObject.get("summary").getAsString();
             JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
-            String creator = creatorObject.get("displayName").getAsString();
-            String created = fieldsObject.get("created").getAsString();
+            String created_by = creatorObject.get("displayName").getAsString();
+            String creation_date = fieldsObject.get("created").getAsString();
             String version = fieldsObject.get("customfield_10051").getAsString();
 
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
             JsonArray allcomments = commentsObject.getAsJsonArray("comments");
         
-            String lastComment = ""; // Initialize an empty string to hold the last comment
+            String lastComment = "";
             
             for (JsonElement commentElement : allcomments) {
                 JsonObject commentObject = commentElement.getAsJsonObject();
                 
                 if (!commentObject.get("body").getAsString().toString().equals("null")) {
                     lastComment = commentObject.get("body").getAsString();
-                    issue.setComment(lastComment);
+                    issue.setUpdates(lastComment);
                     
                 } else {
-                    issue.setComment("No comment yet");
+                    issue.setUpdates("No comment yet");
                 }
             }
     
@@ -94,16 +92,16 @@ public class IssueService {
             }
 
             if (!fieldsObject.get("resolutiondate").toString().equals("null")) {
-                String resolved = fieldsObject.get("resolutiondate").getAsString();
-                issue.setResolved(resolved);
+                String issue_status = fieldsObject.get("resolutiondate").getAsString();
+                issue.setIssue_status(issue_status);
             } else {
-                issue.setResolved("Unfinished");
+                issue.setIssue_status("Unfinished");
             }
             
-            issue.setKey(key);
-            issue.setSummary(summary);
-            issue.setCreator(creator);
-            issue.setCreated(created);
+            issue.setIssue_number(issue_number);
+            issue.setIssue_summary(issue_summary);
+            issue.setCreated_by(created_by);
+            issue.setCreation_date(creation_date);
             issue.setVersion(version);
             issues.add(issue);
 
@@ -115,7 +113,7 @@ public class IssueService {
     /*
      * Gets all BUGS' specified information
      */
-    public List<Bug> getBugs(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
+    public List<Issue> getBugs(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
         .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055,comment"))
@@ -130,17 +128,17 @@ public class IssueService {
 
         JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
         JsonArray allBugs = issueJson.getAsJsonArray("issues");
-        List<Bug> bugs = new ArrayList<>();
+        List<Issue> bugs = new ArrayList<>();
 
         for (JsonElement issueElement : allBugs) {
-            Bug bug = new Bug();
+            Issue bug = new Issue();
             JsonObject issueObject = issueElement.getAsJsonObject();
-            String key = issueObject.get("key").getAsString();
+            String issue_number = issueObject.get("key").getAsString();
             JsonObject fieldsObject = issueElement.getAsJsonObject().getAsJsonObject("fields");
-            String summary = fieldsObject.get("summary").getAsString();
+            String issue_summary = fieldsObject.get("summary").getAsString();
             JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
-            String creator = creatorObject.get("displayName").getAsString();
-            String created = fieldsObject.get("created").getAsString();
+            String created_by = creatorObject.get("displayName").getAsString();
+            String creation_date = fieldsObject.get("created").getAsString();
             String version = fieldsObject.get("customfield_10053").getAsString();
 
             JsonObject environmentObject = fieldsObject.getAsJsonObject("customfield_10055");
@@ -149,16 +147,16 @@ public class IssueService {
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
             JsonArray allcomments = commentsObject.getAsJsonArray("comments");
         
-            String lastComment = ""; // Initialize an empty string to hold the last comment
+            String lastComment = "";
             
             for (JsonElement commentElement : allcomments) {
                 JsonObject commentObject = commentElement.getAsJsonObject();
                 
                 if (!commentObject.get("body").getAsString().toString().equals("null")) {
                     lastComment = commentObject.get("body").getAsString();
-                    bug.setComment(lastComment);
+                    bug.setUpdates(lastComment);
                 } else {
-                    bug.setComment("No comment yet");
+                    bug.setUpdates("No comment yet");
                 }
             }
 
@@ -172,15 +170,15 @@ public class IssueService {
 
             if (!fieldsObject.get("resolutiondate").toString().equals("null")) {
                 String resolved = fieldsObject.get("resolutiondate").getAsString();
-                bug.setResolved(resolved);
+                bug.setIssue_status(resolved);
             } else {
-                bug.setResolved("Unfinished");
+                bug.setIssue_status("Unfinished");
             }
             
-            bug.setKey(key);
-            bug.setSummary(summary);
-            bug.setCreator(creator);
-            bug.setCreated(created);
+            bug.setIssue_number(issue_number);
+            bug.setIssue_summary(issue_summary);
+            bug.setCreated_by(created_by);
+            bug.setCreation_date(creation_date);
             bug.setVersion(version);
             bug.setEnvironment(environment);
             bugs.add(bug);
@@ -188,85 +186,6 @@ public class IssueService {
         }
         
         return bugs;
-    }
-    /*
-     * Gets the  percent amount stated on Jira´s custom field "Progress" of all tickets of type "TeamProgress"
-     */
-    public List<TeamProgress> getTeamsProgress() throws URISyntaxException, IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder() 
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress"))
-        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
-        .GET()
-        .build();
-
-        HttpResponse<String> response = client.send(request,
-        HttpResponse.BodyHandlers.ofString());
-        logger.debug("Response Http Status {}", response.statusCode());
-        logger.debug("Response Body {}", response.body());
-
-        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
-
-        JsonArray issues = issueJson.getAsJsonArray("issues");
-        List<TeamProgress> teamProgresses = new ArrayList<>();
-
-        for (JsonElement issueElement : issues) {
-            TeamProgress teamProgress = new TeamProgress();
-
-            JsonObject issueObject = issueElement.getAsJsonObject();
-            JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
-            String progress = fieldsObject.get("customfield_10049").getAsString();
-            JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
-            String team = teamObject.get("value").getAsString();
-            String version = fieldsObject.get("customfield_10046").getAsString();
-
-            teamProgress.setProgress(progress);
-            teamProgress.setTeam(team);
-            teamProgress.setVersion(version);
-            teamProgresses.add(teamProgress);
-        }
-        
-        return teamProgresses;
-    }
-    /*
-     * Gets the  percent amount stated on Jira´s custom field "Progress" for all tickets of type "TeamProgress" and specified version
-     */
-    public List<TeamProgress> getProgressByVersion(String versionGiven) 
-    throws URISyntaxException, IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~" + versionGiven + "&fields=customfield_10049,customfield_10048,value,customfield_10046"))
-        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
-        .GET()
-        .build();
-
-        HttpResponse<String> response = client.send(request,
-        HttpResponse.BodyHandlers.ofString());
-        logger.debug("Response Http Status {}", response.statusCode());
-        logger.debug("Response Body {}", response.body());
-
-        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
-
-        JsonArray issues = issueJson.getAsJsonArray("issues");
-        List<TeamProgress> teamProgresses = new ArrayList<>();
-
-        for (JsonElement issueElement : issues) {
-            TeamProgress teamProgress = new TeamProgress();
-
-            JsonObject issueObject = issueElement.getAsJsonObject();
-            JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
-            String progress = fieldsObject.get("customfield_10049").getAsString();
-            JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
-            String team = teamObject.get("value").getAsString();
-            String version = fieldsObject.get("customfield_10046").getAsString();
-
-            teamProgress.setProgress(progress);
-            teamProgress.setTeam(team);
-            teamProgress.setVersion(version);
-            teamProgresses.add(teamProgress);
-        }
-        
-        return teamProgresses;
     }
 }
 
