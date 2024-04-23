@@ -41,7 +41,7 @@ public class IssueService {
     public List<Issue> getIssues(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051"))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -66,6 +66,23 @@ public class IssueService {
             String created = fieldsObject.get("created").getAsString();
             String version = fieldsObject.get("customfield_10051").getAsString();
 
+            JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
+            JsonArray allcomments = commentsObject.getAsJsonArray("comments");
+        
+            String lastComment = ""; // Initialize an empty string to hold the last comment
+            
+            for (JsonElement commentElement : allcomments) {
+                JsonObject commentObject = commentElement.getAsJsonObject();
+                
+                if (!commentObject.get("body").getAsString().toString().equals("null")) {
+                    lastComment = commentObject.get("body").getAsString();
+                    issue.setComment(lastComment);
+                    
+                } else {
+                    issue.setComment("No comment yet");
+                }
+            }
+    
             if (!fieldsObject.get("assignee").toString().equals("null")) {
                 JsonObject assigneeObject = fieldsObject.getAsJsonObject("assignee");
                 String displayName = assigneeObject.get("displayName").getAsString();
@@ -99,7 +116,7 @@ public class IssueService {
     public List<Issue> getBugs(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053"))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053, comment"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -123,6 +140,23 @@ public class IssueService {
             String creator = creatorObject.get("displayName").getAsString();
             String created = fieldsObject.get("created").getAsString();
             String version = fieldsObject.get("customfield_10053").getAsString();
+            
+            JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
+            JsonArray allcomments = commentsObject.getAsJsonArray("comments");
+        
+            String lastComment = ""; // Initialize an empty string to hold the last comment
+            
+            for (JsonElement commentElement : allcomments) {
+                JsonObject commentObject = commentElement.getAsJsonObject();
+                
+                if (!commentObject.get("body").getAsString().toString().equals("null")) {
+                    lastComment = commentObject.get("body").getAsString();
+                    issue.setComment(lastComment);
+                    
+                } else {
+                    issue.setComment("No comment yet");
+                }
+            }
 
             if (!fieldsObject.get("assignee").toString().equals("null")) {
                 JsonObject assigneeObject = fieldsObject.getAsJsonObject("assignee");
