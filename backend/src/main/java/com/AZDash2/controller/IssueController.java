@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.AZDash2.service.IssueService;
+import com.AZDash2.valueobject.Bug;
 import com.AZDash2.valueobject.Issue;
 import com.AZDash2.valueobject.TeamProgress;
 
@@ -46,16 +47,16 @@ public class IssueController {
      * pull all BUGS from Jira of given project name and version
      */
     @GetMapping("/bugs/{projectIdOrKey}/{versionGiven}")
-    public ResponseEntity<List<Issue>> pullBugs(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
-    List<Issue> issues;
+    public ResponseEntity<List<Bug>> pullBugs(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
+    List<Bug> bugs;
         try {
-            issues = issueService.getBugs(projectIdOrKey, versionGiven);
+            bugs = issueService.getBugs(projectIdOrKey, versionGiven);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
         }
 
-        return new ResponseEntity<>(issues, HttpStatus.OK);
+        return new ResponseEntity<>(bugs, HttpStatus.OK);
     }
     
     /*

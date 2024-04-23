@@ -1,4 +1,5 @@
 package com.AZDash2.service;
+import com.AZDash2.valueobject.Bug;
 import com.AZDash2.valueobject.Issue;
 import com.AZDash2.valueobject.TeamProgress;
 
@@ -96,10 +97,10 @@ public class IssueService {
     /*
      * Gets all BUGS' specified information
      */
-    public List<Issue> getBugs(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
+    public List<Bug> getBugs(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053"))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -110,11 +111,11 @@ public class IssueService {
         logger.debug("Response Body {}", response.body());
 
         JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
-        JsonArray allIssues = issueJson.getAsJsonArray("issues");
-        List<Issue> issues = new ArrayList<>();
+        JsonArray allBugs = issueJson.getAsJsonArray("issues");
+        List<Bug> bugs = new ArrayList<>();
 
-        for (JsonElement issueElement : allIssues) {
-            Issue issue = new Issue();
+        for (JsonElement issueElement : allBugs) {
+            Bug bug = new Bug();
             JsonObject issueObject = issueElement.getAsJsonObject();
             String key = issueObject.get("key").getAsString();
             JsonObject fieldsObject = issueElement.getAsJsonObject().getAsJsonObject("fields");
@@ -124,31 +125,35 @@ public class IssueService {
             String created = fieldsObject.get("created").getAsString();
             String version = fieldsObject.get("customfield_10053").getAsString();
 
+            JsonObject environmentObject = fieldsObject.getAsJsonObject("customfield_10055");
+            String environment = environmentObject.get("value").getAsString();
+
             if (!fieldsObject.get("assignee").toString().equals("null")) {
                 JsonObject assigneeObject = fieldsObject.getAsJsonObject("assignee");
                 String displayName = assigneeObject.get("displayName").getAsString();
-                issue.setAssignee(displayName);
+                bug.setAssignee(displayName);
             } else {
-                issue.setAssignee("Unassigned");
+                bug.setAssignee("Unassigned");
             }
 
             if (!fieldsObject.get("resolutiondate").toString().equals("null")) {
                 String resolved = fieldsObject.get("resolutiondate").getAsString();
-                issue.setResolved(resolved);
+                bug.setResolved(resolved);
             } else {
-                issue.setResolved("Unfinished");
+                bug.setResolved("Unfinished");
             }
             
-            issue.setKey(key);
-            issue.setSummary(summary);
-            issue.setCreator(creator);
-            issue.setCreated(created);
-            issue.setVersion(version);
-            issues.add(issue);
+            bug.setKey(key);
+            bug.setSummary(summary);
+            bug.setCreator(creator);
+            bug.setCreated(created);
+            bug.setVersion(version);
+            bug.setEnvironment(environment);
+            bugs.add(bug);
 
         }
         
-        return issues;
+        return bugs;
     }
     /*
      * Gets the  percent amount stated on Jira´s custom field "Progress" of all tickets of type "TeamProgress"
