@@ -18,7 +18,6 @@ import com.AZDash2.entity.Issue;
 import com.AZDash2.service.IssueService;
 
 
-import com.AZDash2.valueobject.TeamProgress;
 
 
 @RestController
@@ -61,37 +60,4 @@ public class IssueController {
         return new ResponseEntity<>(bugs, HttpStatus.OK);
     }
     
-    /*
-     * pull progress from all tickets of type 'TeamProgress'
-     */
-    @GetMapping("/progress")
-    public ResponseEntity<List<TeamProgress>> pullTeamsProgress() {
-    List<TeamProgress> teamProgress;
-    
-        try {
-            teamProgress = issueService.getTeamsProgress();
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            logger.error("Progress JIRA API failed", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
-        }
-
-        return new ResponseEntity<>(teamProgress, HttpStatus.OK);
-    }
-    
-    /*
-     * pull progress from all tickets of type 'TeamProgress' and specified version
-     */
-    @GetMapping("/progress/{version}")
-    public ResponseEntity<List<TeamProgress>> pullProgressByVersion(@PathVariable String version) {
-    List<TeamProgress> teamProgress;
-    
-        try {
-            teamProgress = issueService.getProgressByVersion(version);
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            logger.error("Progress JIRA API failed", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
-        }
-
-        return new ResponseEntity<>(teamProgress, HttpStatus.OK);
-    }
 }
