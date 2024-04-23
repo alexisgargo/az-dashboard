@@ -69,7 +69,7 @@ public class IssueService {
     public List<Issue> getAllBugsOrIssues(String type, String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType" + type + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate"))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType" + type + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,comment"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -92,8 +92,23 @@ public class IssueService {
             JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
             String creator = creatorObject.get("displayName").getAsString();
             String created = fieldsObject.get("created").getAsString();
+            JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
+            JsonArray allcomments = commentsObject.getAsJsonArray("comments");
         
-
+            String lastComment = ""; // Initialize an empty string to hold the last comment
+            
+            for (JsonElement commentElement : allcomments) {
+                JsonObject commentObject = commentElement.getAsJsonObject();
+                
+                if (!commentObject.get("body").getAsString().toString().equals("null")) {
+                    lastComment = commentObject.get("body").getAsString();
+                    issue.setComment(lastComment);
+                    
+                } else {
+                    issue.setComment("No comment yet");
+                }
+            }
+    
             if (!fieldsObject.get("assignee").toString().equals("null")) {
                 JsonObject assigneeObject = fieldsObject.getAsJsonObject("assignee");
                 String displayName = assigneeObject.get("displayName").getAsString();
