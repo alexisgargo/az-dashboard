@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
+    "@mui/x-date-pickers": "^7.2.0",
+    "@next/font": "^14.2.2",
     "@nextui-org/button": "2.0.26",
     "@nextui-org/code": "2.0.24",
     "@nextui-org/input": "2.1.16",
@@ -25,7 +30,9 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.16",
+    "axios": "^1.6.8",
     "clsx": "^2.0.0",
+    "dayjs": "^1.11.10",
     "eslint": "8.48.0",
     "eslint-config-next": "14.0.2",
     "framer-motion": "^10.16.4",
