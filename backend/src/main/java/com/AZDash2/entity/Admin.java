@@ -9,9 +9,14 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_admin;
+
     private String admin_name;
     private String admin_password;
     private Date creation_date;
+
+    public Admin(Long id_admin) {
+        this.id_admin = id_admin;
+    }
 
     public Admin(Long id_admin, String admin_name, String admin_password, Date creation_date) {
         this.id_admin = id_admin;
@@ -21,6 +26,14 @@ public class Admin {
     }
 
     public Admin() {
+    }
+
+    public Long getId_admin() {
+        return id_admin;
+    }
+
+    public void setId_admin(Long id_admin) {
+        this.id_admin = id_admin;
     }
 
     public String getAdmin_name() {

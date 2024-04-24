@@ -14,6 +14,10 @@ public class Engineer {
     private Long id_engineer;
     private String name;
 
+    public Engineer(Long id_engineer) {
+        this.id_engineer = id_engineer;
+    }
+
     public Engineer() {
     }
 
@@ -26,11 +30,11 @@ public class Engineer {
         this.name = name;
     }
 
-    public Long getId() {
+    public Long getId_engineer() {
         return id_engineer;
     }
 
-    public void setId(Long id) {
+    public void setId_engineer(Long id) {
         this.id_engineer = id;
     }
 

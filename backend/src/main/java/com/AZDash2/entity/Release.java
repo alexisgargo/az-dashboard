@@ -2,6 +2,7 @@ package com.AZDash2.entity;
 
 import jakarta.persistence.*;
 import java.sql.Date;
+import com.AZDash2.entity.DTO.AdminDTO;
 
 @Entity
 @Table(name = "releases")
@@ -95,6 +96,13 @@ public class Release {
     }
 
     public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public void setAdmin(AdminDTO adminDTO) {
+        Admin admin = new Admin();
+        admin.setId_admin(adminDTO.getId_admin());
+        admin.setAdmin_name(adminDTO.getAdmin_name());
         this.admin = admin;
     }
 
