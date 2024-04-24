@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.AZDash2.entity.Issue;
 import com.AZDash2.service.IssueService;
-import com.AZDash2.valueobject.Issue;
+
 
 
 
@@ -27,25 +28,14 @@ public class IssueController {
     @Autowired
     IssueService issueService;
 
-    @GetMapping("/issue/{issueIdOrKey}")
-    public ResponseEntity<Issue> testJira(@PathVariable String issueIdOrKey) {
-    Issue issue;
-        try {
-            issue = issueService.getIssue(issueIdOrKey);
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            logger.error("JIRA API failed", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
-        }
-
-        return new ResponseEntity<>(issue, HttpStatus.OK);
-    }
-  
-    //pull all issues from Jira of given project name
-    @GetMapping("/project/{projectIdOrKey}")
-    public ResponseEntity<List<Issue>> pullAllIssues(@PathVariable String projectIdOrKey) { //pullAllIssues? huh
+    /*
+     * pull all ISSUES from Jira of given project name and version
+     */
+    @GetMapping("/issue/{projectIdOrKey}/{versionGiven}")
+    public ResponseEntity<List<Issue>> pullIssues(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
     List<Issue> issues;
         try {
-            issues = issueService.getAllIssues(projectIdOrKey);
+            issues = issueService.getIssues(projectIdOrKey, versionGiven);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
@@ -53,4 +43,21 @@ public class IssueController {
 
         return new ResponseEntity<>(issues, HttpStatus.OK);
     }
+
+    /*
+     * pull all BUGS from Jira of given project name and version
+     */
+    @GetMapping("/bugs/{projectIdOrKey}/{versionGiven}")
+    public ResponseEntity<List<Issue>> pullBugs(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
+    List<Issue> bugs;
+        try {
+            bugs = issueService.getBugs(projectIdOrKey, versionGiven);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            logger.error("JIRA API failed", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+        }
+
+        return new ResponseEntity<>(bugs, HttpStatus.OK);
+    }
+    
 }

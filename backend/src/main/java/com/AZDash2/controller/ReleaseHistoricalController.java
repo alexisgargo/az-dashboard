@@ -9,12 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.AZDash2.service.ReleaseHistoricalService;
 import com.AZDash2.entity.ReleaseHistorical;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Date;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("az_dashboard")
 public class ReleaseHistoricalController {
+    Logger logger = LoggerFactory.getLogger(IssueController.class);
 
     @Autowired
     private ReleaseHistoricalService releaseHistoricalService;
@@ -34,5 +41,19 @@ public class ReleaseHistoricalController {
         }
 
         return new ResponseEntity<>(record.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/progress/{version}")
+    public ResponseEntity<ReleaseHistorical> pullProgressByVersion(@PathVariable String version) {
+        ReleaseHistorical teamProgress;
+        try {
+            teamProgress = releaseHistoricalService.getProgressByVersion(version);
+
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            logger.error("Progress JIRA API failed", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+        }
+
+        return new ResponseEntity<>(teamProgress, HttpStatus.OK);
     }
 }
