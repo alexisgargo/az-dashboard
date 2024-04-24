@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "release_historical")
 public class ReleaseHistorical {
+    String version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_release_historical;
@@ -31,7 +33,7 @@ public class ReleaseHistorical {
     @Column(precision = 10, scale = 0)
     private BigDecimal percent_pt;
     public ReleaseHistorical(Long id_release_historical, Release release, Date recordDate, Time recordTime,
-            BigDecimal percent_qa, BigDecimal percent_uat, BigDecimal percent_third_party, BigDecimal percent_pt) {
+            BigDecimal percent_qa, BigDecimal percent_uat, BigDecimal percent_third_party, BigDecimal percent_pt, String version) {
         this.id_release_historical = id_release_historical;
         this.release = release;
         this.recordDate = recordDate;
@@ -40,6 +42,7 @@ public class ReleaseHistorical {
         this.percent_uat = percent_uat;
         this.percent_third_party = percent_third_party;
         this.percent_pt = percent_pt;
+        this.version = version;
     }
     public ReleaseHistorical() {
     }
@@ -90,6 +93,12 @@ public class ReleaseHistorical {
     }
     public void setPercent_pt(BigDecimal percent_pt) {
         this.percent_pt = percent_pt;
+    }
+    public String getVersion() {
+        return version;
+    }
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     
