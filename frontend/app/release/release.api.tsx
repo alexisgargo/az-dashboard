@@ -1,12 +1,13 @@
-import { Dayjs } from 'dayjs'; 
 import axios from 'axios';
 
-const getIssues = async (date: Dayjs, id_release: string) => {
+const getData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/az_dashboard/issues/${date.format('YYYY-MM-DD')}/${id_release}`);
-      console.log(response.data);
-    //   return response.data
+      const response = await axios.get('http://localhost:8080/juego-de-tronos/personajes');
+      return response.data;
     } catch (error) {
-      console.error('Error fetching issues:', error);
+      console.error('Error getting data:', error);
+      throw error;
     }
   };
+  
+  export default getData;
