@@ -3,6 +3,9 @@ package com.AZDash2.entity;
 import jakarta.persistence.*;
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 @Entity
 @Table(name = "admins")
 public class Admin {
@@ -44,10 +47,12 @@ public class Admin {
         this.admin_name = admin_name;
     }
 
+    @JsonGetter
     public String getAdmin_password() {
-        return admin_password;
+        return null;
     }
 
+    @JsonSetter
     public void setAdmin_password(String admin_password) {
         this.admin_password = admin_password;
     }
