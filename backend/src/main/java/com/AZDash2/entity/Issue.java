@@ -20,10 +20,6 @@ public class Issue {
     @Size(min = 1, max = 50, message = "Issue status must be between 1 and 50 characters")
     private String issue_status;
 
-    @NotNull(message = "Issue description is mandatory")
-    @Size(min = 1, max = 140, message = "Issue description must be between 1 and 140 characters")
-    private String issue_description;
-
     @NotNull(message = "Issue summary is mandatory")
     @Size(min = 1, max = 140, message = "Issue summary must be between 1 and 140 characters")
     private String issue_summary;
@@ -38,10 +34,6 @@ public class Issue {
 
     @Size(min = 1, max = 140, message = "Updates must be between 1 and 140 characters")
     private String updates; // last comment in jira on given issue
-
-    @NotNull(message = "Version is mandatory")
-    @Size(min = 1, max = 50, message = "Version must be between 1 and 50 characters")
-    private String version;
 
     @NotNull(message = "Assignee is mandatory")
     @Size(min = 1, max = 50, message = "Assignee must be between 1 and 50 characters")
@@ -80,12 +72,10 @@ public class Issue {
             @NotNull(message = "Record time is mandatory") @PastOrPresent(message = "Record time must be in the past or present") Time record_time) {
         this.issue_number = issue_number;
         this.issue_status = issue_status;
-        this.issue_description = issue_description;
         this.issue_summary = issue_summary;
         this.created_by = created_by;
         this.creation_date = creation_date;
         this.updates = updates;
-        this.version = version;
         this.assignee = assignee;
         this.environment = environment;
         this.release = release;
@@ -110,14 +100,6 @@ public class Issue {
 
     public void setIssue_status(String issue_status) {
         this.issue_status = issue_status;
-    }
-
-    public String getIssue_description() {
-        return issue_description;
-    }
-
-    public void setIssue_description(String issue_description) {
-        this.issue_description = issue_description;
     }
 
     public String getIssue_summary() {
@@ -150,14 +132,6 @@ public class Issue {
 
     public void setUpdates(String updates) {
         this.updates = updates;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public String getAssignee() {
