@@ -170,4 +170,112 @@ public class Release {
         this.release_note = release_note;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id_release == null) ? 0 : id_release.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((label == null) ? 0 : label.hashCode());
+        result = prime * result + ((engineer == null) ? 0 : engineer.hashCode());
+        result = prime * result + ((admin == null) ? 0 : admin.hashCode());
+        result = prime * result + ((code_cutoff == null) ? 0 : code_cutoff.hashCode());
+        result = prime * result + ((init_release_date == null) ? 0 : init_release_date.hashCode());
+        result = prime * result + ((curr_release_date == null) ? 0 : curr_release_date.hashCode());
+        result = prime * result + ((creation_date == null) ? 0 : creation_date.hashCode());
+        result = prime * result + ((last_modification_date == null) ? 0 : last_modification_date.hashCode());
+        result = prime * result + (is_hotfix ? 1231 : 1237);
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        result = prime * result + (is_rollback ? 1231 : 1237);
+        result = prime * result + ((release_note == null) ? 0 : release_note.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Release other = (Release) obj;
+        if (id_release == null) {
+            if (other.id_release != null)
+                return false;
+        } else if (!id_release.equals(other.id_release))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (label == null) {
+            if (other.label != null)
+                return false;
+        } else if (!label.equals(other.label))
+            return false;
+        if (engineer == null) {
+            if (other.engineer != null)
+                return false;
+        } else if (!engineer.equals(other.engineer))
+            return false;
+        if (admin == null) {
+            if (other.admin != null)
+                return false;
+        } else if (!admin.equals(other.admin))
+            return false;
+        if (code_cutoff == null) {
+            if (other.code_cutoff != null)
+                return false;
+        } else if (!code_cutoff.equals(other.code_cutoff))
+            return false;
+        if (init_release_date == null) {
+            if (other.init_release_date != null)
+                return false;
+        } else if (!init_release_date.equals(other.init_release_date))
+            return false;
+        if (curr_release_date == null) {
+            if (other.curr_release_date != null)
+                return false;
+        } else if (!curr_release_date.equals(other.curr_release_date))
+            return false;
+        if (creation_date == null) {
+            if (other.creation_date != null)
+                return false;
+        } else if (!creation_date.equals(other.creation_date))
+            return false;
+        if (last_modification_date == null) {
+            if (other.last_modification_date != null)
+                return false;
+        } else if (!last_modification_date.equals(other.last_modification_date))
+            return false;
+        if (is_hotfix != other.is_hotfix)
+            return false;
+        if (status == null) {
+            if (other.status != null)
+                return false;
+        } else if (!status.equals(other.status))
+            return false;
+        if (is_rollback != other.is_rollback)
+            return false;
+        if (release_note == null) {
+            if (other.release_note != null)
+                return false;
+        } else if (!release_note.equals(other.release_note))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Release [id_release=" + id_release + ", name=" + name + ", label=" + label + ", engineer=" + engineer
+                + ", admin=" + admin + ", code_cutoff=" + code_cutoff + ", init_release_date=" + init_release_date
+                + ", curr_release_date=" + curr_release_date + ", creation_date=" + creation_date
+                + ", last_modification_date=" + last_modification_date + ", is_hotfix=" + is_hotfix + ", status="
+                + status + ", is_rollback=" + is_rollback + ", release_note=" + release_note + "]";
+    }
+
+    
+
 }
