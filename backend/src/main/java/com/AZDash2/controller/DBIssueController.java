@@ -50,4 +50,17 @@ public class DBIssueController {
         return new ResponseEntity<>(issues, HttpStatus.OK);
     }
 
+    @GetMapping("/issues/count/{date}/{idRelease}")
+    public ResponseEntity<List<Long>> countLatestIssuesByDateAndRelease(@PathVariable("date") Date date,
+            @PathVariable("idRelease") Long idRelease) {
+        List<Long> count;
+         try {
+            count = issueService.countLatestIssuesByDateAndRelease(date, idRelease);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
 }

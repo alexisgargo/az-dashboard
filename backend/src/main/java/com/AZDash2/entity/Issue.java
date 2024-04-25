@@ -16,9 +16,9 @@ public class Issue {
     private String created_by;
     private String creation_date;
     private String updates; //last comment in jira on given issue
-    private String version;
     private String assignee;
     private String environment;
+    private Boolean is_feature;
 
 
 
@@ -33,7 +33,7 @@ public class Issue {
 
     public Issue(String issue_number, String issue_status, String issue_description, Release release, Date record_date,
             Time record_time, String issue_summary, String created_by, String creation_date, String updates, String version, 
-            String assignee, String environment) {
+            String assignee, String environment,boolean is_feature) {
         this.issue_number = issue_number;
         this.issue_status = issue_status;
         this.issue_description = issue_description;
@@ -44,9 +44,9 @@ public class Issue {
         this.created_by = created_by;
         this.creation_date = creation_date;
         this.updates = updates;
-        this.version = version;
         this.assignee = assignee;
         this.environment = environment;
+        this.is_feature = is_feature;
     }
 
     public Issue() {
@@ -132,13 +132,13 @@ public class Issue {
         this.updates = updates;
     }
 
-    public String getVersion() {
-        return version;
-    }
+    // public String getVersion() {
+    //     return version;
+    // }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
+    // public void setVersion(String version) {
+    //     this.version = version;
+    // }
 
     public String getAssignee() {
         return assignee;
@@ -154,5 +154,12 @@ public class Issue {
 
     public void setEnvironment(String environment) {
         this.environment = environment;
+    }
+    public boolean getFeature() {
+        return is_feature;
+    }
+
+    public void setFeature(boolean is_feature) {
+        this.is_feature = is_feature;
     }
 }
