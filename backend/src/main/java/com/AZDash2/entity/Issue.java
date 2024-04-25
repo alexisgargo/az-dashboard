@@ -19,6 +19,7 @@ public class Issue {
     private String version;
     private String assignee;
     private String environment;
+    
 
 
 
@@ -154,5 +155,9 @@ public class Issue {
 
     public void setEnvironment(String environment) {
         this.environment = environment;
+    }
+    
+    public void setDescription(String issue_description) {
+        this.issue_description = issue_description;
     }
 }

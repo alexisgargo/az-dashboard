@@ -41,7 +41,7 @@ public class IssueService {
     public List<Issue> getIssues(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment"))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,description"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -65,6 +65,9 @@ public class IssueService {
             String created_by = creatorObject.get("displayName").getAsString();
             String creation_date = fieldsObject.get("created").getAsString();
             String version = fieldsObject.get("customfield_10051").getAsString();
+            String description = fieldsObject.has("description") ? fieldsObject.get("description").getAsString() : "No description available";
+            
+            
 
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
             JsonArray allcomments = commentsObject.getAsJsonArray("comments");
@@ -103,7 +106,9 @@ public class IssueService {
             issue.setCreated_by(created_by);
             issue.setCreation_date(creation_date);
             issue.setVersion(version);
+            issue.setDescription(description);
             issues.add(issue);
+
 
         }
         
