@@ -1,13 +1,19 @@
-import axios from 'axios';
+import { release, releaseProgress } from "./release.types";
 
-const getData = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/juego-de-tronos/personajes');
-      return response.data;
-    } catch (error) {
-      console.error('Error getting data:', error);
-      throw error;
-    }
-  };
-  
-  export default getData;
+const API_URL = "http://localhost:8080/az_dashboard";
+
+export async function getRelease(id: number): Promise<release> {
+    const res = await fetch(`${API_URL}/release/${id}`);
+    const data = await res.json();
+    console.log(data);
+    return data;
+}
+
+export async function getProgress(
+    project: string,
+    version: string
+): Promise<releaseProgress> {
+    const res = await fetch(`${API_URL}/release/${project}/${version}`);
+    const data = await res.json();
+    return data;
+}
