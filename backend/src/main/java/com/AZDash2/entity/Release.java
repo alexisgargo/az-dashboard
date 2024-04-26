@@ -15,9 +15,6 @@ public class Release {
     @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
     private String name;
 
-    @NotNull(message = "Label is mandatory")
-    @Size(min = 1, max = 50, message = "Label must be between 1 and 50 characters")
-    private String label;
 
     @ManyToOne
     @JoinColumn(name = "id_engineer")
@@ -61,7 +58,6 @@ public class Release {
 
     public Release(Long id_release,
             @NotNull(message = "Name is mandatory") @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters") String name,
-            @NotNull(message = "Label is mandatory") @Size(min = 1, max = 50, message = "Label must be between 1 and 50 characters") String label,
             @NotNull(message = "Engineer is mandatory") Engineer engineer,
             @NotNull(message = "Admin is mandatory") Admin admin,
             @NotNull(message = "Code cutoff is mandatory") Date code_cutoff,
@@ -75,7 +71,6 @@ public class Release {
             @Size(min = 1, max = 140, message = "Release note must be between 1 and 140 characters") String release_note) {
         this.id_release = id_release;
         this.name = name;
-        this.label = label;
         this.engineer = engineer;
         this.admin = admin;
         this.code_cutoff = code_cutoff;
@@ -108,13 +103,6 @@ public class Release {
         this.name = name;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
 
     public Engineer getEngineer() {
         return engineer;
