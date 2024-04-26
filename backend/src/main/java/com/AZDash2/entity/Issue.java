@@ -47,7 +47,6 @@ public class Issue {
     @NotNull(message = "Environment is mandatory")
     @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters")
     private String environment;
-    private Boolean is_feature;
 
     @ManyToOne
     @JoinColumn(name = "id_release")
