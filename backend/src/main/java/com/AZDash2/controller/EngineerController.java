@@ -22,14 +22,29 @@ public class EngineerController {
 
     @GetMapping("/engineers")
     public ResponseEntity<List<Engineer>> getEngineers() {
-        List<Engineer> inges = engineerService.getEngineers();
-        return new ResponseEntity<>(inges, HttpStatus.OK);
+        try {
+            List<Engineer> inges = engineerService.getEngineers();
+
+            if (!inges.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            return new ResponseEntity<>(inges, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/engineer")
     public ResponseEntity<Engineer> saveEngineer(@RequestBody @Valid Engineer engineer) {
-        engineerService.saveEngineer(engineer);
-        return new ResponseEntity<>(engineer, HttpStatus.CREATED);
+        try {
+            engineerService.saveEngineer(engineer);
+            return new ResponseEntity<>(engineer, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 }
