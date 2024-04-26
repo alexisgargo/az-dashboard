@@ -15,7 +15,9 @@ import jakarta.validation.Valid;
 import com.AZDash2.entity.Issue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("az_dashboard")
@@ -55,16 +57,16 @@ public class DBIssueController {
     }
 
     @GetMapping("/issues/count/{date}/{idRelease}")
-    public ResponseEntity<List<Long>> countLatestIssuesByDateAndRelease(@PathVariable("date") Date date,
+    public ResponseEntity<Map<String, Long>> countLatestIssuesByDateAndRelease(@PathVariable("date") Date date,
             @PathVariable("idRelease") Long idRelease) {
-        List<Long> count;
-         try {
-            count = issueService.countLatestIssuesByDateAndRelease(date, idRelease);
+        Map<String, Long> counts = new HashMap<>();
+        try {
+            counts = issueService.countLatestIssuesByDateAndRelease(date, idRelease);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<>(count, HttpStatus.OK);
+    
+        return new ResponseEntity<>(counts, HttpStatus.OK);
     }
 
 }

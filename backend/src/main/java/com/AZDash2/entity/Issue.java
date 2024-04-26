@@ -61,22 +61,12 @@ public class Issue {
     @PastOrPresent(message = "Record time must be in the past or present")
     private Time record_time;
 
-    public Issue() {
-    }
 
-    public Issue(
-            @NotNull(message = "Issue number is mandatory") @Size(min = 1, max = 50, message = "Issue number must be between 1 and 50 characters") String issue_number,
-            @NotNull(message = "Issue status is mandatory") @Size(min = 1, max = 50, message = "Issue status must be between 1 and 50 characters") String issue_status,
-            @NotNull(message = "Issue summary is mandatory") @Size(min = 1, max = 140, message = "Issue summary must be between 1 and 140 characters") String issue_summary,
-            @NotNull(message = "Created by is mandatory") @Size(min = 1, max = 50, message = "Created by must be between 1 and 50 characters") String created_by,
-            @NotNull(message = "Feature is mandatory") boolean is_feature,
-            @NotNull(message = "Creation date is mandatory") @Size(min = 1, max = 50, message = "Creation date must be between 1 and 50 characters") String creation_date,
-            @Size(min = 1, max = 140, message = "Updates must be between 1 and 140 characters") String updates,
-            @NotNull(message = "Assignee is mandatory") @Size(min = 1, max = 50, message = "Assignee must be between 1 and 50 characters") String assignee,
-            @NotNull(message = "Environment is mandatory") @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters") String environment,
-            @NotNull(message = "Release is mandatory") Release release,
-            @NotNull(message = "Record date is mandatory") @PastOrPresent(message = "Record date must be in the past or present") Date record_date,
-            @NotNull(message = "Record time is mandatory") @PastOrPresent(message = "Record time must be in the past or present") Time record_time) {
+    private String close_date;
+
+    public Issue(String close_date, String issue_number, String issue_status, String issue_description, Release release, Date record_date,
+            Time record_time, String issue_summary, String created_by, String creation_date, String updates, String version, 
+            String assignee, String environment,boolean is_feature) {
         this.issue_number = issue_number;
         this.issue_status = issue_status;
         this.issue_summary = issue_summary;
@@ -89,6 +79,12 @@ public class Issue {
         this.release = release;
         this.record_date = record_date;
         this.record_time = record_time;
+        this.is_feature = is_feature;
+        this.close_date = close_date;
+
+    }
+
+    public Issue() {
     }
 
     public String getIssue_number() {
@@ -187,4 +183,20 @@ public class Issue {
         this.record_time = record_time;
     }
 
+
+    public boolean getFeature() {
+        return is_feature;
+    }
+
+    public void setFeature(boolean is_feature) {
+        this.is_feature = is_feature;
+    }
+
+    public String getCloseDate() {
+        return close_date;
+    }
+
+    public void setCloseDate(String environment) {
+        this.environment = environment;
+    }
 }

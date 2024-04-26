@@ -23,7 +23,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     long countTicketByDateAndIdReleaseAndTime(@Param("date") Date date, @Param("idRelease") Long idRelease,
         @Param("time") Time time);
 
-    @Query("SELECT COUNT(i) FROM Issue i WHERE i.record_date <= :date AND i.release.id_release = :idRelease AND i.record_time <= :time AND i.is_feature = false")
+    @Query("SELECT COUNT(i) FROM Issue i WHERE i.record_date <= :date AND i.release.id_release = :idRelease AND i.record_time <= :time AND i.is_feature = false AND i.close_date IS  NULL")
     long countBugByDateAndIdReleaseAndTime(@Param("date") Date date, @Param("idRelease") Long idRelease,
      @Param("time") Time time);
 }
