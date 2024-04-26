@@ -46,11 +46,11 @@ public class ReleaseHistoricalService {
     /*
      * Gets the  percent amount stated on Jira´s custom field "Progress" for all tickets of type "TeamProgress" and specified version
      */
-    public ReleaseHistorical getProgressByVersion(String versionGiven) 
+    public ReleaseHistorical getProgressByVersion(String versionGiven, String projectIdOrKey) 
     throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~" + versionGiven + "&fields=customfield_10049,customfield_10048,value,customfield_10046"))
+        HttpRequest request = HttpRequest.newBuilder() 
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&fields=customfield_10049,customfield_10048,value,customfield_10046"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -71,9 +71,7 @@ public class ReleaseHistoricalService {
             BigDecimal progress = fieldsObject.get("customfield_10049").getAsBigDecimal();
             JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
             String team = teamObject.get("value").getAsString();
-            String version = fieldsObject.get("customfield_10046").getAsString();
 
-            teamProgress.setVersion(version);
             if (team.equals("QA")) {
                 teamProgress.setPercent_qa(progress);
             } else if (team.equals("PT")) {

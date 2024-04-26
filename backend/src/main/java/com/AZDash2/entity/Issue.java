@@ -46,6 +46,7 @@ public class Issue {
     @NotNull(message = "Environment is mandatory")
     @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters")
     private String environment;
+    
 
     @ManyToOne
     @JoinColumn(name = "id_release")
@@ -207,5 +208,9 @@ public class Issue {
 
     public void setCloseDate(String environment) {
         this.environment = environment;
+    }
+    
+    public void setDescription(String issue_description) {
+        this.issue_description = issue_description;
     }
 }
