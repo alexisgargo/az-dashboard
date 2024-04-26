@@ -43,11 +43,11 @@ public class ReleaseHistoricalController {
         return new ResponseEntity<>(record.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/progress/{version}")
-    public ResponseEntity<ReleaseHistorical> pullProgressByVersion(@PathVariable String version) {
+    @GetMapping("/progress/{projectIdOrKey}/{version}")
+    public ResponseEntity<ReleaseHistorical> pullProgressByVersion(@PathVariable String version, @PathVariable String projectIdOrKey) {
         ReleaseHistorical teamProgress;
         try {
-            teamProgress = releaseHistoricalService.getProgressByVersion(version);
+            teamProgress = releaseHistoricalService.getProgressByVersion(version, projectIdOrKey);
 
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("Progress JIRA API failed", e);
