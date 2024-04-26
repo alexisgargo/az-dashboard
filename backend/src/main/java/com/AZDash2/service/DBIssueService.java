@@ -2,7 +2,10 @@ package com.AZDash2.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.AZDash2.entity.Issue;
@@ -28,14 +31,16 @@ public class DBIssueService {
         return issueRepository.findByDateAndIdReleaseAndTime(date, idRelease, latestTime);
     }
 
-    public List<Long> countLatestIssuesByDateAndRelease(Date date, Long idRelease) {
+    public Map<String, Long> countLatestIssuesByDateAndRelease(Date date, Long idRelease) {
         Time latestTime = issueRepository.findLatestTimeByDateAndIdRelease(date, idRelease);
-        List<Long> counts = new ArrayList<>();
+        Map<String, Long> counts = new HashMap<>();
+    
         long ticketCount = issueRepository.countTicketByDateAndIdReleaseAndTime(date, idRelease, latestTime);
-        counts.add(ticketCount);
+        counts.put("Issue_Count", ticketCount);
+    
         long bugCount = issueRepository.countBugByDateAndIdReleaseAndTime(date, idRelease, latestTime);
-        counts.add(bugCount);
-
+        counts.put("Bug_Count", bugCount);
+    
         return counts;
     }
 

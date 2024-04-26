@@ -19,6 +19,7 @@ public class Issue {
     private String assignee;
     private String environment;
     private Boolean is_feature;
+    private String close_date;
 
 
 
@@ -31,7 +32,7 @@ public class Issue {
 
     private Time record_time;
 
-    public Issue(String issue_number, String issue_status, String issue_description, Release release, Date record_date,
+    public Issue(String close_date, String issue_number, String issue_status, String issue_description, Release release, Date record_date,
             Time record_time, String issue_summary, String created_by, String creation_date, String updates, String version, 
             String assignee, String environment,boolean is_feature) {
         this.issue_number = issue_number;
@@ -47,6 +48,8 @@ public class Issue {
         this.assignee = assignee;
         this.environment = environment;
         this.is_feature = is_feature;
+        this.close_date = close_date;
+
     }
 
     public Issue() {
@@ -161,5 +164,13 @@ public class Issue {
 
     public void setFeature(boolean is_feature) {
         this.is_feature = is_feature;
+    }
+
+    public String getCloseDate() {
+        return close_date;
+    }
+
+    public void setCloseDate(String environment) {
+        this.environment = environment;
     }
 }
