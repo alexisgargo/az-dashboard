@@ -2,6 +2,7 @@ package com.AZDash2.entity;
 
 import jakarta.persistence.*;
 import java.sql.Date;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "releases")
@@ -9,36 +10,69 @@ public class Release {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_release;
+
+    @NotNull(message = "Name is mandatory")
+    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
     private String name;
+
+    @NotNull(message = "Label is mandatory")
+    @Size(min = 1, max = 50, message = "Label must be between 1 and 50 characters")
     private String label;
 
     @ManyToOne
     @JoinColumn(name = "id_engineer")
+    @NotNull(message = "Engineer is mandatory")
     private Engineer engineer;
 
     @ManyToOne
     @JoinColumn(name = "id_admin")
+    @NotNull(message = "Admin is mandatory")
     private Admin admin;
 
+    @NotNull(message = "Code cutoff is mandatory")
     private Date code_cutoff;
+
+    @NotNull(message = "Init Date is mandatory")
     private Date init_release_date;
+
+    @NotNull(message = "Curr Date is mandatory")
     private Date curr_release_date;
+
+    @NotNull(message = "Creation Date is mandatory")
     private Date creation_date;
+
+    @NotNull(message = "Last Modification Date is mandatory")
     private Date last_modification_date;
 
+    @NotNull(message = "Is Hotfix is mandatory")
     @Column(columnDefinition = "BIT(1)")
     private boolean is_hotfix;
 
+    @NotNull(message = "Status is mandatory")
+    @Size(min = 1, max = 50, message = "Status must be between 1 and 50 characters")
     private String status;
 
-    @Column(columnDefinition = "TINYINT(1)")
+    @NotNull(message = "Is Rollback is mandatory")
+    @Column(columnDefinition = "BIT(1)")
     private boolean is_rollback;
 
+    @Size(min = 1, max = 140, message = "Release note must be between 1 and 140 characters")
     private String release_note;
 
-    public Release(Long id_release, String name, String label, Engineer engineer, Admin admin, Date code_cutoff,
-            Date init_release_date, Date curr_release_date, Date creation_date, Date last_modification_date,
-            boolean is_hotfix, String status, boolean is_rollback, String release_note) {
+    public Release(Long id_release,
+            @NotNull(message = "Name is mandatory") @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters") String name,
+            @NotNull(message = "Label is mandatory") @Size(min = 1, max = 50, message = "Label must be between 1 and 50 characters") String label,
+            @NotNull(message = "Engineer is mandatory") Engineer engineer,
+            @NotNull(message = "Admin is mandatory") Admin admin,
+            @NotNull(message = "Code cutoff is mandatory") Date code_cutoff,
+            @NotNull(message = "Init Date is mandatory") Date init_release_date,
+            @NotNull(message = "Curr Date is mandatory") Date curr_release_date,
+            @NotNull(message = "Creation Date is mandatory") Date creation_date,
+            @NotNull(message = "Last Modification Date is mandatory") Date last_modification_date,
+            @NotNull(message = "Is Hotfix is mandatory") boolean is_hotfix,
+            @NotNull(message = "Status is mandatory") @Size(min = 1, max = 50, message = "Status must be between 1 and 50 characters") String status,
+            @NotNull(message = "Is Rollback is mandatory") boolean is_rollback,
+            @Size(min = 1, max = 140, message = "Release note must be between 1 and 140 characters") String release_note) {
         this.id_release = id_release;
         this.name = name;
         this.label = label;

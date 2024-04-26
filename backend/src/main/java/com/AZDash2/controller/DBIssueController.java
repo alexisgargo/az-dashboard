@@ -33,8 +33,12 @@ public class DBIssueController {
     // to save issues data
     @PostMapping("/issue")
     public ResponseEntity<Issue> saveIssues(@RequestBody @Valid Issue issues) {
-        issueService.saveIssues(issues);
-        return new ResponseEntity<>(issues, HttpStatus.CREATED);
+        try{
+            issueService.saveIssues(issues);
+            return new ResponseEntity<>(issues, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/issues/{date}/{idRelease}")
