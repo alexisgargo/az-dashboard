@@ -8,9 +8,10 @@ import jakarta.validation.constraints.*;
 @Entity
 @Table(name = "issues")
 public class Issue {
-  
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_issues;
 
     @NotNull(message = "Issue number is mandatory")
     @Size(min = 1, max = 50, message = "Issue number must be between 1 and 50 characters")
@@ -27,6 +28,10 @@ public class Issue {
     @NotNull(message = "Created by is mandatory")
     @Size(min = 1, max = 50, message = "Created by must be between 1 and 50 characters")
     private String created_by;
+
+    @NotNull(message = "Feature is mandatory")
+    @Column(columnDefinition = "BIT(1)")
+    private boolean is_feature;
 
     @NotNull(message = "Creation date is mandatory")
     @Size(min = 1, max = 50, message = "Creation date must be between 1 and 50 characters")
@@ -56,15 +61,17 @@ public class Issue {
     @PastOrPresent(message = "Record time must be in the past or present")
     private Time record_time;
 
+    public Issue() {
+    }
+
     public Issue(
-            @NotNull(message = "Issue number is mandatory") @Size(min = 1, max = 50, message = "Issue number must be between 1 and 12 characters") String issue_number,
+            @NotNull(message = "Issue number is mandatory") @Size(min = 1, max = 50, message = "Issue number must be between 1 and 50 characters") String issue_number,
             @NotNull(message = "Issue status is mandatory") @Size(min = 1, max = 50, message = "Issue status must be between 1 and 50 characters") String issue_status,
-            @NotNull(message = "Issue description is mandatory") @Size(min = 1, max = 140, message = "Issue description must be between 1 and 140 characters") String issue_description,
             @NotNull(message = "Issue summary is mandatory") @Size(min = 1, max = 140, message = "Issue summary must be between 1 and 140 characters") String issue_summary,
             @NotNull(message = "Created by is mandatory") @Size(min = 1, max = 50, message = "Created by must be between 1 and 50 characters") String created_by,
+            @NotNull(message = "Feature is mandatory") boolean is_feature,
             @NotNull(message = "Creation date is mandatory") @Size(min = 1, max = 50, message = "Creation date must be between 1 and 50 characters") String creation_date,
             @Size(min = 1, max = 140, message = "Updates must be between 1 and 140 characters") String updates,
-            @NotNull(message = "Version is mandatory") @Size(min = 1, max = 50, message = "Version must be between 1 and 50 characters") String version,
             @NotNull(message = "Assignee is mandatory") @Size(min = 1, max = 50, message = "Assignee must be between 1 and 50 characters") String assignee,
             @NotNull(message = "Environment is mandatory") @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters") String environment,
             @NotNull(message = "Release is mandatory") Release release,
@@ -74,6 +81,7 @@ public class Issue {
         this.issue_status = issue_status;
         this.issue_summary = issue_summary;
         this.created_by = created_by;
+        this.is_feature = is_feature;
         this.creation_date = creation_date;
         this.updates = updates;
         this.assignee = assignee;
@@ -81,9 +89,6 @@ public class Issue {
         this.release = release;
         this.record_date = record_date;
         this.record_time = record_time;
-    }
-
-    public Issue() {
     }
 
     public String getIssue_number() {
@@ -116,6 +121,14 @@ public class Issue {
 
     public void setCreated_by(String created_by) {
         this.created_by = created_by;
+    }
+
+    public boolean isIs_feature() {
+        return is_feature;
+    }
+
+    public void setIs_feature(boolean is_feature) {
+        this.is_feature = is_feature;
     }
 
     public String getCreation_date() {
@@ -174,5 +187,4 @@ public class Issue {
         this.record_time = record_time;
     }
 
-  
 }

@@ -44,7 +44,7 @@ public class Release {
     @NotNull(message = "Last Modification Date is mandatory")
     private Date last_modification_date;
 
-    @NotNull(message = "Last Modification Time is mandatory")
+    @NotNull(message = "Is Hotfix is mandatory")
     @Column(columnDefinition = "BIT(1)")
     private boolean is_hotfix;
 
@@ -64,12 +64,12 @@ public class Release {
             @NotNull(message = "Label is mandatory") @Size(min = 1, max = 50, message = "Label must be between 1 and 50 characters") String label,
             @NotNull(message = "Engineer is mandatory") Engineer engineer,
             @NotNull(message = "Admin is mandatory") Admin admin,
-            @NotNull(message = "Code cutoff is mandatory") @PastOrPresent(message = "Code cutoff must be in the past or present") Date code_cutoff,
-            @NotNull(message = "Init Date is mandatory") @PastOrPresent(message = "Init Date must be in the past or present") Date init_release_date,
-            @NotNull(message = "Curr Date is mandatory") @PastOrPresent(message = "Curr Date must be in the past or present") Date curr_release_date,
-            @NotNull(message = "Creation Date is mandatory") @PastOrPresent(message = "Creation Date must be in the past or present") Date creation_date,
-            @NotNull(message = "Last Modification Date is mandatory") @PastOrPresent(message = "Last Modification Date must be in the past or present") Date last_modification_date,
-            @NotNull(message = "Last Modification Time is mandatory") boolean is_hotfix,
+            @NotNull(message = "Code cutoff is mandatory") Date code_cutoff,
+            @NotNull(message = "Init Date is mandatory") Date init_release_date,
+            @NotNull(message = "Curr Date is mandatory") Date curr_release_date,
+            @NotNull(message = "Creation Date is mandatory") Date creation_date,
+            @NotNull(message = "Last Modification Date is mandatory") Date last_modification_date,
+            @NotNull(message = "Is Hotfix is mandatory") boolean is_hotfix,
             @NotNull(message = "Status is mandatory") @Size(min = 1, max = 50, message = "Status must be between 1 and 50 characters") String status,
             @NotNull(message = "Is Rollback is mandatory") boolean is_rollback,
             @Size(min = 1, max = 140, message = "Release note must be between 1 and 140 characters") String release_note) {

@@ -29,10 +29,6 @@ public class Admin {
     @PastOrPresent(message = "Creation date must be in the past or present")
     private Date creation_date;
 
-    public Admin(Long id_admin) {
-        this.id_admin = id_admin;
-    }
-
     public Admin(Long id_admin,
             @NotNull(message = "Admin name is mandatory") @Size(min = 1, max = 50, message = "Admin name must be between 1 and 50 characters") String admin_name,
             @NotNull(message = "Password is mandatory") @Size(min = 1, max = 50, message = "Password must be between 1 and 50 characters") String admin_password,
@@ -41,6 +37,10 @@ public class Admin {
         this.admin_name = admin_name;
         this.admin_password = admin_password;
         this.creation_date = creation_date;
+    }
+
+    public Admin(Long id_admin) {
+        this.id_admin = id_admin;
     }
 
     public Admin() {
@@ -64,7 +64,7 @@ public class Admin {
 
     @JsonGetter
     public String getAdmin_password() {
-        return admin_password;
+        return null;
     }
 
     @JsonSetter
@@ -79,5 +79,5 @@ public class Admin {
     public void setCreation_date(Date creation_date) {
         this.creation_date = creation_date;
     }
-
+    
 }

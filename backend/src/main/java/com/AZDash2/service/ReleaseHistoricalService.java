@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.AZDash2.entity.Release;
 import com.AZDash2.entity.ReleaseHistorical;
 import com.AZDash2.repository.ReleaseHistoricalRepository;
 
