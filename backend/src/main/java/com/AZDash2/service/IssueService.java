@@ -8,9 +8,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public class IssueService {
     public List<Issue> getIssues(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,description"))
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
@@ -64,7 +64,6 @@ public class IssueService {
             JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
             String created_by = creatorObject.get("displayName").getAsString();
             String creation_date = fieldsObject.get("created").getAsString();
-            String version = fieldsObject.get("customfield_10051").getAsString();
             String description = fieldsObject.has("description") ? fieldsObject.get("description").getAsString() : "No description available";
             
             
@@ -105,7 +104,6 @@ public class IssueService {
             issue.setIssue_summary(issue_summary);
             issue.setCreated_by(created_by);
             issue.setCreation_date(creation_date);
-            issue.setVersion(version);
             issue.setDescription(description);
             issues.add(issue);
 
@@ -119,24 +117,24 @@ public class IssueService {
      * Gets all BUGS' specified information
      */
     public List<Issue> getBugs(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055,comment"))
-        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
-        .GET()
-        .build();
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055,comment"))
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+            .GET()
+            .build();
 
-        HttpResponse<String> response = client.send(request,
-        HttpResponse.BodyHandlers.ofString());
-        logger.debug("Response Http Status {}", response.statusCode());
-        logger.debug("Response Body {}", response.body());
+            HttpResponse<String> response = client.send(request,
+            HttpResponse.BodyHandlers.ofString());
+            logger.debug("Response Http Status {}", response.statusCode());
+            logger.debug("Response Body {}", response.body());
 
-        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
-        JsonArray allBugs = issueJson.getAsJsonArray("issues");
-        List<Issue> bugs = new ArrayList<>();
+            JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
+            JsonArray allBugs = issueJson.getAsJsonArray("issues");
+            List<Issue> bugs = new ArrayList<>();
 
-        for (JsonElement issueElement : allBugs) {
-            Issue bug = new Issue();
+            for (JsonElement issueElement : allBugs) {
+                Issue bug = new Issue();
             JsonObject issueObject = issueElement.getAsJsonObject();
             String issue_number = issueObject.get("key").getAsString();
             JsonObject fieldsObject = issueElement.getAsJsonObject().getAsJsonObject("fields");
@@ -144,7 +142,6 @@ public class IssueService {
             JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
             String created_by = creatorObject.get("displayName").getAsString();
             String creation_date = fieldsObject.get("created").getAsString();
-            String version = fieldsObject.get("customfield_10053").getAsString();
 
             JsonObject environmentObject = fieldsObject.getAsJsonObject("customfield_10055");
             String environment = environmentObject.get("value").getAsString();
@@ -184,7 +181,6 @@ public class IssueService {
             bug.setIssue_summary(issue_summary);
             bug.setCreated_by(created_by);
             bug.setCreation_date(creation_date);
-            bug.setVersion(version);
             bug.setEnvironment(environment);
             bugs.add(bug);
 
@@ -192,5 +188,41 @@ public class IssueService {
         
         return bugs;
     }
+
+    public Map<String, Long> getTicketAmount(String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest requestBugs = HttpRequest.newBuilder()
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype%3Dbug%20AND%20project=" + projectIdOrKey + "%20AND%20status%21%3DDone&maxResults=0"))
+        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken) 
+        .GET()
+        .build();
+
+        HttpResponse<String> response = client.send(requestBugs,
+        HttpResponse.BodyHandlers.ofString());
+        logger.debug("Response Http Status {}", response.statusCode());
+        logger.debug("Response Body {}", response.body());
+
+        JsonObject bugsJson = JsonParser.parseString(response.body()).getAsJsonObject();
+
+        HttpRequest requestIssue = HttpRequest.newBuilder() //issueType%20in%20(story%2C%20task)
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20project=" + projectIdOrKey + "&maxResults=0"))
+        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken) 
+        .GET()
+        .build();
+        HttpResponse<String> responseIssue = client.send(requestIssue,
+        HttpResponse.BodyHandlers.ofString());
+        JsonObject issueJson = JsonParser.parseString(responseIssue.body()).getAsJsonObject();
+
+        Map<String, Long> amount = new HashMap<>();
+        String issueAmountStr = issueJson.get("total").getAsString();
+        String bugAmountStr = bugsJson.get("total").getAsString();
+        Long issueNumber = Long.parseLong(issueAmountStr);
+        Long Bugnumber = Long.parseLong(bugAmountStr);
+        amount.put("Bugs:",Bugnumber);
+        amount.put("Issues:",issueNumber);
+        return amount;
+
+    }
+
 }
 

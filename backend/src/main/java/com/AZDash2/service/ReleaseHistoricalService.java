@@ -72,9 +72,7 @@ public class ReleaseHistoricalService {
             BigDecimal progress = fieldsObject.get("customfield_10049").getAsBigDecimal();
             JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
             String team = teamObject.get("value").getAsString();
-            String version = fieldsObject.get("customfield_10046").getAsString();
 
-            teamProgress.setVersion(version);
             if (team.equals("QA")) {
                 teamProgress.setPercent_qa(progress);
             } else if (team.equals("PT")) {

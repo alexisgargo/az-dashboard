@@ -3,6 +3,7 @@ package com.AZDash2.controller;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,4 +61,16 @@ public class IssueController {
         return new ResponseEntity<>(bugs, HttpStatus.OK);
     }
     
+    @GetMapping("/count/{projectIdOrKey}")
+    public ResponseEntity<Map<String, Long>> pullTicketAmount(@PathVariable String projectIdOrKey) {
+        Map<String, Long> amount;
+            try {
+                amount = issueService.getTicketAmount(projectIdOrKey);
+            } catch (URISyntaxException | IOException | InterruptedException e) {
+                logger.error("JIRA API failed", e);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+            }
+    
+            return new ResponseEntity<>(amount, HttpStatus.OK);
+        }
 }
