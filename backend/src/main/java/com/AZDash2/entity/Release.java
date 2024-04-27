@@ -15,6 +15,10 @@ public class Release {
     @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
     private String name;
 
+    @NotNull(message = "Version is mandatory")
+    @Size(min = 1, max = 50, message = "Version must be between 1 and 50 characters")
+    private String version;
+
 
     @ManyToOne
     @JoinColumn(name = "id_engineer")
@@ -198,7 +202,7 @@ public class Release {
         int result = 1;
         result = prime * result + ((id_release == null) ? 0 : id_release.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((label == null) ? 0 : label.hashCode());
+        result = prime * result + ((version == null) ? 0 : version.hashCode());
         result = prime * result + ((engineer == null) ? 0 : engineer.hashCode());
         result = prime * result + ((admin == null) ? 0 : admin.hashCode());
         result = prime * result + ((code_cutoff == null) ? 0 : code_cutoff.hashCode());
@@ -232,10 +236,10 @@ public class Release {
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (label == null) {
-            if (other.label != null)
+        if (version == null) {
+            if (other.version != null)
                 return false;
-        } else if (!label.equals(other.label))
+        } else if (!version.equals(other.version))
             return false;
         if (engineer == null) {
             if (other.engineer != null)
@@ -291,7 +295,7 @@ public class Release {
 
     @Override
     public String toString() {
-        return "Release [id_release=" + id_release + ", name=" + name + ", label=" + label + ", engineer=" + engineer
+        return "Release [id_release=" + id_release + ", name=" + name + ", version=" + version + ", engineer=" + engineer
                 + ", admin=" + admin + ", code_cutoff=" + code_cutoff + ", init_release_date=" + init_release_date
                 + ", curr_release_date=" + curr_release_date + ", creation_date=" + creation_date
                 + ", last_modification_date=" + last_modification_date + ", is_hotfix=" + is_hotfix + ", status="

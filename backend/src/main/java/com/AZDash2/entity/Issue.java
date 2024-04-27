@@ -209,8 +209,4 @@ public class Issue {
     public void setCloseDate(String environment) {
         this.environment = environment;
     }
-    
-    public void setDescription(String issue_description) {
-        this.issue_description = issue_description;
-    }
 }
