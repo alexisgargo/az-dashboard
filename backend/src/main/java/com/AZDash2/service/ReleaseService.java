@@ -16,7 +16,14 @@ public class ReleaseService {
         return releaseRepository.findByIdRelease(idRelease);
     }
 
-    public int sum(int a, int b) {
-        return a + b;
+    // private final ReleaseRepository releaseRepository;
+
+    // @Autowired
+    // public ReleaseService(ReleaseRepository releaseRepository) {
+    //     this.releaseRepository = releaseRepository;
+    // }
+
+    public Release saveRelease(Release release) {
+        return releaseRepository.save(release);
     }
 }

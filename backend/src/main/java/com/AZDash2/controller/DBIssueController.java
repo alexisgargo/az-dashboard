@@ -15,7 +15,9 @@ import jakarta.validation.Valid;
 import com.AZDash2.entity.Issue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("az_dashboard")
@@ -33,8 +35,12 @@ public class DBIssueController {
     // to save issues data
     @PostMapping("/issue")
     public ResponseEntity<Issue> saveIssues(@RequestBody @Valid Issue issues) {
-        issueService.saveIssues(issues);
-        return new ResponseEntity<>(issues, HttpStatus.CREATED);
+        try{
+            issueService.saveIssues(issues);
+            return new ResponseEntity<>(issues, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/issues/{date}/{idRelease}")
@@ -48,6 +54,19 @@ public class DBIssueController {
         }
 
         return new ResponseEntity<>(issues, HttpStatus.OK);
+    }
+
+    @GetMapping("/issues/count/{date}/{idRelease}")
+    public ResponseEntity<Map<String, Long>> countLatestIssuesByDateAndRelease(@PathVariable("date") Date date,
+            @PathVariable("idRelease") Long idRelease) {
+        Map<String, Long> counts = new HashMap<>();
+        try {
+            counts = issueService.countLatestIssuesByDateAndRelease(date, idRelease);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    
+        return new ResponseEntity<>(counts, HttpStatus.OK);
     }
 
 }

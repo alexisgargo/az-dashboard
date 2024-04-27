@@ -16,6 +16,10 @@ public class ReleaseHistorical {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_release_historical;
 
+    @NotNull(message = "Version is mandatory")
+    @Size(min = 1, max = 50, message = "Version must be between 1 and 50 characters")
+    private String version;
+
     @ManyToOne
     @JoinColumn(name = "id_release")
     @NotNull(message = "Release is mandatory")
@@ -55,6 +59,7 @@ public class ReleaseHistorical {
             @NotNull(message = "UAT Percent is mandatory") BigDecimal percent_uat,
             @NotNull(message = "Third Party Percent is mandatory") BigDecimal percent_third_party,
             @NotNull(message = "PT Percent is mandatory") BigDecimal percent_pt) {
+        this.version = version;
         this.id_release_historical = id_release_historical;
         this.release = release;
         this.recordDate = recordDate;
@@ -66,6 +71,14 @@ public class ReleaseHistorical {
     }
 
     public ReleaseHistorical() {
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public Long getId_release_historical() {
