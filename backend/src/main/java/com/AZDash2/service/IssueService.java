@@ -107,7 +107,6 @@ public class IssueService {
             issue.setIssue_summary(issue_summary);
             issue.setCreated_by(created_by);
             issue.setCreation_date(creation_date);
-            issue.setDescription(description);
             issues.add(issue);
 
 
