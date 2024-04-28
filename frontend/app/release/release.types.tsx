@@ -24,7 +24,7 @@ export type release = {
 
 export type releaseProgress = {
     release: release;
-    date: string;
+    recordDate: string;
     percent_qa: number;
     percent_uat: number;
     percent_third_party: number;

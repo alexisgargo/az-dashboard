@@ -20,3 +20,10 @@ export async function getProgress(
     // console.log(data);
     return data;
 }
+
+export async function getHistoricalProgress(date: string, id: number,): Promise<releaseProgress> {
+    const res = await fetch(`${API_URL}/historical/${date}/${id}`);
+    const data = await res.json();
+    console.log(data);
+    return data;
+}
