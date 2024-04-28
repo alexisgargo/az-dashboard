@@ -3,8 +3,8 @@ import ProgressCharts from "@/components/individual-release/team-progress";
 import TicketsIssuesCard from "@/components/individual-release/tickets-issues";
 import TotalProgress from "@/components/individual-release/total-progress";
 import { Button } from "@nextui-org/button";
-import { getRelease, getProgress } from "./release.api";
-import { release, releaseProgress } from "./release.types";
+import { getRelease, getProgress, getIssueCount } from "./release.api";
+import { issueCount, release, releaseProgress } from "./release.types";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@nextui-org/progress";
 
@@ -35,6 +35,11 @@ export default function ReleasePage() {
         percent_pt: 0,
     });
 
+    const [issueCount, setIssueCount] = useState<issueCount>({
+        bugs: 0,
+        issues: 0,
+    });
+
     const [totalProgress, setTotalProgress] = useState<number>(0);
 
     useEffect(() => {
@@ -47,6 +52,7 @@ export default function ReleasePage() {
     useEffect(() => {
         const fetchProgress = async () => {
             setProgress(await getProgress(release.name, release.version));
+            setIssueCount(await getIssueCount(release.name));
         };
         fetchProgress();
     }, [release]);
@@ -84,7 +90,10 @@ export default function ReleasePage() {
 
                 <div className="flex flex-row gap-5">
                     <div className="content-center">
-                        <TicketsIssuesCard ticketsCount={100} bugsCount={51} />
+                        <TicketsIssuesCard
+                            ticketsCount={issueCount.issues}
+                            bugsCount={issueCount.bugs}
+                        />
                     </div>
                 </div>
 

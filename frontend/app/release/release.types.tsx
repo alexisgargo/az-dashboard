@@ -30,3 +30,8 @@ export type releaseProgress = {
     percent_third_party: number;
     percent_pt: number;
 };
+
+export type issueCount = {
+    bugs: number;
+    issues: number;
+};
