@@ -13,7 +13,10 @@ export async function getProgress(
     project: string,
     version: string
 ): Promise<releaseProgress> {
-    const res = await fetch(`${API_URL}/release/${project}/${version}`);
+    // console.log(`project: ${project}, version: ${version}`);
+    // console.log(`${API_URL}/progress/${project}/${version}`);
+    const res = await fetch(`${API_URL}/progress/${project}/${version}`);
     const data = await res.json();
+    // console.log(data);
     return data;
 }

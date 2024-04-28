@@ -5,7 +5,7 @@ export default function TotalProgress(prop: { releaseInfo: release }) {
     return (
         <div>
             <div>
-                <CircularProgress
+                {/* <CircularProgress
                     classNames={{
                         svg: "w-96 h-96",
                         value: "text-3xl font-semibold text-white",
@@ -14,7 +14,7 @@ export default function TotalProgress(prop: { releaseInfo: release }) {
                     color="success"
                     label="Total progress"
                     showValueLabel={true}
-                ></CircularProgress>
+                ></CircularProgress> */}
             </div>
             <p>Release name: {prop.releaseInfo.name}</p>
             <p>Release id: {prop.releaseInfo.id_release}</p>

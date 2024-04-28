@@ -1,22 +1,18 @@
-//import getData from "./release.api";
 "use client";
 import ProgressCharts from "@/components/individual-release/team-progress";
 import TicketsIssuesCard from "@/components/individual-release/tickets-issues";
 import TotalProgress from "@/components/individual-release/total-progress";
 import { Button } from "@nextui-org/button";
-import { getRelease } from "./release.api";
-import { release } from "./release.types";
+import { getRelease, getProgress } from "./release.api";
+import { release, releaseProgress } from "./release.types";
 import { useEffect, useState } from "react";
+import { CircularProgress } from "@nextui-org/progress";
 
 export default function ReleasePage() {
-    //const personajes = await getData();
-
-    // let release: release = {} as release;
-
     const [release, setRelease] = useState<release>({
         id_release: 0,
         name: "",
-        label: "",
+        version: "",
         engineer: { name: "", id: 0 },
         code_cutoff: "",
         init_release_date: "",
@@ -30,45 +26,40 @@ export default function ReleasePage() {
         release_note: "",
     });
 
-    // const handleDateChange = () => {
-    // }
+    const [progress, setProgress] = useState<releaseProgress>({
+        release: release,
+        date: "",
+        percent_qa: 0,
+        percent_uat: 0,
+        percent_third_party: 0,
+        percent_pt: 0,
+    });
+
+    const [totalProgress, setTotalProgress] = useState<number>(0);
 
     useEffect(() => {
         const fetchRelease = async () => {
             setRelease(await getRelease(1));
-            console.log(release);
         };
         fetchRelease();
     }, []);
 
-    // const release: release = await getRelease(1);
-    // console.log(release);
+    useEffect(() => {
+        const fetchProgress = async () => {
+            setProgress(await getProgress(release.name, release.version));
+        };
+        fetchProgress();
+    }, [release]);
 
-    const progressMock = {
-        id_release: 42,
-        date: "2024-04-25",
-        percent_qa: 52,
-        percent_uat: 73,
-        percent_third_party: 29,
-        percent_pt: 91,
-    };
-
-    // const releaseMock = {
-    //   id_release: 42,
-    //   name: "Release name",
-    //   label: "REL",
-    //   engineer: "David García",
-    //   code_cutoff: "2024-01-01",
-    //   init_release_date: "2024-04-30",
-    //   end_release_date: "2024-04-30",
-    //   is_hotfix: true,
-    //   status: "On track",
-    //   is_rollback: true,
-    //   creation_date: "2024-01-02",
-    //   admin: "Kike Sanchez",
-    //   last_modification_date: "2024-01-02",
-    //   release_note: "Pretty cool ngl."
-    // }
+    useEffect(() => {
+        setTotalProgress(
+            (progress.percent_qa +
+                progress.percent_uat +
+                progress.percent_third_party +
+                progress.percent_pt) /
+                4
+        );
+    }, [progress]);
 
     return (
         <div>
@@ -78,6 +69,16 @@ export default function ReleasePage() {
 
             <div className="grid grid-flow-row grid-flow-col gap-5">
                 <div className="row-span-2 pb-5">
+                    <CircularProgress
+                        classNames={{
+                            svg: "w-96 h-96",
+                            value: "text-3xl font-semibold text-white",
+                        }}
+                        value={totalProgress}
+                        color="success"
+                        label="Total progress"
+                        showValueLabel={true}
+                    ></CircularProgress>
                     <TotalProgress releaseInfo={release} />
                 </div>
 
@@ -88,7 +89,7 @@ export default function ReleasePage() {
                 </div>
 
                 <div className="content-center">
-                    <ProgressCharts progress={progressMock} />
+                    <ProgressCharts progress={progress} />
                 </div>
             </div>
         </div>
