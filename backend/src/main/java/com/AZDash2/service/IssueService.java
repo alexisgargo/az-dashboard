@@ -220,8 +220,8 @@ public class IssueService {
         String bugAmountStr = bugsJson.get("total").getAsString();
         Long issueNumber = Long.parseLong(issueAmountStr);
         Long Bugnumber = Long.parseLong(bugAmountStr);
-        amount.put("Bugs:",Bugnumber);
-        amount.put("Issues:",issueNumber);
+        amount.put("bugs",Bugnumber);
+        amount.put("issues",issueNumber);
         return amount;
 
     }
