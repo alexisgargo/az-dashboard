@@ -14,11 +14,10 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-
 import org.springframework.stereotype.Service;
-
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -35,11 +34,10 @@ public class IssueService {
     @Value("${jira.api.token}")
     private String jiraApiToken;
 
-    /*
-     * Gets all ISSUES' specified information.
-     */
-    public List<Issue> getIssues(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
+    @Autowired
+    HttpClient client;
+
+    public List<Issue>  getIssues(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
         .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
@@ -51,10 +49,15 @@ public class IssueService {
         logger.debug("Response Http Status {}", response.statusCode());
         logger.debug("Response Body {}", response.body());
 
+        return processHttpResponse(response);
+    }
+    
+    private List<Issue> processHttpResponse(HttpResponse<String> response) {
+
         JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
         JsonArray allIssues = issueJson.getAsJsonArray("issues");
         List<Issue> issues = new ArrayList<>();
-
+    
         for (JsonElement issueElement : allIssues) {
             Issue issue = new Issue();
             JsonObject issueObject = issueElement.getAsJsonObject();
@@ -109,7 +112,6 @@ public class IssueService {
 
 
         }
-        
         return issues;
     }
 
@@ -129,9 +131,9 @@ public class IssueService {
             logger.debug("Response Http Status {}", response.statusCode());
             logger.debug("Response Body {}", response.body());
 
-            JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
-            JsonArray allBugs = issueJson.getAsJsonArray("issues");
-            List<Issue> bugs = new ArrayList<>();
+        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
+        JsonArray allBugs = issueJson.getAsJsonArray("issues");
+        List<Issue> bugs = new ArrayList<>();
 
             for (JsonElement issueElement : allBugs) {
                 Issue bug = new Issue();
