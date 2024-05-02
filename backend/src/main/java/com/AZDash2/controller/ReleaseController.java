@@ -31,10 +31,11 @@ public class ReleaseController {
     @GetMapping("/release/{id}")
     public ResponseEntity<Release> getReleaseById(@PathVariable Long id) {
         Release release;
-        try {
-            release = releaseService.getReleaseById(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        release = releaseService.getReleaseById(id);
+
+        if (release == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(release, HttpStatus.OK);
