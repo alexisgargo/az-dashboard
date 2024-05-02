@@ -67,18 +67,5 @@ public class DBIssueController {
     
         return new ResponseEntity<>(counts, HttpStatus.OK);
     }
-    @GetMapping("/team-progress")
-    public ResponseEntity<List<ReleaseHistorical>> getProgressReleases() {
-        try {
-            List<ReleaseHistorical> progressReleases = issueService.getAndSaveProgressReleases(null);
-            if (progressReleases.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(progressReleases);
-        } catch (Exception e) {
-            // Manejo de la excepción
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
 
 }

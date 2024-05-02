@@ -1,5 +1,4 @@
 package com.AZDash2.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +10,10 @@ import com.AZDash2.entity.ReleaseHistorical;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,7 +22,8 @@ public class ReleaseHistoricalController {
     Logger logger = LoggerFactory.getLogger(IssueController.class);
 
     @Autowired
-    private ReleaseHistoricalService releaseHistoricalService;
+    ReleaseHistoricalService releaseHistoricalService;
+
 
     @GetMapping("/historical/{date}/{idRelease}")
     public ResponseEntity<ReleaseHistorical> getIssuesByDateAndRelease(@PathVariable("date") Date date,
@@ -55,5 +54,18 @@ public class ReleaseHistoricalController {
         }
 
         return new ResponseEntity<>(teamProgress, HttpStatus.OK);
+    }
+    @GetMapping("/team-progress")
+    public ResponseEntity<List<ReleaseHistorical>> getProgressReleases() {
+        try {
+            List<ReleaseHistorical> progressReleases = releaseHistoricalService.getAndSaveProgressReleases(null);
+            if (progressReleases.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(progressReleases);
+        } catch (Exception e) {
+            // Manejo de la excepción
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

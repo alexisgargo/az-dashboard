@@ -1,5 +1,4 @@
 package com.AZDash2.service;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
@@ -9,27 +8,34 @@ import org.springframework.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
+import com.AZDash2.entity.Release;
 import com.AZDash2.entity.ReleaseHistorical;
 import com.AZDash2.repository.ReleaseHistoricalRepository;
+import com.AZDash2.repository.ReleaseRepository;
 
 @Service
 public class ReleaseHistoricalService {
-
+    private static final Logger loggger = LoggerFactory.getLogger(ReleaseHistoricalService.class);
+    private ReleaseRepository releaseRepository;
     @Autowired
     private ReleaseHistoricalRepository releaseHistoricalRepository;
+
+    
 
     public Optional<ReleaseHistorical> getIssuesByDateAndRelease(Date date, Long idRelease) {
         return releaseHistoricalRepository.findByDateBeforeAndIdRelease(date, idRelease).stream().findFirst();
@@ -85,6 +91,37 @@ public class ReleaseHistoricalService {
         }
         
         return teamProgress;
+    }
+       @Autowired
+    public void SaveTeamProgressService(ReleaseRepository releaseRepository, 
+                            ReleaseHistoricalRepository releaseHistoricalRepository) {
+        this.releaseRepository = releaseRepository;
+        this.releaseHistoricalRepository = releaseHistoricalRepository;
+        
+    }
+    public List<ReleaseHistorical> getAndSaveProgressReleases(String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
+        List<Release> releases = releaseRepository.findByStatus("progress");
+        List<ReleaseHistorical> progressReleases = new ArrayList<>();
+
+        for (Release release : releases) {
+            String version = release.getVersion();
+            try {
+                ReleaseHistorical teamProgress = getProgressByVersion(version, release.getName());
+                if (teamProgress != null) {
+                    teamProgress.setRecordDate(Date.valueOf(LocalDate.now()));
+                    teamProgress.setRecordTime(Time.valueOf(LocalTime.now()));
+                    teamProgress.setRelease(release);  
+
+                    releaseHistoricalRepository.save(teamProgress);
+                    progressReleases.add(teamProgress);
+                } else {
+                    loggger.error("No progress data found for version: {} and name: {}", version, release.getName());
+                }
+            } catch (Exception e) {
+                loggger.error("Error saving progress for version: {} and name: {}", version, release.getName(), e);
+            }
+        }
+        return progressReleases;
     }
 
 }
