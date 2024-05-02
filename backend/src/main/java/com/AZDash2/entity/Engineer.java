@@ -5,6 +5,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "release_engineers")
@@ -12,26 +14,30 @@ public class Engineer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_engineer;
+
+    @NotNull(message = "Name is mandatory")
+    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
     private String name;
+
+    public Engineer(Long id_engineer) {
+        this.id_engineer = id_engineer;
+    }
+
+    public Engineer(Long id_engineer,
+            @NotNull(message = "Name is mandatory") @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters") String name) {
+        this.id_engineer = id_engineer;
+        this.name = name;
+    }
 
     public Engineer() {
     }
 
-    public Engineer(Long id, String name) {
-        this.id_engineer = id;
-        this.name = name;
-    }
-
-    public Engineer(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
+    public Long getId_engineer() {
         return id_engineer;
     }
 
-    public void setId(Long id) {
-        this.id_engineer = id;
+    public void setId_engineer(Long id_engineer) {
+        this.id_engineer = id_engineer;
     }
 
     public String getName() {
@@ -41,4 +47,5 @@ public class Engineer {
     public void setName(String name) {
         this.name = name;
     }
-}
+
+    }

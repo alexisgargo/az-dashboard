@@ -3,46 +3,95 @@ package com.AZDash2.entity;
 import java.sql.Date;
 import java.sql.Time;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "issues")
 public class Issue {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @NotNull(message = "Issue number is mandatory")
+    @Size(min = 1, max = 50, message = "Issue number must be between 1 and 50 characters")
     private String issue_number;
+
+    @NotNull(message = "Issue status is mandatory")
+    @Size(min = 1, max = 50, message = "Issue status must be between 1 and 50 characters")
     private String issue_status;
-    private String issue_description;
+
+    @NotNull(message = "Issue summary is mandatory")
+    @Size(min = 1, max = 140, message = "Issue summary must be between 1 and 140 characters")
     private String issue_summary;
+
+    @NotNull(message = "Created by is mandatory")
+    @Size(min = 1, max = 50, message = "Created by must be between 1 and 50 characters")
     private String created_by;
+
+    @NotNull(message = "Feature is mandatory")
+    @Column(columnDefinition = "BIT(1)")
+    private boolean is_feature;
+
+    @NotNull(message = "Creation date is mandatory")
+    @Size(min = 1, max = 50, message = "Creation date must be between 1 and 50 characters")
     private String creation_date;
-    private String updates; //last comment in jira on given issue
+
+    @Size(min = 1, max = 140, message = "Updates must be between 1 and 140 characters")
+    private String updates; // last comment in jira on given issue
+
+    @NotNull(message = "Assignee is mandatory")
+    @Size(min = 1, max = 50, message = "Assignee must be between 1 and 50 characters")
     private String assignee;
+
+    @NotNull(message = "Environment is mandatory")
+    @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters")
     private String environment;
-    private String version;
     
 
     @ManyToOne
     @JoinColumn(name = "id_release")
+    @NotNull(message = "Release is mandatory")
     private Release release;
 
+    @NotNull(message = "Record date is mandatory")
+    @PastOrPresent(message = "Record date must be in the past or present")
     private Date record_date;
 
+    @NotNull(message = "Record time is mandatory")
+    @PastOrPresent(message = "Record time must be in the past or present")
     private Time record_time;
 
-    public Issue(String issue_number, String issue_status, String issue_description,String issue_summary,  String created_by,String creation_date, String updates,String version,String assignee, String environment, Release release, Date record_date,
-            Time record_time) {
+    private String close_date;
+
+    public Issue(
+            @NotNull(message = "Issue number is mandatory") @Size(min = 1, max = 50, message = "Issue number must be between 1 and 50 characters") String issue_number,
+            @NotNull(message = "Issue status is mandatory") @Size(min = 1, max = 50, message = "Issue status must be between 1 and 50 characters") String issue_status,
+            @NotNull(message = "Issue summary is mandatory") @Size(min = 1, max = 140, message = "Issue summary must be between 1 and 140 characters") String issue_summary,
+            @NotNull(message = "Created by is mandatory") @Size(min = 1, max = 50, message = "Created by must be between 1 and 50 characters") String created_by,
+            @NotNull(message = "Feature is mandatory") boolean is_feature,
+            @NotNull(message = "Creation date is mandatory") @Size(min = 1, max = 50, message = "Creation date must be between 1 and 50 characters") String creation_date,
+            @Size(min = 1, max = 140, message = "Updates must be between 1 and 140 characters") String updates,
+            @NotNull(message = "Assignee is mandatory") @Size(min = 1, max = 50, message = "Assignee must be between 1 and 50 characters") String assignee,
+            @NotNull(message = "Environment is mandatory") @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters") String environment,
+            @NotNull(message = "Release is mandatory") Release release,
+            @NotNull(message = "Record date is mandatory") @PastOrPresent(message = "Record date must be in the past or present") Date record_date,
+            @NotNull(message = "Record time is mandatory") @PastOrPresent(message = "Record time must be in the past or present") Time record_time,
+            String close_date) {
         this.issue_number = issue_number;
         this.issue_status = issue_status;
-        this.issue_description = issue_description;
-        this.release = release;
-        this.record_date = record_date;
-        this.record_time = record_time;
         this.issue_summary = issue_summary;
         this.created_by = created_by;
+        this.is_feature = is_feature;
         this.creation_date = creation_date;
         this.updates = updates;
         this.assignee = assignee;
         this.environment = environment;
+        this.release = release;
+        this.record_date = record_date;
+        this.record_time = record_time;
+        this.is_feature = is_feature;
+        this.close_date = close_date;
+
     }
 
     public Issue() {
@@ -64,38 +113,6 @@ public class Issue {
         this.issue_status = issue_status;
     }
 
-    public String getIssue_description() {
-        return issue_description;
-    }
-
-    public void setIssue_description(String issue_description) {
-        this.issue_description = issue_description;
-    }
-
-    public Release getRelease() {
-        return release;
-    }
-
-    public void setRelease(Release release) {
-        this.release = release;
-    }
-
-    public Date getRecord_date() {
-        return record_date;
-    }
-
-    public void setRecord_date(Date record_date) {
-        this.record_date = record_date;
-    }
-
-    public Time getRecord_time() {
-        return record_time;
-    }
-
-    public void setRecord_time(Time record_time) {
-        this.record_time = record_time;
-    }
-
     public String getIssue_summary() {
         return issue_summary;
     }
@@ -111,7 +128,15 @@ public class Issue {
     public void setCreated_by(String created_by) {
         this.created_by = created_by;
     }
-   
+
+    public boolean isIs_feature() {
+        return is_feature;
+    }
+
+    public void setIs_feature(boolean is_feature) {
+        this.is_feature = is_feature;
+    }
+
     public String getCreation_date() {
         return creation_date;
     }
@@ -143,25 +168,12 @@ public class Issue {
     public void setEnvironment(String environment) {
         this.environment = environment;
     }
-    
-    public void setDescription(String issue_description) {
-        this.issue_description = issue_description;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
 
 
     @Override
     public String toString() {
-        return "Issue [issue_number=" + issue_number + ", issue_status=" + issue_status + ", issue_description="
-                + issue_description + ", issue_summary=" + issue_summary + ", created_by=" + created_by
-                + ", creation_date=" + creation_date + ", updates=" + updates + ", version=" + version + ", assignee="
+        return "Issue [issue_number=" + issue_number + ", issue_status=" + issue_status + ", issue_summary=" + issue_summary + ", created_by=" + created_by
+                + ", creation_date=" + creation_date + ", updates=" + updates + ", assignee="
                 + assignee + ", environment=" + environment + ", release=" + release + ", record_date=" + record_date
                 + ", record_time=" + record_time + "]";
     }
@@ -172,12 +184,10 @@ public class Issue {
         int result = 1;
         result = prime * result + ((issue_number == null) ? 0 : issue_number.hashCode());
         result = prime * result + ((issue_status == null) ? 0 : issue_status.hashCode());
-        result = prime * result + ((issue_description == null) ? 0 : issue_description.hashCode());
         result = prime * result + ((issue_summary == null) ? 0 : issue_summary.hashCode());
         result = prime * result + ((created_by == null) ? 0 : created_by.hashCode());
         result = prime * result + ((creation_date == null) ? 0 : creation_date.hashCode());
         result = prime * result + ((updates == null) ? 0 : updates.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
         result = prime * result + ((assignee == null) ? 0 : assignee.hashCode());
         result = prime * result + ((environment == null) ? 0 : environment.hashCode());
         result = prime * result + ((release == null) ? 0 : release.hashCode());
@@ -205,11 +215,6 @@ public class Issue {
                 return false;
         } else if (!issue_status.equals(other.issue_status))
             return false;
-        if (issue_description == null) {
-            if (other.issue_description != null)
-                return false;
-        } else if (!issue_description.equals(other.issue_description))
-            return false;
         if (issue_summary == null) {
             if (other.issue_summary != null)
                 return false;
@@ -229,11 +234,6 @@ public class Issue {
             if (other.updates != null)
                 return false;
         } else if (!updates.equals(other.updates))
-            return false;
-        if (version == null) {
-            if (other.version != null)
-                return false;
-        } else if (!version.equals(other.version))
             return false;
         if (assignee == null) {
             if (other.assignee != null)

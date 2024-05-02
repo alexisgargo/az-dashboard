@@ -47,7 +47,7 @@ public class ReleaseHistorical {
     @Column(precision = 10, scale = 0)
     private BigDecimal percent_pt;
 
-    public ReleaseHistorical(String version, Long id_release_historical,
+    public ReleaseHistorical(Long id_release_historical,
             @NotNull(message = "Release is mandatory") Release release,
             @NotNull(message = "Record date is mandatory") @PastOrPresent(message = "Record date must be in the past or present") Date recordDate,
             @NotNull(message = "Record time is mandatory") @PastOrPresent(message = "Record time must be in the past or present") Time recordTime,
