@@ -50,10 +50,10 @@ public class DBIssueService {
         Map<String, Long> counts = new HashMap<>();
     
         long ticketCount = issueRepository.countTicketByDateAndIdReleaseAndTime(date, idRelease, latestTime);
-        counts.put("Issue_Count", ticketCount);
+        counts.put("issues", ticketCount);
     
         long bugCount = issueRepository.countBugByDateAndIdReleaseAndTime(date, idRelease, latestTime);
-        counts.put("Bug_Count", bugCount);
+        counts.put("bugs", bugCount);
     
         return counts;
     }

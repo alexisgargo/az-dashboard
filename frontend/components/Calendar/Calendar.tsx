@@ -7,13 +7,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Button } from '@nextui-org/button';
 
-export default function DateCalendarValue(setDate: any) {
+
+export default function DateCalendarValue({setDate = (date: string) => {}}) {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs()); 
 
   const handleDateChange = (newValue: Dayjs | null) => {
     setValue(newValue);
-  
-    setDate(newValue);
+
+    setDate(dayjs(newValue).format('YYYY-MM-DD'));
+    console.log("Selected Date: ", newValue);
 
   };
   
