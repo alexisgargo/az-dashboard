@@ -2,13 +2,15 @@ package com.AZDash2.entity;
 
 import java.sql.Date;
 import java.sql.Time;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "issues")
 public class Issue {
-
+    @Schema(description = "Issue ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -16,38 +18,46 @@ public class Issue {
     @Size(min = 1, max = 50, message = "Issue number must be between 1 and 50 characters")
     private String issue_number;
 
+    @Schema(description = "Issue status")
     @NotNull(message = "Issue status is mandatory")
     @Size(min = 1, max = 50, message = "Issue status must be between 1 and 50 characters")
     private String issue_status;
 
+    @Schema(description = "Issue summary")
     @NotNull(message = "Issue summary is mandatory")
     @Size(min = 1, max = 140, message = "Issue summary must be between 1 and 140 characters")
     private String issue_summary;
 
+    @Schema(description = "Issue creator")
     @NotNull(message = "Created by is mandatory")
     @Size(min = 1, max = 50, message = "Created by must be between 1 and 50 characters")
     private String created_by;
 
+    @Schema(description = "Is it a feature or not")
     @NotNull(message = "Feature is mandatory")
     @Column(columnDefinition = "BIT(1)")
     private boolean is_feature;
 
+    @Schema(description = "Date of Issue creation")
     @NotNull(message = "Creation date is mandatory")
     @Size(min = 1, max = 50, message = "Creation date must be between 1 and 50 characters")
     private String creation_date;
 
+    @Schema(description = "Last comment in Jira on this issue")
     @Size(min = 1, max = 140, message = "Updates must be between 1 and 140 characters")
     private String updates; // last comment in jira on given issue
 
+    @Schema(description = "Who is working on this issue")
     @NotNull(message = "Assignee is mandatory")
     @Size(min = 1, max = 50, message = "Assignee must be between 1 and 50 characters")
     private String assignee;
 
+    @Schema(description = "Where was this issue found")
     @NotNull(message = "Environment is mandatory")
     @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters")
     private String environment;
     
-
+    @Schema(description = "Issue belongs to this release")
     @ManyToOne
     @JoinColumn(name = "id_release")
     @NotNull(message = "Release is mandatory")

@@ -72,8 +72,6 @@ public class IssueService {
             JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
             String created_by = creatorObject.get("displayName").getAsString();
             String creation_date = fieldsObject.get("created").getAsString();
-            String description = fieldsObject.has("description") ? fieldsObject.get("description").getAsString() : "No description available";
-            
             
 
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
