@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.AZDash2.service.DBIssueService;
 import jakarta.validation.Valid;
 import com.AZDash2.entity.Issue;
-import com.AZDash2.entity.ReleaseHistorical;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.sql.Date;
 import java.util.HashMap;
