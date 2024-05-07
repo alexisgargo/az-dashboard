@@ -11,6 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import com.AZDash2.entity.Engineer;
 import java.util.List;
 
@@ -20,7 +27,14 @@ public class EngineerController {
     @Autowired
     EngineerService engineerService;
 
-    @GetMapping("/engineers")
+    @Operation(summary = "Get all the Engineers")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All Engineers found", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Engineer.class)))
+            }),
+            @ApiResponse(responseCode = "404", description = "Engineers not found", content = @Content)
+    })
+    @GetMapping(value = "/engineers", produces = "application/json")
     public ResponseEntity<List<Engineer>> getEngineers() {
         try {
             List<Engineer> inges = engineerService.getEngineers();
