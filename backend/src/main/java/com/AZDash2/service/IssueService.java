@@ -15,9 +15,9 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonArray;
@@ -54,10 +54,15 @@ public class IssueService {
         logger.debug("Response Http Status {}", response.statusCode());
         logger.debug("Response Body {}", response.body());
 
+        return processHttpResponse(response);
+    }
+    
+    private List<Issue> processHttpResponse(HttpResponse<String> response) {
+
         JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
         JsonArray allIssues = issueJson.getAsJsonArray("issues");
         List<Issue> issues = new ArrayList<>();
-
+    
         for (JsonElement issueElement : allIssues) {
             Issue issue = new Issue();
             JsonObject issueObject = issueElement.getAsJsonObject();
@@ -67,8 +72,6 @@ public class IssueService {
             JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
             String created_by = creatorObject.get("displayName").getAsString();
             String creation_date = fieldsObject.get("created").getAsString();
-            String description = fieldsObject.has("description") ? fieldsObject.get("description").getAsString() : "No description available";
-            
             
 
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
@@ -131,9 +134,9 @@ public class IssueService {
             logger.debug("Response Http Status {}", response.statusCode());
             logger.debug("Response Body {}", response.body());
 
-            JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
-            JsonArray allBugs = issueJson.getAsJsonArray("issues");
-            List<Issue> bugs = new ArrayList<>();
+        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
+        JsonArray allBugs = issueJson.getAsJsonArray("issues");
+        List<Issue> bugs = new ArrayList<>();
 
             for (JsonElement issueElement : allBugs) {
                 Issue bug = new Issue();
