@@ -17,6 +17,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.AZDash2.entity.Release;
 import com.AZDash2.service.ReleaseService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import com.AZDash2.repository.AdminRepository;
 import com.AZDash2.entity.Admin;
 import com.AZDash2.repository.EngineerRepository;
@@ -28,6 +36,16 @@ public class ReleaseController {
     @Autowired
     ReleaseService releaseService;
 
+    @Operation(summary = "Get a specific release given its id", description = "Get a specific release given its id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Release was found",
+            content = { @Content(
+                mediaType = "application/json", 
+                array = @ArraySchema(schema = @Schema(implementation = Release.class))
+            ) }),
+        @ApiResponse(responseCode = "404", description = "Release not found",
+            content = @Content)
+    })
     @GetMapping("/release/{id}")
     public ResponseEntity<Release> getReleaseById(@PathVariable Long id) {
         Release release;
@@ -40,14 +58,27 @@ public class ReleaseController {
 
         return new ResponseEntity<>(release, HttpStatus.OK);
     }
+    
     @Autowired
     AdminRepository adminRepository;
 
     @Autowired
     EngineerRepository engineerRepository;
 
+    @Operation(summary = "Save a release", description = "Save a release")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Release was saved",
+            content = { @Content(
+                mediaType = "application/json", 
+                schema = @Schema(implementation = Release.class)
+            ) }),
+        @ApiResponse(responseCode = "404", description = "Admin or Engineer not found",
+            content = @Content),
+        @ApiResponse(responseCode = "500", description = "An error occurred while processing the request",
+            content = @Content)
+    })
     @PostMapping("/release")
-    public ResponseEntity<Release> guardarRelease(@Valid @RequestBody Release release) {
+    public ResponseEntity<Release> saveRelease(@Valid @RequestBody Release release) {
         try {
             Optional<Admin> AdminOptional = adminRepository.findById(release.getAdmin().getId_admin());
             Optional<Engineer> EngineerOptional = engineerRepository.findById(release.getEngineer().getId_engineer());
