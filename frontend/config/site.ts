@@ -8,6 +8,7 @@ export const siteConfig = {
 			label: "Home",
 			href: "/",
 		},
+		
     {
       label: "Docs",
       href: "/docs",
@@ -58,6 +59,12 @@ export const siteConfig = {
 			label: "Logout",
 			href: "/logout",
 		},
+
+		{
+			label: "Login",  
+			href: "/login",  
+		},
+		
 	],
 	links: {
 		github: "https://github.com/nextui-org/nextui",
