@@ -1,4 +1,5 @@
 package com.AZDash2.service;
+
 import com.AZDash2.entity.Issue;
 
 import java.io.IOException;
@@ -27,25 +28,29 @@ import com.google.gson.JsonParser;
 @Service
 public class IssueService {
     Logger logger = LoggerFactory.getLogger(IssueService.class);
-    
+
     @Value("${jira.api.url}")
     private String jiraApiUrl;
 
     @Value("${jira.api.token}")
     private String jiraApiToken;
 
-    @Autowired
-    HttpClient client;
-
-    public List<Issue>  getIssues(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
+    /*
+     * Gets all ISSUES' specified information.
+     */
+    public List<Issue> getIssues(String projectIdOrKey, String versionGiven)
+            throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment"))
-        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
-        .GET()
-        .build();
+                .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~"
+                        + versionGiven + "%20AND%20project=" + projectIdOrKey
+                        + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment"))
+                .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+                .GET()
+                .build();
 
         HttpResponse<String> response = client.send(request,
-        HttpResponse.BodyHandlers.ofString());
+                HttpResponse.BodyHandlers.ofString());
         logger.debug("Response Http Status {}", response.statusCode());
         logger.debug("Response Body {}", response.body());
 
@@ -67,27 +72,25 @@ public class IssueService {
             JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
             String created_by = creatorObject.get("displayName").getAsString();
             String creation_date = fieldsObject.get("created").getAsString();
-            String description = fieldsObject.has("description") ? fieldsObject.get("description").getAsString() : "No description available";
-            
             
 
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
             JsonArray allcomments = commentsObject.getAsJsonArray("comments");
-        
+
             String lastComment = "";
-            
+
             for (JsonElement commentElement : allcomments) {
                 JsonObject commentObject = commentElement.getAsJsonObject();
-                
+
                 if (!commentObject.get("body").getAsString().toString().equals("null")) {
                     lastComment = commentObject.get("body").getAsString();
                     issue.setUpdates(lastComment);
-                    
+
                 } else {
                     issue.setUpdates("No comment yet");
                 }
             }
-    
+
             if (!fieldsObject.get("assignee").toString().equals("null")) {
                 JsonObject assigneeObject = fieldsObject.getAsJsonObject("assignee");
                 String displayName = assigneeObject.get("displayName").getAsString();
@@ -102,16 +105,16 @@ public class IssueService {
             } else {
                 issue.setIssue_status("Unfinished");
             }
-            
+
             issue.setIssue_number(issue_number);
             issue.setIssue_summary(issue_summary);
             issue.setCreated_by(created_by);
             issue.setCreation_date(creation_date);
-            issue.setDescription(description);
             issues.add(issue);
 
 
         }
+
         return issues;
     }
 
@@ -147,15 +150,15 @@ public class IssueService {
 
             JsonObject environmentObject = fieldsObject.getAsJsonObject("customfield_10055");
             String environment = environmentObject.get("value").getAsString();
-            
+
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
             JsonArray allcomments = commentsObject.getAsJsonArray("comments");
-        
+
             String lastComment = "";
-            
+
             for (JsonElement commentElement : allcomments) {
                 JsonObject commentObject = commentElement.getAsJsonObject();
-                
+
                 if (!commentObject.get("body").getAsString().toString().equals("null")) {
                     lastComment = commentObject.get("body").getAsString();
                     bug.setUpdates(lastComment);
@@ -178,7 +181,7 @@ public class IssueService {
             } else {
                 bug.setIssue_status("Unfinished");
             }
-            
+
             bug.setIssue_number(issue_number);
             bug.setIssue_summary(issue_summary);
             bug.setCreated_by(created_by);
@@ -187,7 +190,7 @@ public class IssueService {
             bugs.add(bug);
 
         }
-        
+
         return bugs;
     }
 
@@ -220,11 +223,10 @@ public class IssueService {
         String bugAmountStr = bugsJson.get("total").getAsString();
         Long issueNumber = Long.parseLong(issueAmountStr);
         Long Bugnumber = Long.parseLong(bugAmountStr);
-        amount.put("Bugs:",Bugnumber);
-        amount.put("Issues:",issueNumber);
+        amount.put("bugs",Bugnumber);
+        amount.put("issues",issueNumber);
         return amount;
 
     }
 
 }
-

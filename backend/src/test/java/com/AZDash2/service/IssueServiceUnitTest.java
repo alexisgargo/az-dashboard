@@ -55,20 +55,34 @@ public class IssueServiceUnitTest {
         String versionGiven = "2.2.2";
         
         List<Issue> expectedIssues = List.of(
+
+        /*
+        "issue_number": "DAS-24",
+        "issue_status": "2024-04-11T18:03:33.444-0600",
+        "issue_summary": "Subir codigo a git de nuestro equipo",
+        "created_by": "Ignacio Soto",
+        "is_feature": false,
+        "creation_date": "2024-04-09T09:36:42.597-0600",
+        "updates": null,
+        "assignee": "Ignacio Soto",
+        "environment": null
+        */
+         
             new Issue(
             "DAS-24",
             "2024-04-11T18:03:33.444-0600",
-            "No description available",
             "Subir codigo a git de nuestro equipo",
             "Ignacio Soto",
+            false,
             "2024-04-09T09:36:42.597-0600",
             null,
-            "2.2.2",
             "Ignacio Soto",
             null,
             null,
             null,
-            null)
+            null,
+            null
+            ) 
         );
 
 

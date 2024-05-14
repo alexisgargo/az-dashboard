@@ -1,12 +1,45 @@
-import { Dayjs } from 'dayjs'; 
-import axios from 'axios';
+import { release, releaseProgress, issueCount } from "./release.types";
 
-const getIssues = async (date: Dayjs, id_release: string) => {
-    try {
-      const response = await axios.get(`http://localhost:8080/az_dashboard/issues/${date.format('YYYY-MM-DD')}/${id_release}`);
-      console.log(response.data);
-    //   return response.data
-    } catch (error) {
-      console.error('Error fetching issues:', error);
-    }
-  };
+const API_URL = "http://localhost:8080/";
+
+export async function getRelease(id: number): Promise<release> {
+    const res = await fetch(`${API_URL}az_dashboard/release/${id}`);
+    const data = await res.json();
+    // console.log(data);
+    return data;
+}
+
+export async function getProgress(
+    project: string,
+    version: string
+): Promise<releaseProgress> {
+    // console.log(`project: ${project}, version: ${version}`);
+    // console.log(`${API_URL}/progress/${project}/${version}`);
+    const res = await fetch(
+        `${API_URL}az_dashboard/progress/${project}/${version}`
+    );
+    const data = await res.json();
+    // console.log(data);
+    return data;
+}
+
+export async function getIssueCount(project: string): Promise<issueCount> {
+    const res = await fetch(`${API_URL}count/${project}`);
+    const data = await res.json();
+    console.log(data);
+    return data;
+}
+
+export async function getHistoricalProgress(date: string, idRelease: number): Promise<releaseProgress> {
+    const res = await fetch(`${API_URL}az_dashboard/historical/${date}/${idRelease}`);
+    const data = await res.json();
+    console.log(data);
+    return data;
+}
+
+export async function getHistoricalIssueCount(date: string, idRelease: number): Promise<issueCount> {
+    const res = await fetch(`${API_URL}az_dashboard/issues/count/${date}/${idRelease}`);
+    const data = await res.json();
+    console.log(data);
+    return data;
+}
