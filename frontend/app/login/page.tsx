@@ -16,7 +16,7 @@ export default function LoginPage() {
     };
 
     return (
-        <LoginLayout>
+        <div>
             <h1 className={title()}>Iniciar Sesión</h1>
             <UsernameInput />
             <PasswordInput />
@@ -24,6 +24,6 @@ export default function LoginPage() {
                 <LoginButton onClick={handleLoginClick} />
                 <CancelButton onClick={handleCancelClick} />
             </div>
-        </LoginLayout>
+        </div>
     );
 }
