@@ -1,17 +1,26 @@
 package com.AZDash2;
 
+import java.net.http.HttpClient;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+@EnableScheduling
 public class AzDash2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AzDash2Application.class, args);
 	}
+
+	@Bean
+	public HttpClient httpClient() {
+        return HttpClient.newHttpClient();
+    }
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
