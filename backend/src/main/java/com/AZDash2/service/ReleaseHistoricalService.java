@@ -32,130 +32,142 @@ import com.AZDash2.repository.ReleaseRepository;
 
 @Service
 public class ReleaseHistoricalService {
-    private static final Logger loggger = LoggerFactory.getLogger(ReleaseHistoricalService.class);
-    private ReleaseRepository releaseRepository;
-    @Autowired
-    private ReleaseHistoricalRepository releaseHistoricalRepository;
+  private ReleaseRepository releaseRepository;
+  @Autowired
+  private ReleaseHistoricalRepository releaseHistoricalRepository;
 
-    
+  public Optional<ReleaseHistorical> getIssuesByDateAndRelease(Date date, Long idRelease) {
+    return releaseHistoricalRepository.findByDateAndIdRelease(date, idRelease).stream().findFirst();
+  }
 
-    public Optional<ReleaseHistorical> getIssuesByDateAndRelease(Date date, Long idRelease) {
-        return releaseHistoricalRepository.findByDateBeforeAndIdRelease(date, idRelease).stream().findFirst();
-    }
+  public Optional<ReleaseHistorical> getProgressByDateAndRelease(Date date, Long idRelease) {
+    return releaseHistoricalRepository.findByDateAfterAndReleaseIdOrderByRecordDateDescRecordTimeDesc(date, idRelease)
+        .stream().findFirst();
+  }
 
-    ////
-    Logger logger = LoggerFactory.getLogger(IssueService.class);
-    @Value("${jira.api.url}")
-    private String jiraApiUrl;
+  ////
+  Logger logger = LoggerFactory.getLogger(IssueService.class);
+  @Value("${jira.api.url}")
+  private String jiraApiUrl;
 
-    @Value("${jira.api.token}")
-    private String jiraApiToken;
+  @Value("${jira.api.token}")
+  private String jiraApiToken;
 
-    /*
-     * Gets the  percent amount stated on Jira´s custom field "Progress" for all tickets of type "TeamProgress" and specified version
-     */
-    public ReleaseHistorical getProgressByVersion(String versionGiven, String projectIdOrKey) 
-    throws URISyntaxException, IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder() 
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&fields=customfield_10049,customfield_10048,value,customfield_10046"))
+  /*
+   * Gets the percent amount stated on Jira´s custom field "Progress" for all
+   * tickets of type "TeamProgress" and specified version
+   */
+  public ReleaseHistorical getProgressByVersion(String versionGiven, String projectIdOrKey)
+      throws URISyntaxException, IOException, InterruptedException {
+    HttpClient client = HttpClient.newHttpClient();
+    HttpRequest request = HttpRequest.newBuilder()
+        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~" + versionGiven
+            + "%20AND%20project=" + projectIdOrKey
+            + "&fields=customfield_10049,customfield_10048,value,customfield_10046"))
         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
         .GET()
         .build();
 
-        HttpResponse<String> response = client.send(request,
+    HttpResponse<String> response = client.send(request,
         HttpResponse.BodyHandlers.ofString());
-        logger.debug("Response Http Status {}", response.statusCode());
-        logger.debug("Response Body {}", response.body());
+    logger.debug("Response Http Status {}", response.statusCode());
+    logger.debug("Response Body {}", response.body());
 
-        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
-        JsonArray issues = issueJson.getAsJsonArray("issues");
+    JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
+    JsonArray issues = issueJson.getAsJsonArray("issues");
 
-        ReleaseHistorical teamProgress = new ReleaseHistorical();
-        for (JsonElement issueElement : issues) {
+    ReleaseHistorical teamProgress = new ReleaseHistorical();
+    for (JsonElement issueElement : issues) {
 
-            JsonObject issueObject = issueElement.getAsJsonObject();
-            JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
-            BigDecimal progress = fieldsObject.get("customfield_10049").getAsBigDecimal();
-            JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
-            String team = teamObject.get("value").getAsString();
+      JsonObject issueObject = issueElement.getAsJsonObject();
+      JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
+      BigDecimal progress = fieldsObject.get("customfield_10049").getAsBigDecimal();
+      JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
+      String team = teamObject.get("value").getAsString();
 
-            if (team.equals("QA")) {
-                teamProgress.setPercent_qa(progress);
-            } else if (team.equals("PT")) {
-                teamProgress.setPercent_pt(progress);
-            } else if (team.equals("3rd-Party")) {
-                teamProgress.setPercent_third_party(progress);;
-            } else if (team.equals("UAT")) {
-                teamProgress.setPercent_uat(progress);
+      if (team.equals("QA")) {
+        teamProgress.setPercent_qa(progress);
+      } else if (team.equals("PT")) {
+        teamProgress.setPercent_pt(progress);
+      } else if (team.equals("3rd-Party")) {
+        teamProgress.setPercent_third_party(progress);
+        ;
+      } else if (team.equals("UAT")) {
+        teamProgress.setPercent_uat(progress);
+      }
+
+    }
+
+    return teamProgress;
+  }
+
+  @Autowired
+  public void SaveTeamProgressService(ReleaseRepository releaseRepository,
+      ReleaseHistoricalRepository releaseHistoricalRepository) {
+    this.releaseRepository = releaseRepository;
+    this.releaseHistoricalRepository = releaseHistoricalRepository;
+  }
+
+  public List<ReleaseHistorical> getAndSaveProgressReleases(String projectIdOrKey)
+      throws URISyntaxException, IOException, InterruptedException {
+    List<Release> releases = releaseRepository.findByStatus("progress");
+    List<ReleaseHistorical> progressReleases = new ArrayList<>();
+
+    for (Release release : releases) {
+      String version = release.getVersion();
+      try {
+        ReleaseHistorical teamProgress = getProgressByVersion(version, release.getName());
+        if (teamProgress != null) {
+          LocalDate currentDate = LocalDate.now();
+          LocalTime currentTime = LocalTime.now();
+          teamProgress.setRecordDate(Date.valueOf(currentDate));
+          teamProgress.setRelease(release);
+          teamProgress.setRecordTime(Time.valueOf(currentTime)); // Establecer la hora actual para el registro
+
+          if (currentTime.equals(LocalTime.MIDNIGHT)) {
+            // Guardar el registro si es medianoche
+            logger.debug("Saving team progress at midnight for release: {}", release.getName());
+            releaseHistoricalRepository.save(teamProgress);
+            progressReleases.add(teamProgress);
+          } else {
+            // Si no es medianoche, actualizar el último registro para este release
+            logger.debug("Updating team progress for release: {}", release.getName());
+            List<ReleaseHistorical> lastRecords = releaseHistoricalRepository
+                .findTopByReleaseOrderByRecordDateDescRecordTimeDesc(release.getId_release());
+            if (!lastRecords.isEmpty()) {
+              ReleaseHistorical updateRecord = lastRecords.get(0); // Tomar el primer registro como el más reciente
+              updateRecord.setPercent_qa(teamProgress.getPercent_qa());
+              updateRecord.setPercent_uat(teamProgress.getPercent_uat());
+              updateRecord.setPercent_third_party(teamProgress.getPercent_third_party());
+              updateRecord.setPercent_pt(teamProgress.getPercent_pt());
+              updateRecord.setRecordDate(Date.valueOf(currentDate));
+              updateRecord.setRecordTime(Time.valueOf(currentTime));
+              releaseHistoricalRepository.save(updateRecord);
+              progressReleases.add(updateRecord);
+              logger.debug("Updated team progress for release: {}", release.getName());
+            } else {
+              // Si no hay registro previo, simplemente guardar este
+              logger.debug("No previous record found, saving new team progress for release: {}", release.getName());
+              releaseHistoricalRepository.save(teamProgress);
+              progressReleases.add(teamProgress);
             }
-
+          }
+        } else {
+          logger.error("No progress data found for version: {} and name: {}", version, release.getName());
         }
-        
-        return teamProgress;
+      } catch (Exception e) {
+        logger.error("Error saving progress for version: {} and name: {}", version, release.getName(), e);
+      }
     }
-    @Autowired
-    public void SaveTeamProgressService(ReleaseRepository releaseRepository, ReleaseHistoricalRepository releaseHistoricalRepository) {
-        this.releaseRepository = releaseRepository;
-        this.releaseHistoricalRepository = releaseHistoricalRepository;
-    }
-    public List<ReleaseHistorical> getAndSaveProgressReleases(String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
-        List<Release> releases = releaseRepository.findByStatus("progress");
-        List<ReleaseHistorical> progressReleases = new ArrayList<>();
+    return progressReleases;
+  }
 
-        for (Release release : releases) {
-            String version = release.getVersion();
-            try {
-                ReleaseHistorical teamProgress = getProgressByVersion(version, release.getName());
-                if (teamProgress != null) {
-                    LocalDate currentDate = LocalDate.now();
-                    LocalTime currentTime = LocalTime.now();
-                    teamProgress.setRecordDate(Date.valueOf(currentDate));
-                    teamProgress.setRelease(release);
-                    teamProgress.setRecordTime(Time.valueOf(currentTime)); // Establecer la hora actual para el registro
-
-                    if (currentTime.equals(LocalTime.MIDNIGHT)) {
-                        // Guardar el registro si es medianoche
-                        logger.debug("Saving team progress at midnight for release: {}", release.getName());
-                        releaseHistoricalRepository.save(teamProgress);
-                        progressReleases.add(teamProgress);
-                    } else {
-                        // Si no es medianoche, actualizar el último registro para este release
-                        logger.debug("Updating team progress for release: {}", release.getName());
-                        List<ReleaseHistorical> lastRecords = releaseHistoricalRepository.findTopByReleaseOrderByRecordDateDescRecordTimeDesc(release.getId_release());
-                        if (!lastRecords.isEmpty()) {
-                            ReleaseHistorical updateRecord = lastRecords.get(0); // Tomar el primer registro como el más reciente
-                            updateRecord.setPercent_qa(teamProgress.getPercent_qa());
-                            updateRecord.setPercent_uat(teamProgress.getPercent_uat());
-                            updateRecord.setPercent_third_party(teamProgress.getPercent_third_party());
-                            updateRecord.setPercent_pt(teamProgress.getPercent_pt());
-                            updateRecord.setRecordDate(Date.valueOf(currentDate));
-                            updateRecord.setRecordTime(Time.valueOf(currentTime));
-                            releaseHistoricalRepository.save(updateRecord);
-                            progressReleases.add(updateRecord);
-                            logger.debug("Updated team progress for release: {}", release.getName());
-                        } else {
-                            // Si no hay registro previo, simplemente guardar este
-                            logger.debug("No previous record found, saving new team progress for release: {}", release.getName());
-                            releaseHistoricalRepository.save(teamProgress);
-                            progressReleases.add(teamProgress);
-                        }
-                    }
-                } else {
-                    logger.error("No progress data found for version: {} and name: {}", version, release.getName());
-                }
-            } catch (Exception e) {
-                logger.error("Error saving progress for version: {} and name: {}", version, release.getName(), e);
-            }
-        }
-        return progressReleases;
+  @Scheduled(cron = "0 */5 * * * *", zone = "America/Chihuahua")
+  public void scheduledTask() {
+    try {
+      getAndSaveProgressReleases(jiraApiToken);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    @Scheduled(cron = "0 */5 * * * *", zone = "America/Chihuahua")
-    public void scheduledTask() {
-        try {
-            getAndSaveProgressReleases(jiraApiToken);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+  }
 }
