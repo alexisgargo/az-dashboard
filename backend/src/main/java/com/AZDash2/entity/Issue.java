@@ -13,6 +13,7 @@ public class Issue {
     @Schema(description = "Issue ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id_issue;
 
     @NotNull(message = "Issue number is mandatory")
     @Size(min = 1, max = 50, message = "Issue number must be between 1 and 50 characters")

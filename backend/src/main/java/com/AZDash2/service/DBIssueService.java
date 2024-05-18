@@ -1,19 +1,18 @@
 package com.AZDash2.service;
-
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.AZDash2.entity.Issue;
 import com.AZDash2.repository.IssueRepository;
 import java.sql.Time;
 
+
 @Service
 public class DBIssueService {
+
 
     @Autowired
     IssueRepository issueRepository;
@@ -43,5 +42,6 @@ public class DBIssueService {
     
         return counts;
     }
-
+    
 }
+
