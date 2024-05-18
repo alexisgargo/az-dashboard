@@ -1,9 +1,12 @@
 "use client"
-import React, { useState } from 'react';
+import React, { ChangeEvent } from 'react';
 
-const PasswordInput = () => {
-    const [password, setPassword] = useState('');
+interface PasswordInputProps {
+    value: string;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
 
+const PasswordInput: React.FC<PasswordInputProps> = ({ value, onChange }) => {
     return (
         <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
@@ -12,8 +15,8 @@ const PasswordInput = () => {
             <input
                 type="password"
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={value}
+                onChange={onChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Introduce tu contraseña"
             />
