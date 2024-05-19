@@ -27,7 +27,7 @@ public class ReleaseService {
         return releaseRepository.save(release);
     }
 
-    public Release updateRelease(Long idRelease, Release release) {
+    public int updateRelease(Long idRelease, Release release) {
         return releaseRepository.updateReleaseById(idRelease, release);
     }
 

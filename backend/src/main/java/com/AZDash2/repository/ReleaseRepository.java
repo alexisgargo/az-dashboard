@@ -22,8 +22,8 @@ public interface ReleaseRepository extends JpaRepository<Release, Long>{
            "r.curr_release_date = :#{#release.curr_release_date}, r.creation_date = :#{#release.creation_date}, " +
            "r.last_modification_date = :#{#release.last_modification_date}, r.is_hotfix = :#{#release.is_hotfix}, " +
            "r.status = :#{#release.status}, r.is_rollback = :#{#release.is_rollback}, r.release_note = :#{#release.release_note}, " +
-           "r.admin = :#{#release.admin}, r.engineer = :#{#release.engineer} " +
+           "r.engineer = :#{#release.engineer} " +
            "WHERE r.id_release = :idRelease")
-    Release updateReleaseById(Long idRelease, Release release);
+    int updateReleaseById(Long idRelease, Release release);
 }
 

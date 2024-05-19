@@ -129,16 +129,7 @@ public class ReleaseController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
     
-            // Update admin and engineer only if IDs are provided in the request body
-            if (releaseToUpdate.getAdmin() != null && releaseToUpdate.getAdmin().getId_admin() != null) {
-                Optional<Admin> adminOptional = adminRepository.findById(releaseToUpdate.getAdmin().getId_admin());
-                if (!adminOptional.isPresent()) {
-                    throw new ResponseStatusException(
-                            HttpStatus.NOT_FOUND, "Admin not found");
-                }
-                existingRelease.setAdmin(adminOptional.get());
-            }
-    
+            // Update engineer only if ID is different
             if (releaseToUpdate.getEngineer() != null && releaseToUpdate.getEngineer().getId_engineer() != null) {
                 Optional<Engineer> engineerOptional = engineerRepository.findById(releaseToUpdate.getEngineer().getId_engineer());
                 if (!engineerOptional.isPresent()) {
@@ -183,9 +174,12 @@ public class ReleaseController {
             }
 
             // Update the release using the service method
-            Release updatedRelease = releaseService.updateRelease(id, existingRelease);
+            int affectedRows = releaseService.updateRelease(id, existingRelease);
+            if (affectedRows == 0) {
+                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
 
-            return new ResponseEntity<>(updatedRelease, HttpStatus.OK);
+            return new ResponseEntity<>(existingRelease, HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
