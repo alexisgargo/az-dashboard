@@ -38,7 +38,7 @@ public class EngineerController {
     try {
       List<Engineer> inges = engineerService.getEngineers();
 
-      if (!inges.isEmpty()) {
+      if (inges.isEmpty()) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
 
