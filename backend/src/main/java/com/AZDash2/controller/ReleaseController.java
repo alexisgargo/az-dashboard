@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,20 +44,19 @@ public class ReleaseController {
       })
   @GetMapping("/release/{id}")
   public ResponseEntity<Release> getReleaseById(@PathVariable Long id) {
-    Release release;
     try {
-      release = releaseService.getReleaseById(id);
+      Release release = releaseService.getReleaseById(id);
+      return new ResponseEntity<>(release, HttpStatus.OK);
+    } catch (NoSuchElementException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    return new ResponseEntity<>(release, HttpStatus.OK);
   }
 
   @Autowired AdminRepository adminRepository;
 
-  @Autowired
-  EngineerRepository engineerRepository;
+  @Autowired EngineerRepository engineerRepository;
 
   @Operation(summary = "Save a Release")
   @ApiResponses(
