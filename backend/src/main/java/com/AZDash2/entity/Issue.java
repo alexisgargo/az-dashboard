@@ -131,36 +131,7 @@ public class Issue {
     public void setIssue_summary(String issue_summary) {
         this.issue_summary = issue_summary;
     }
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    private int id;
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    private String title;
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    private String description;
-
-    public Issue(int id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
     public String getCreated_by() {
         return created_by;
     }
