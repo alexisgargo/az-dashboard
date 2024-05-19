@@ -13,32 +13,37 @@ export async function getProgress(
     project: string,
     version: string
 ): Promise<releaseProgress> {
-    // console.log(`project: ${project}, version: ${version}`);
-    // console.log(`${API_URL}/progress/${project}/${version}`);
     const res = await fetch(
         `${API_URL}az_dashboard/progress/${project}/${version}`
     );
     const data = await res.json();
-    // console.log(data);
     return data;
 }
 
 export async function getIssueCount(project: string): Promise<issueCount> {
     const res = await fetch(`${API_URL}count/${project}`);
     const data = await res.json();
-    console.log(data);
     return data;
 }
 
-export async function getHistoricalProgress(date: string, idRelease: number): Promise<releaseProgress> {
-    const res = await fetch(`${API_URL}az_dashboard/historical/${date}/${idRelease}`);
+export async function getHistoricalProgress(
+    date: string,
+    idRelease: number
+): Promise<releaseProgress> {
+    const res = await fetch(
+        `${API_URL}az_dashboard/historical/${date}/${idRelease}`
+    );
     const data = await res.json();
-    console.log(data);
     return data;
 }
 
-export async function getHistoricalIssueCount(date: string, idRelease: number): Promise<issueCount> {
-    const res = await fetch(`${API_URL}az_dashboard/issues/count/${date}/${idRelease}`);
+export async function getHistoricalIssueCount(
+    date: string,
+    idRelease: number
+): Promise<issueCount> {
+    const res = await fetch(
+        `${API_URL}az_dashboard/issues/count/${date}/${idRelease}`
+    );
     const data = await res.json();
     console.log(data);
     return data;
