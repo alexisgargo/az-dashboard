@@ -2,6 +2,7 @@ package com.AZDash2.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -21,6 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.AZDash2.entity.Admin;
 import com.AZDash2.entity.Engineer;
@@ -81,6 +84,32 @@ public class ReleaseServiceTests {
 
     // then
     assertNull(actualRelease);
+  }
+
+  @Test
+  void testGetAllReleases() {
+      // given
+      Engineer engineer1 = new Engineer(1L, "Engineer Name");
+      Engineer engineer2 = new Engineer(2L, "Engineer Name 2");
+      Admin admin1 = new Admin(1L, "Admin Name", "abcd1234", Date.valueOf("2024-05-01"));
+      Admin admin2 = new Admin(2L, "Admin Name 2", "1234abcd", Date.valueOf("2024-05-01"));
+      Release release1 = new Release(1L, "nameExample", "labelExample", engineer2, admin1, Date.valueOf("2024-05-01"),
+          Date.valueOf("2024-05-01"), Date.valueOf("2024-05-25"), Date.valueOf("2024-05-25"), Date.valueOf("2024-05-01"),
+          true, "delayed", false, "noteExample");
+      Release release2 = new Release(2L, "nameExample2", "labelExample2", engineer1, admin2, Date.valueOf("2024-04-25"),
+          Date.valueOf("2024-04-25"), Date.valueOf("2024-05-15"), Date.valueOf("2024-05-15"), Date.valueOf("2024-04-25"),
+          false, "on track", true, "noteExample2");
+
+      List<Release> expectedReleases = List.of(release1,release2);
+      given(releaseRepository.findAll()).willReturn(expectedReleases);
+
+      // when
+      List<Release> actualReleases = releaseService.getReleases();
+
+      // then
+      assertEquals(2L, actualReleases.size());
+      assertEquals(expectedReleases.get(0), actualReleases.get(0));
+      assertEquals(expectedReleases.get(1), actualReleases.get(1));
   }
 
   @Test

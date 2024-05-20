@@ -70,6 +70,25 @@ public class ReleaseController {
     return new ResponseEntity<>(releaseHistoricals, HttpStatus.OK);
   }
 
+  @Operation(summary = "Get all releases",
+  description = "Get a list of all releases")
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Releases were found", 
+            content = {@Content(mediaType = "application/json", 
+                    array = @ArraySchema(schema = @Schema(implementation = Release.class)))}),
+    @ApiResponse(responseCode = "404", description = "Releases were not found")
+    })
+  @GetMapping("/releases")
+  public ResponseEntity<List<Release>> getAllReleases() {
+      List<Release> release = releaseService.getReleases();
+
+      if (release.isEmpty()) {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+
+      return new ResponseEntity<>(release, HttpStatus.OK);
+  }
+
   @Autowired
   AdminRepository adminRepository;
 

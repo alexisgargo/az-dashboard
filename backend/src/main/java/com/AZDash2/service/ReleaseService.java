@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.AZDash2.entity.Engineer;
 import com.AZDash2.entity.Release;
 import com.AZDash2.entity.ReleaseHistorical;
 import com.AZDash2.repository.ReleaseRepository;
@@ -41,6 +42,10 @@ public class ReleaseService {
 
     public int updateRelease(Long idRelease, Release release) {
         return releaseRepository.updateReleaseById(idRelease, release);
+    }
+
+    public List<Release> getReleases() {
+        return releaseRepository.findAll();
     }
 
 }
