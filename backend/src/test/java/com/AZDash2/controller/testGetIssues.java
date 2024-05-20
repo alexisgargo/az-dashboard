@@ -1,4 +1,4 @@
-package com.AZDash2.service;
+package com.AZDash2.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.AZDash2.controller.DBIssueController;
 
 import com.AZDash2.entity.Issue;
+import com.AZDash2.service.DBIssueService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
