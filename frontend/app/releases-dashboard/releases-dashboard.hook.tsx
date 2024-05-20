@@ -62,5 +62,5 @@ export default function useReleases() {
     setTotalProgress(totalsList)
   }, [releases]);
 
-  return { releases, totalProgress, setSelectedDate }
+  return { releases, totalProgress, chosenDate, setSelectedDate }
 }
