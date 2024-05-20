@@ -20,26 +20,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.AZDash2.entity.Release;
+import com.AZDash2.service.ReleaseService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import com.AZDash2.repository.AdminRepository;
+import com.AZDash2.entity.Admin;
+import com.AZDash2.repository.EngineerRepository;
+import com.AZDash2.entity.Engineer;
+
 @RestController
 @RequestMapping("az_dashboard")
 public class ReleaseController {
   @Autowired ReleaseService releaseService;
 
-  @Operation(summary = "Get a Release by its ID")
-  @ApiResponses(
-      value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Release found",
-            content = {
-              @Content(
-                  mediaType = "application/json",
-                  schema = @Schema(implementation = Release.class))
-            }),
-        @ApiResponse(responseCode = "404", description = "Release not found", content = @Content),
-        @ApiResponse(
-            responseCode = "500",
-            description = "Internal server error",
+    @Operation(summary = "Get a specific release given its id", description = "Get a specific release given its id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Release was found",
+            content = { @Content(
+                mediaType = "application/json", 
+                array = @ArraySchema(schema = @Schema(implementation = Release.class))
+            ) }),
+        @ApiResponse(responseCode = "404", description = "Release not found",
             content = @Content)
       })
   @GetMapping("/release/{id}")
