@@ -10,7 +10,7 @@ export default function adminMenuPage() {
                     Admin Menu
                 </h1>
                 </div>
-                <Spacer y={20} />
+                <Spacer y={10} />
                 <div>
                 <AdminMenuForm />
                 </div>

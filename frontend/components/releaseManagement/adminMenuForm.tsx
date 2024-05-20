@@ -4,20 +4,15 @@ import { Button } from "@nextui-org/button";
 import {Tabs, Tab} from "@nextui-org/tabs";
 import {Card, CardBody} from "@nextui-org/card";
 import { Select, SelectSection, SelectItem  } from "@nextui-org/select";
-
-import React, { useEffect } from "react";
-
-const releases = [
-  { id_release: 1, name: "DAS", version: "1.0" },
-  { id_release: 2, name: "ABC", version: "2.1" },
-  { id_release: 3, name: "XYZ", version: "3.2" },
-  { id_release: 4, name: "AZ", version: "4.0" },
-  { id_release: 5, name: "OPQ", version: "5.5" }
-];
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useReleaseList from "@/app/admin-menu/adminMenu.hook";
 
 export const AdminMenuForm = () => {
-  const [selectedTab, setSelectedTab] = React.useState("create");
-  const [selectedRelease, setSelectedRelease] = React.useState(null);
+  const [selectedTab, setSelectedTab] = useState("create");
+  const [selectedRelease, setSelectedRelease] = useState(null);
+  const { releaseList } = useReleaseList();
+  const router = useRouter(); 
 
   const handleSelectionChangeTab = (key: any) => {
     setSelectedTab(key);
@@ -29,6 +24,14 @@ export const AdminMenuForm = () => {
       setSelectedRelease(null) 
     }   
     else { setSelectedRelease(key) };
+  };
+
+  const handleCreatePress = () => {
+    router.push("/create-release"); 
+  };
+
+  const handleEditPress = () => {
+    router.push("/edit-release");
   };
 
   useEffect(() => {
@@ -54,6 +57,7 @@ export const AdminMenuForm = () => {
                   color="primary"
                   variant="shadow"
                   size="lg"
+                  onPress={handleCreatePress}
                   >
                     Create
                   </Button>
@@ -75,7 +79,7 @@ export const AdminMenuForm = () => {
                     <SelectSection 
                         aria-label="Single selection example"
                         >
-                        {releases.map((release) => (
+                        {releaseList.map((release) => (
                             <SelectItem 
                             key={release.id_release}
                             color="primary"
@@ -93,6 +97,7 @@ export const AdminMenuForm = () => {
                         variant="shadow"
                         size="lg"
                         isDisabled={!selectedRelease}
+                        onPress={handleEditPress}
                         >
                         Edit
                     </Button>
