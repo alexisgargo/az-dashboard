@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -22,6 +26,8 @@ import com.AZDash2.entity.Admin;
 import com.AZDash2.entity.Engineer;
 import com.AZDash2.entity.Release;
 import com.AZDash2.entity.ReleaseHistorical;
+import com.AZDash2.repository.AdminRepository;
+import com.AZDash2.repository.EngineerRepository;
 import com.AZDash2.repository.ReleaseRepository;
 
 @SpringBootTest
@@ -125,4 +131,68 @@ public class ReleaseServiceTests {
     // then
     assertEquals(new ArrayList<Long>(), actualReleases);
   }
+
+  @Mock
+  AdminRepository adminRepository;
+
+  @Mock
+  EngineerRepository engineerRepository;
+
+  @Test
+  void testSaveRelease() {
+    // given
+    Engineer engineer = new Engineer(1L, "John Doe");
+    Admin admin = new Admin(1L, "Jane Doe", "123", null); // Assuming no specific date is required for admin in this test
+    Release release = new Release(1L, "AZPRO", "1.0", engineer, admin, null, null, null, null, null, true,
+        "In Progress", true, "Release Note");
+    given(adminRepository.findById(admin.getId_admin())).willReturn(Optional.of(admin));
+    given(engineerRepository.findById(engineer.getId_engineer())).willReturn(Optional.of(engineer));
+    given(releaseRepository.save(any(Release.class))).willReturn(release);
+
+    // when
+    Release savedRelease = releaseService.saveRelease(release);
+
+    // then
+    assertEquals(release, savedRelease);
+  }
+
+  @Test
+  void testUpdateRelease() {
+      // Given
+      Long idRelease = 1L;
+      Release existingRelease = new Release();
+      existingRelease.setName("Old Name");
+      existingRelease.setVersion("Old Version");
+      existingRelease.setInit_release_date(Date.valueOf("2022-01-01"));
+      existingRelease.setCurr_release_date(Date.valueOf("2022-01-01"));
+      existingRelease.setCreation_date(Date.valueOf("2022-01-01"));
+      existingRelease.setLast_modification_date(Date.valueOf("2022-01-01"));
+      existingRelease.setIs_hotfix(false);
+      existingRelease.setStatus("Old Status");
+      existingRelease.setIs_rollback(false);
+      existingRelease.setRelease_note("Old Release Note");
+
+      Release updatedRelease = new Release();
+      updatedRelease.setName("New Name");
+      updatedRelease.setVersion("New Version");
+      updatedRelease.setInit_release_date(Date.valueOf("2023-01-01"));
+      updatedRelease.setCurr_release_date(Date.valueOf("2023-01-01"));
+      updatedRelease.setCreation_date(Date.valueOf("2023-01-01"));
+      updatedRelease.setLast_modification_date(Date.valueOf("2023-01-01"));
+      updatedRelease.setIs_hotfix(true);
+      updatedRelease.setStatus("New Status");
+      updatedRelease.setIs_rollback(true);
+      updatedRelease.setRelease_note("New Release Note");
+
+      // Mock the repository method
+      when(releaseRepository.updateReleaseById(any(Long.class), any(Release.class))).thenReturn(1);
+
+      // When
+      int affectedRows = releaseService.updateRelease(idRelease, updatedRelease);
+
+      // Then
+      assertEquals(1, affectedRows);
+      verify(releaseRepository).updateReleaseById(idRelease, updatedRelease);
+  }
+
 }
