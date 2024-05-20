@@ -100,7 +100,7 @@ public class ReleaseServiceTests {
         new BigDecimal(70));
     List<Optional<ReleaseHistorical>> expectedReleases = List.of(Optional.of(releaseHistorical1),
         Optional.of(releaseHistorical2));
-    given(releaseRepository.findReleasesByDateAfter(any(Date.class))).willReturn(releases);
+    given(releaseRepository.findReleasesByReleaseDateAfterAndCreationDateBefore(any(Date.class))).willReturn(releases);
     given(releaseHistoricalService.getProgressByDateAndRelease(any(Date.class), eq(1L)))
         .willReturn(Optional.of(releaseHistorical1));
     given(releaseHistoricalService.getProgressByDateAndRelease(any(Date.class), eq(2L)))
@@ -118,7 +118,8 @@ public class ReleaseServiceTests {
   @Test
   void testGetReleasesByDate_NonExistent() {
     // given
-    given(releaseRepository.findReleasesByDateAfter(any(Date.class))).willReturn(new ArrayList<Long>());
+    given(releaseRepository.findReleasesByReleaseDateAfterAndCreationDateBefore(any(Date.class)))
+        .willReturn(new ArrayList<Long>());
     // when
     List<Optional<ReleaseHistorical>> actualReleases = releaseService.getReleasesByDate(new Date(0));
 

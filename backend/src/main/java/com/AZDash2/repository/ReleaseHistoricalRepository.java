@@ -13,8 +13,8 @@ public interface ReleaseHistoricalRepository extends JpaRepository<ReleaseHistor
   @Query("SELECT r FROM ReleaseHistorical r WHERE r.recordDate = :date AND r.release.id_release = :idRelease ORDER BY r.recordTime DESC")
   List<ReleaseHistorical> findByDateAndIdRelease(@Param("date") Date date, @Param("idRelease") Long idRelease);
 
-  @Query("SELECT r FROM ReleaseHistorical r WHERE r.recordDate >= :date AND r.release.id_release = :idRelease ORDER BY r.recordDate DESC, r.recordTime DESC")
-  List<ReleaseHistorical> findByDateAfterAndReleaseIdOrderByRecordDateDescRecordTimeDesc(@Param("date") Date date,
+  @Query("SELECT r FROM ReleaseHistorical r WHERE r.recordDate <= :date AND r.release.id_release = :idRelease ORDER BY r.recordDate DESC, r.recordTime DESC")
+  List<ReleaseHistorical> findByDateBeforeAndReleaseIdOrderByRecordDateDescRecordTimeDesc(@Param("date") Date date,
       @Param("idRelease") Long idRelease);
 
   @Query(value = "SELECT r FROM ReleaseHistorical r WHERE r.release.id_release = :idRelease ORDER BY r.recordDate DESC, r.recordTime DESC")

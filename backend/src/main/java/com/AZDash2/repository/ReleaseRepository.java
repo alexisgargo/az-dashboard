@@ -15,8 +15,8 @@ public interface ReleaseRepository extends JpaRepository<Release, Long> {
   @Query("SELECT r FROM Release r WHERE r.id_release = :idRelease")
   Release findByIdRelease(@Param("idRelease") Long idRelease);
 
-  @Query("SELECT r.id_release FROM Release r WHERE r.curr_release_date >= :date")
-  List<Long> findReleasesByDateAfter(Date date);
+  @Query("SELECT r.id_release FROM Release r WHERE r.curr_release_date >= :date AND r.creation_date <= :date")
+  List<Long> findReleasesByReleaseDateAfterAndCreationDateBefore(Date date);
 
   List<Release> findByStatus(String status);
 

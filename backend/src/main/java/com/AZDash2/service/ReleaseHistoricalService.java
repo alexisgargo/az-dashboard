@@ -41,7 +41,7 @@ public class ReleaseHistoricalService {
   }
 
   public Optional<ReleaseHistorical> getProgressByDateAndRelease(Date date, Long idRelease) {
-    return releaseHistoricalRepository.findByDateAfterAndReleaseIdOrderByRecordDateDescRecordTimeDesc(date, idRelease)
+    return releaseHistoricalRepository.findByDateBeforeAndReleaseIdOrderByRecordDateDescRecordTimeDesc(date, idRelease)
         .stream().findFirst();
   }
 

@@ -27,9 +27,13 @@ public class ReleaseService {
 
   public List<Optional<ReleaseHistorical>> getReleasesByDate(Date date) {
     List<Optional<ReleaseHistorical>> releaseHistoricals = new ArrayList<>();
-    List<Long> releases = releaseRepository.findReleasesByDateAfter(date);
+    List<Long> releases = releaseRepository.findReleasesByReleaseDateAfterAndCreationDateBefore(date);
     for (int release = 0; release < releases.size(); release++) {
-      releaseHistoricals.add(releaseHistoricalService.getProgressByDateAndRelease(date, releases.get(release)));
+      Optional<ReleaseHistorical> releaseHistorical = releaseHistoricalService.getProgressByDateAndRelease(date,
+          releases.get(release));
+      if (releaseHistorical.isPresent()) {
+        releaseHistoricals.add(releaseHistorical);
+      }
     }
 
     return releaseHistoricals;
