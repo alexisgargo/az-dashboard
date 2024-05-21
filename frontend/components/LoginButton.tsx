@@ -1,18 +1,19 @@
-"use client"
+"use client";
 import React from 'react';
+import { Button } from "@nextui-org/button";
 
 interface LoginButtonProps {
-    onClick: () => void; // Función a ejecutar cuando se hace clic en el botón
+    onClick: () => void; 
 }
 
 const LoginButton = ({ onClick }: LoginButtonProps) => {
     return (
-        <button
+        <Button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             onClick={onClick}
         >
             Log in
-        </button>
+        </Button>
     );
 };
 
