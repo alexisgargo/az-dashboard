@@ -46,31 +46,7 @@ public class DBIssueController {
     return new ResponseEntity<>(issues, HttpStatus.OK);
   }
 
-  @Operation(summary = "Create a new Issue")
-  @ApiResponses(
-      value = {
-        @ApiResponse(
-            responseCode = "201",
-            description = "Issue created successfully",
-            content = {
-              @Content(
-                  mediaType = "application/json",
-                  schema = @Schema(implementation = Issue.class))
-            }),
-        @ApiResponse(
-            responseCode = "500",
-            description = "An error occurred while creating the Issue",
-            content = @Content)
-      })
-  @PostMapping("/issue")
-  public ResponseEntity<Issue> saveIssues(@RequestBody @Valid Issue issues) {
-    try {
-      issueService.saveIssues(issues);
-      return new ResponseEntity<>(issues, HttpStatus.CREATED);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+
 
   @Operation(summary = "Get the latest Issues by date and Release")
   @ApiResponses(

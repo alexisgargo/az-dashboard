@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -102,26 +103,23 @@ public class ReleaseHistoricalService {
     public List<ReleaseHistorical> getAndSaveProgressReleases(String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
         List<Release> releases = releaseRepository.findByStatus("progress");
         List<ReleaseHistorical> progressReleases = new ArrayList<>();
-
+       LocalDate currentDate = LocalDate.now(ZoneId.of("America/Chihuahua"));
+        LocalTime currentTime = LocalTime.now(ZoneId.of("America/Chihuahua"));
         for (Release release : releases) {
-            String version = release.getVersion();
+            
             try {
-                ReleaseHistorical teamProgress = getProgressByVersion(version, release.getName());
+                ReleaseHistorical teamProgress = getProgressByVersion(release.getVersion(), release.getName());
                 if (teamProgress != null) {
-                    LocalDate currentDate = LocalDate.now();
-                    LocalTime currentTime = LocalTime.now();
                     teamProgress.setRecordDate(Date.valueOf(currentDate));
                     teamProgress.setRelease(release);
-                    teamProgress.setRecordTime(Time.valueOf(currentTime)); // Establecer la hora actual para el registro
+                    teamProgress.setRecordTime(Time.valueOf(currentTime)); 
 
-                    if (currentTime.equals(LocalTime.MIDNIGHT)) {
-                        // Guardar el registro si es medianoche
-                        logger.debug("Saving team progress at midnight for release: {}", release.getName());
+                    if (currentTime.getHour() == 0 && currentTime.getMinute() == 0) {
+                        logger.info("Saving team progress at midnight for release: {}", release.getName());
                         releaseHistoricalRepository.save(teamProgress);
                         progressReleases.add(teamProgress);
                     } else {
-                        // Si no es medianoche, actualizar el último registro para este release
-                        logger.debug("Updating team progress for release: {}", release.getName());
+                        logger.info("Updating team progress for release: {}", release.getName());
                         List<ReleaseHistorical> lastRecords = releaseHistoricalRepository.findTopByReleaseOrderByRecordDateDescRecordTimeDesc(release.getId_release());
                         if (!lastRecords.isEmpty()) {
                             ReleaseHistorical updateRecord = lastRecords.get(0); // Tomar el primer registro como el más reciente
@@ -133,24 +131,23 @@ public class ReleaseHistoricalService {
                             updateRecord.setRecordTime(Time.valueOf(currentTime));
                             releaseHistoricalRepository.save(updateRecord);
                             progressReleases.add(updateRecord);
-                            logger.debug("Updated team progress for release: {}", release.getName());
+                            logger.info("Updated team progress for release: {}", release.getName());
                         } else {
-                            // Si no hay registro previo, simplemente guardar este
-                            logger.debug("No previous record found, saving new team progress for release: {}", release.getName());
+                            logger.info("No previous record found, saving new team progress for release: {}", release.getName());
                             releaseHistoricalRepository.save(teamProgress);
                             progressReleases.add(teamProgress);
                         }
                     }
                 } else {
-                    logger.error("No progress data found for version: {} and name: {}", version, release.getName());
+                    logger.error("No progress data found for version: {} and name: {}", release.getVersion(), release.getName());
                 }
             } catch (Exception e) {
-                logger.error("Error saving progress for version: {} and name: {}", version, release.getName(), e);
+                logger.error("Error saving progress for version: {} and name: {}", release.getVersion(), release.getName(), e);
             }
         }
         return progressReleases;
     }
-    @Scheduled(cron = "0 */5 * * * *", zone = "America/Chihuahua")
+    @Scheduled(cron = "0 0 * * * *", zone = "America/Chihuahua")
     public void scheduledTask() {
         try {
             getAndSaveProgressReleases(jiraApiToken);
