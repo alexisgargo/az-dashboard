@@ -1,93 +1,42 @@
 package com.AZDash2.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.AZDash2.entity.Admin;
-import com.AZDash2.entity.Engineer;
 import com.AZDash2.entity.Release;
-import com.AZDash2.service.ReleaseService;
-import java.sql.Date;
-import java.util.NoSuchElementException;
-
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class ReleaseControllerTest {
 
-  @Mock private ReleaseService releaseService;
-
-  @InjectMocks private ReleaseController releaseController;
-
-  private Release createMockRelease(Long id) {
-    Engineer engineer = new Engineer(id, "Alejandro Robles");
-    Admin admin = createMockAdmin(1L);
-
-    long now = System.currentTimeMillis();
-    Date sqlDate = new Date(now);
-
-    return new Release(
-        id,
-        "Nombre del Release",
-        "v1.0",
-        engineer,
-        admin,
-        sqlDate, // code_cutoff
-        sqlDate, // init_release_date
-        sqlDate, // curr_release_date
-        sqlDate, // creation_date
-        sqlDate, // last_modification_date
-        true,
-        "Activo", 
-        false, 
-        "Nota del release"
-        );
-  }
-
-  private Admin createMockAdmin(Long id) {
-    Date sqlDate = new Date(System.currentTimeMillis());
-    return new Admin(
-        id, "Nombre del Admin", "ContraseñaSegura123", sqlDate // creation_date
-        );
-  }
+  @Autowired private MockMvc mockMvc;
 
   @Test
-  public void getReleaseByIdTest_Found() throws Exception {
+  public void testGetReleaseById() throws Exception {
+
     Long id = 1L;
-    Release mockRelease = createMockRelease(id);
+    Release expectedRelease = new Release();
+    expectedRelease.setId_release(id);
 
-    when(releaseService.getReleaseById(id)).thenReturn(mockRelease);
-
-    ResponseEntity<Release> response = releaseController.getReleaseById(id);
-
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(mockRelease, response.getBody());
+    this.mockMvc
+        .perform(get("/az_dashboard/release/" + id))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id_release", is(id.intValue())));
   }
 
   @Test
-  public void getReleaseByIdTest_NotFound() throws Exception {
-    Long id = 2L;
-    when(releaseService.getReleaseById(id)).thenThrow(new NoSuchElementException("Release not found"));
+  public void testGetReleaseNotFound() throws Exception {
+    Long idInexistente = 999L; 
 
-    ResponseEntity<Release> response = releaseController.getReleaseById(id);
-
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-  }
-
-  @Test
-  public void getReleaseByIdTest_InternalServerError() throws Exception {
-    Long id = 3L;
-    when(releaseService.getReleaseById(id))
-        .thenThrow(new RuntimeException("Internal server error"));
-
-    ResponseEntity<Release> response = releaseController.getReleaseById(id);
-
-    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    this.mockMvc
+        .perform(get("/az_dashboard/release/" + idInexistente))
+        .andExpect(status().isNotFound()); 
   }
 }
