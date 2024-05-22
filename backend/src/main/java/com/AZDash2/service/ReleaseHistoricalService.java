@@ -101,7 +101,7 @@ public class ReleaseHistoricalService {
         this.releaseHistoricalRepository = releaseHistoricalRepository;
     }
     public List<ReleaseHistorical> getAndSaveProgressReleases(String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
-        List<Release> releases = releaseRepository.findByStatus("progress");
+        List<Release> releases = releaseRepository.findByStatus("On Time");
         List<ReleaseHistorical> progressReleases = new ArrayList<>();
        LocalDate currentDate = LocalDate.now(ZoneId.of("America/Chihuahua"));
         LocalTime currentTime = LocalTime.now(ZoneId.of("America/Chihuahua"));
