@@ -47,7 +47,7 @@ public class ReleaseHistoricalController {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    record = releaseHistoricalService.getIssuesByDateAndRelease(date, idRelease);
+    record = releaseHistoricalService.getProgressByDateAndRelease(date, idRelease);
 
     if (!record.isPresent()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

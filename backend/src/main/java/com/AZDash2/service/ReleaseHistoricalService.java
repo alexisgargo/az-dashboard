@@ -40,7 +40,7 @@ public class ReleaseHistoricalService {
 
     
 
-    public Optional<ReleaseHistorical> getIssuesByDateAndRelease(Date date, Long idRelease) {
+    public Optional<ReleaseHistorical> getProgressByDateAndRelease(Date date, Long idRelease) {
         return releaseHistoricalRepository.findByDateBeforeAndIdRelease(date, idRelease).stream().findFirst();
     }
 
