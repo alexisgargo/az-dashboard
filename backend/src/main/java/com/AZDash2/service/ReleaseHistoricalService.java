@@ -45,6 +45,24 @@ public class ReleaseHistoricalService {
         .stream().findFirst();
   }
 
+  public List<Optional<ReleaseHistorical>> getByDate(Date date) {
+    List<Optional<ReleaseHistorical>> releaseHistoricals = new ArrayList<>();
+    List<Release> releases = releaseHistoricalRepository.findDistinctReleaseIds();
+    for (int release = 0; release < releases.size(); release++) {
+      if (releases.get(release).getCreation_date().compareTo(date) <= 0
+          && releases.get(release).getCurr_release_date().compareTo(date) >= 0) {
+        Optional<ReleaseHistorical> releaseHistorical = getProgressByDateAndRelease(date,
+            releases.get(release).getId_release());
+
+        if (releaseHistorical.isPresent()) {
+          releaseHistoricals.add(releaseHistorical);
+        }
+      }
+    }
+
+    return releaseHistoricals;
+  }
+
   ////
   Logger logger = LoggerFactory.getLogger(IssueService.class);
   @Value("${jira.api.url}")
