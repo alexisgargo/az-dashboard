@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,5 +178,23 @@ public class ReleaseController {
       throw new ResponseStatusException(
           HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
     }
+  }
+
+  @Operation(summary = "Get metrics of releases of the current fiscal year", description = "Get metrics of releases of the current fiscal year")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Metrics were found", content = {
+          @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Release.class))) }),
+      @ApiResponse(responseCode = "204", description = "Metrics were not found"),
+      @ApiResponse(responseCode = "500", description = "An error occurred while processing the request", content = @Content)
+  })
+  @GetMapping("/release-yearly-metrics/{currentDate}")
+  public ResponseEntity<List<Long>> getYearMetrics(@PathVariable Date currentDate) {
+    List<Long> release = releaseService.getYearMetrics(currentDate);
+
+    if (release.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    return new ResponseEntity<List<Long>>(release, HttpStatus.OK);
   }
 }

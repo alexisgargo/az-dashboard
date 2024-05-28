@@ -23,6 +23,11 @@ import com.AZDash2.repository.ReleaseRepository;
 
 @SpringBootTest
 public class ReleaseServiceTests {
+  @Mock
+  AdminRepository adminRepository;
+
+  @Mock
+  EngineerRepository engineerRepository;
 
   @Mock
   ReleaseRepository releaseRepository;
@@ -97,12 +102,6 @@ public class ReleaseServiceTests {
     assertEquals(expectedReleases.get(1), actualReleases.get(1));
   }
 
-  @Mock
-  AdminRepository adminRepository;
-
-  @Mock
-  EngineerRepository engineerRepository;
-
   @Test
   void testSaveRelease() {
     // given
@@ -161,4 +160,29 @@ public class ReleaseServiceTests {
     verify(releaseRepository).updateReleaseById(idRelease, updatedRelease);
   }
 
+  @Test
+  void testGetYearMetrics() {
+    // Given
+    Date currentDate = Date.valueOf("2024-02-15");
+    given(releaseRepository.countByIsNotHotfixAndIsNotRollback(any(Date.class), any(Date.class), any(Date.class)))
+        .willReturn(3L);
+    given(releaseRepository.countByIsHotfix(any(Date.class), any(Date.class), any(Date.class))).willReturn(2L);
+    given(releaseRepository.countByIsRollback(any(Date.class), any(Date.class), any(Date.class))).willReturn(1L);
+    List<Long> expectedCount = List.of(3L, 2L, 1L);
+    // When
+    List<Long> actualCount = releaseService.getYearMetrics(currentDate);
+    // Then
+    assertEquals(expectedCount, actualCount);
+  }
+
+  @Test
+  void testGetYearMetrics_NonExistent() {
+    // Given
+    Date currentDate = Date.valueOf("2024-02-15");
+    List<Long> expectedCount = List.of(0L, 0L, 0L);
+    // When
+    List<Long> actualCount = releaseService.getYearMetrics(currentDate);
+    // Then
+    assertEquals(expectedCount, actualCount);
+  }
 }
