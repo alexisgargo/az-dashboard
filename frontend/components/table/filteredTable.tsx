@@ -109,52 +109,52 @@ export const FilteredTable: FC<TableProps> = (props) => {
                         />
                     ))}
                 </div>
-                <div className="flex flex-row gap-4">
-                    {dateFilters.map((filter) => (
-                        <div key={filter.column} className="flex flex-col gap-4">
-                            <div className="flex justify-between gap-3 items-end">
-                                <Input
-                                    label={"Start of " + filter.label}
-                                    type="date"
-                                    fullWidth
-                                    className="w-full"
-                                    placeholder="YYYY-MM-DD"
-                                    onValueChange={(e) => {
-                                        setDateFilters((prev) => {
-                                            const newFilters = [...prev];
-                                            const index = newFilters.findIndex(
-                                                (f) =>
-                                                    f.column === filter.column
-                                            );
-                                            newFilters[index].initialDate = e;
-                                            setIsFilterDate(true);
-                                            return newFilters;
-                                        });
-                                    }}
-                                />
-                                <Input
-                                    label={"End of " + filter.label}
-                                    type="date"
-                                    fullWidth
-                                    className="w-full"
-                                    placeholder="YYYY-MM-DD"
-                                    onValueChange={(e) => {
-                                        setDateFilters((prev) => {
-                                            const newFilters = [...prev];
-                                            const index = newFilters.findIndex(
-                                                (f) =>
-                                                    f.column === filter.column
-                                            );
-                                            newFilters[index].finalDate = e;
-                                            setIsFilterDate(true);
-                                            return newFilters;
-                                        });
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                {/* <div className="flex w-fit "> */}
+                {/* <div className="flex justify-between gap-3 items-end"> */}
+                {dateFilters.map((filter) => (
+                    <div key={filter.column} className="flex flex-row gap-4">
+                        {/* <div className="flex justify-between gap-3 items-end"> */}
+                        <Input
+                            label={"Start of " + filter.label}
+                            type="date"
+                            fullWidth
+                            className="w-full"
+                            placeholder="YYYY-MM-DD"
+                            onValueChange={(e) => {
+                                setDateFilters((prev) => {
+                                    const newFilters = [...prev];
+                                    const index = newFilters.findIndex(
+                                        (f) => f.column === filter.column
+                                    );
+                                    newFilters[index].initialDate = e;
+                                    setIsFilterDate(true);
+                                    return newFilters;
+                                });
+                            }}
+                        />
+                        <Input
+                            label={"End of " + filter.label}
+                            type="date"
+                            fullWidth
+                            className=" "
+                            placeholder="YYYY-MM-DD"
+                            onValueChange={(e) => {
+                                setDateFilters((prev) => {
+                                    const newFilters = [...prev];
+                                    const index = newFilters.findIndex(
+                                        (f) => f.column === filter.column
+                                    );
+                                    newFilters[index].finalDate = e;
+                                    setIsFilterDate(true);
+                                    return newFilters;
+                                });
+                            }}
+                        />
+                        {/* </div> */}
+                    </div>
+                ))}
+                {/* </div> */}
+                {/* </div> */}
             </div>
         );
     }, [filters, dateFilters]);
@@ -178,9 +178,7 @@ export const FilteredTable: FC<TableProps> = (props) => {
                     {(row) => (
                         <TableRow key={row.id_release}>
                             {(columnKey) => (
-                                <TableCell>
-                                    {row[columnKey]}
-                                </TableCell>
+                                <TableCell>{row[columnKey]}</TableCell>
                             )}
                         </TableRow>
                     )}
