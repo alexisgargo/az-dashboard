@@ -22,7 +22,7 @@ export interface TableProps {
 
 export const FilteredTable: FC<TableProps> = (props) => {
     const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-        column: "id",
+        column: props.columns[0].key, // Asegúrate de que esto sea un valor válido
         direction: "ascending",
     });
     const [filters, setFilters] = useState(props.filters);
@@ -32,33 +32,38 @@ export const FilteredTable: FC<TableProps> = (props) => {
     const filteredRows = useMemo(() => {
         let filteredRows = [...props.rows];
 
-        isFilterDate
-            ? dateFilters.forEach((filter) => {
-                  if (filter.initialDate && filter.finalDate) {
-                      filteredRows = filteredRows.filter((row) => {
-                          console.log(row[filter.column]);
-                          return (
-                              row[filter.column] >= filter.initialDate &&
-                              row[filter.column] <= filter.finalDate
-                          );
-                      });
-                  }
-              })
-            : filters.forEach((filter) => {
-                  if (filter.selected) {
-                      filteredRows = filteredRows.filter((row) => {
-                          return row[filter.column]
-                              .toString()
-                              .toLowerCase()
-                              .includes(filter.selected.toLowerCase());
-                      });
-                  }
-              });
+        // Aplicación de los filtros de fecha
+        dateFilters.forEach((filter) => {
+            if (filter.initialDate && filter.finalDate) {
+                filteredRows = filteredRows.filter((row) => {
+                    const dateValue = new Date(row[filter.column]);
+                    const initialDate = new Date(filter.initialDate);
+                    const finalDate = new Date(filter.finalDate);
+                    return dateValue >= initialDate && dateValue <= finalDate;
+                });
+            }
+        });
+
+        // Aplicación de los filtros de texto
+        filters.forEach((filter) => {
+            if (filter.selected) {
+                filteredRows = filteredRows.filter((row) => {
+                    return row[filter.column]
+                        .toString()
+                        .toLowerCase()
+                        .includes(filter.selected.toLowerCase());
+                });
+            }
+        });
 
         return filteredRows;
     }, [props.rows, filters, dateFilters]);
 
     const sortedRows = useMemo(() => {
+        if (!sortDescriptor.column) {
+            return filteredRows;
+        }
+
         return [...filteredRows].sort((a, b) => {
             const first = a[sortDescriptor.column];
             const second = b[sortDescriptor.column];
@@ -72,95 +77,87 @@ export const FilteredTable: FC<TableProps> = (props) => {
         return (
             <div className="flex flex-col gap-4">
                 <div className="flex justify-between gap-3 items-end">
-                    {filters.map((filter) => {
-                        return (
-                            <Input
-                                isClearable
-                                label={"Search by " + filter.label}
-                                fullWidth
-                                value={filter.selected}
-                                onClear={() =>
-                                    setFilters((prev) => {
-                                        const newFilters = [...prev];
-                                        const index = newFilters.findIndex(
-                                            (f) => f.column === filter.column
-                                        );
-                                        newFilters[index].selected = "";
-                                        setIsFilterDate(false);
-                                        return newFilters;
-                                    })
-                                }
-                                onValueChange={(e) =>
-                                    setFilters((prev) => {
-                                        const newFilters = [...prev];
-                                        const index = newFilters.findIndex(
-                                            (f) => f.column === filter.column
-                                        );
-                                        newFilters[index].selected = e;
-                                        setIsFilterDate(false);
-                                        return newFilters;
-                                    })
-                                }
-                            />
-                        );
-                    })}
+                    {filters.map((filter) => (
+                        <Input
+                            key={filter.column}
+                            isClearable
+                            label={"Search by " + filter.label}
+                            fullWidth
+                            value={filter.selected}
+                            onClear={() =>
+                                setFilters((prev) => {
+                                    const newFilters = [...prev];
+                                    const index = newFilters.findIndex(
+                                        (f) => f.column === filter.column
+                                    );
+                                    newFilters[index].selected = "";
+                                    setIsFilterDate(false);
+                                    return newFilters;
+                                })
+                            }
+                            onValueChange={(e) =>
+                                setFilters((prev) => {
+                                    const newFilters = [...prev];
+                                    const index = newFilters.findIndex(
+                                        (f) => f.column === filter.column
+                                    );
+                                    newFilters[index].selected = e;
+                                    setIsFilterDate(false);
+                                    return newFilters;
+                                })
+                            }
+                        />
+                    ))}
                 </div>
                 <div className="flex flex-row gap-4">
-                    {dateFilters.map((filter) => {
-                        return (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex justify-between gap-3 items-end">
-                                    <Input
-                                        label={"Start of " + filter.label}
-                                        type="date"
-                                        fullWidth
-                                        className="w-full"
-                                        placeholder="YYYY-MM-DD"
-                                        onValueChange={(e) => {
-                                            setDateFilters((prev) => {
-                                                const newFilters = [...prev];
-                                                const index =
-                                                    newFilters.findIndex(
-                                                        (f) =>
-                                                            f.column ===
-                                                            filter.column
-                                                    );
-                                                newFilters[index].initialDate =
-                                                    e;
-                                                setIsFilterDate(true);
-                                                return newFilters;
-                                            });
-                                        }}
-                                    />
-                                    <Input
-                                        label={"End of " + filter.label}
-                                        type="date"
-                                        fullWidth
-                                        className="w-full"
-                                        placeholder="YYYY-MM-DD"
-                                        onValueChange={(e) => {
-                                            setDateFilters((prev) => {
-                                                const newFilters = [...prev];
-                                                const index =
-                                                    newFilters.findIndex(
-                                                        (f) =>
-                                                            f.column ===
-                                                            filter.column
-                                                    );
-                                                newFilters[index].finalDate = e;
-                                                setIsFilterDate(true);
-                                                return newFilters;
-                                            });
-                                        }}
-                                    />
-                                </div>
+                    {dateFilters.map((filter) => (
+                        <div key={filter.column} className="flex flex-col gap-4">
+                            <div className="flex justify-between gap-3 items-end">
+                                <Input
+                                    label={"Start of " + filter.label}
+                                    type="date"
+                                    fullWidth
+                                    className="w-full"
+                                    placeholder="YYYY-MM-DD"
+                                    onValueChange={(e) => {
+                                        setDateFilters((prev) => {
+                                            const newFilters = [...prev];
+                                            const index = newFilters.findIndex(
+                                                (f) =>
+                                                    f.column === filter.column
+                                            );
+                                            newFilters[index].initialDate = e;
+                                            setIsFilterDate(true);
+                                            return newFilters;
+                                        });
+                                    }}
+                                />
+                                <Input
+                                    label={"End of " + filter.label}
+                                    type="date"
+                                    fullWidth
+                                    className="w-full"
+                                    placeholder="YYYY-MM-DD"
+                                    onValueChange={(e) => {
+                                        setDateFilters((prev) => {
+                                            const newFilters = [...prev];
+                                            const index = newFilters.findIndex(
+                                                (f) =>
+                                                    f.column === filter.column
+                                            );
+                                            newFilters[index].finalDate = e;
+                                            setIsFilterDate(true);
+                                            return newFilters;
+                                        });
+                                    }}
+                                />
                             </div>
-                        );
-                    })}
+                        </div>
+                    ))}
                 </div>
             </div>
         );
-    }, [filters]);
+    }, [filters, dateFilters]);
 
     return (
         <div className="overflow-x-auto">
@@ -179,10 +176,10 @@ export const FilteredTable: FC<TableProps> = (props) => {
                 </TableHeader>
                 <TableBody emptyContent={"No records found"} items={sortedRows}>
                     {(row) => (
-                        <TableRow key={row.id}>
+                        <TableRow key={row.id_release}>
                             {(columnKey) => (
                                 <TableCell>
-                                    {getKeyValue(row, columnKey)}
+                                    {row[columnKey]}
                                 </TableCell>
                             )}
                         </TableRow>
