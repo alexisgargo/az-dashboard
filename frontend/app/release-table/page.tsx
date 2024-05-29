@@ -1,12 +1,9 @@
-"use client";
-
 import { FilteredTable } from "@/components/table/filteredTable";
 import { columns, filters, dateFilters } from "./release.types";
 import { Divider } from "@nextui-org/divider";
 import { getRows } from "./release.table.api";
 
-
-export default async function TestTablePage() {
+export default async function ReleaseTablePage() {
     const rows = await getRows();
 
     return (

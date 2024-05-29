@@ -4,16 +4,24 @@ export type release = {
     id_release: number;
     name: string;
     version: string;
+    engineer: { name: string; id: number };
     engineer_name: string;
-    admin_name: string;
     code_cutoff: string;
     init_release_date: string;
     curr_release_date: string;
-    creation_date: string;
-    last_modification_date: string;
     is_hotfix: boolean;
+    hotfix: string;
     status: string;
     is_rollback: boolean;
+    rollback: string;
+    creation_date: string;
+    admin: {
+        admin_name: string;
+        admin_password: string;
+        creation_date: string;
+    };
+    admin_name: string;
+    last_modification_date: string;
     release_note: string;
 };
 
@@ -28,19 +36,38 @@ export const columns: column[] = [
     { key: "curr_release_date", label: "Current Release Date" },
     { key: "creation_date", label: "Creation Date" },
     { key: "last_modification_date", label: "Last Modification Date" },
-    { key: "is_hotfix", label: "Hotfix" },
+    { key: "hotfix", label: "Hotfix" },
     { key: "status", label: "Status" },
-    { key: "is_rollback", label: "Rollback" },
+    { key: "rollback", label: "Rollback" },
     { key: "release_note", label: "Release Note" },
 ];
 
 export const filters: filter[] = [
+    { column: "name", label: "Name", selected: "" },
+    { column: "engineer_name", label: "Engineer", selected: "" },
+    { column: "admin_name", label: "Admin", selected: "" },
     { column: "status", label: "Status", selected: "" },
-    { column: "version", label: "Version", selected: "" },
+    { column: "hotfix", label: "Hotfix", selected: "" },
+    { column: "rollback", label: "Rollback", selected: "" },
 ];
 
 export const dateFilters: dateFilter[] = [
-    { column: "code_cutoff", label: "Code Cutoff Date", initialDate: "", finalDate: "" },
-    { column: "init_release_date", label: "Initial Release Date", initialDate: "", finalDate: "" },
-    { column: "curr_release_date", label: "Current Release Date", initialDate: "", finalDate: "" },
+    {
+        column: "code_cutoff",
+        label: "Code Cutoff Date",
+        initialDate: "",
+        finalDate: "",
+    },
+    {
+        column: "curr_release_date",
+        label: "Current Release Date",
+        initialDate: "",
+        finalDate: "",
+    },
+    {
+        column: "creation_date",
+        label: "Creation Date",
+        initialDate: "",
+        finalDate: "",
+    },
 ];
