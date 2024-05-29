@@ -55,7 +55,7 @@ public class Issue {
     private String assignee;
 
     @Schema(description = "Where was this issue found")
-    @NotNull(message = "Environment is mandatory")
+    //@NotNull(message = "Environment is mandatory")
     @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters")
     private String environment;
     
