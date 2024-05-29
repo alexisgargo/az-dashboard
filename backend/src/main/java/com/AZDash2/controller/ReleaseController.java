@@ -54,7 +54,7 @@ public class ReleaseController {
 
   @Autowired EngineerRepository engineerRepository;
 
-  @Operation(summary = "Save a Release")
+  @Operation(summary = "Save a Release and also create a ReleaseHistorical in zeros record")
   @ApiResponses(
       value = {
         @ApiResponse(
