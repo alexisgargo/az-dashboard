@@ -83,19 +83,19 @@ public class ReleaseController {
   @PostMapping("")
   public ResponseEntity<Release> saveRelease(@Valid @RequestBody Release release) {
     try {
-      Optional<Admin> AdminOptional = adminRepository.findById(release.getAdmin().getId_admin());
-      Optional<Engineer> EngineerOptional = engineerRepository.findById(release.getEngineer().getId_engineer());
+      Optional<Admin> adminOptional = adminRepository.findById(release.getAdmin().getId_admin());
+      Optional<Engineer> engineerOptional = engineerRepository.findById(release.getEngineer().getId_engineer());
 
-      if (!AdminOptional.isPresent()) {
+      if (!adminOptional.isPresent()) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
-      if (!EngineerOptional.isPresent()) {
+      if (!engineerOptional.isPresent()) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
-      release.setAdmin(AdminOptional.get());
-      release.setEngineer(EngineerOptional.get());
+      release.setAdmin(adminOptional.get());
+      release.setEngineer(engineerOptional.get());
 
       Release releaseGuardado = releaseService.saveRelease(release);
 
@@ -194,6 +194,6 @@ public class ReleaseController {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    return new ResponseEntity<List<Long>>(release, HttpStatus.OK);
+    return new ResponseEntity<>(release, HttpStatus.OK);
   }
 }
