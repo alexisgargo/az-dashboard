@@ -25,7 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 
 @RestController
-@RequestMapping("az_dashboard")
+@RequestMapping("releases")
 public class ReleaseController {
   @Autowired
   ReleaseService releaseService;
@@ -36,7 +36,7 @@ public class ReleaseController {
           @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Release.class))) }),
       @ApiResponse(responseCode = "404", description = "Release not found", content = @Content)
   })
-  @GetMapping("/release/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<Release> getReleaseById(@PathVariable Long id) {
     Release release;
 
@@ -55,7 +55,7 @@ public class ReleaseController {
           @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Release.class))) }),
       @ApiResponse(responseCode = "404", description = "Releases were not found")
   })
-  @GetMapping("/releases")
+  @GetMapping("")
   public ResponseEntity<List<Release>> getAllReleases() {
     List<Release> release = releaseService.getReleases();
 
@@ -80,18 +80,18 @@ public class ReleaseController {
       @ApiResponse(responseCode = "404", description = "Admin or Engineer not found", content = @Content),
       @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
   })
-  @PostMapping("/release")
+  @PostMapping("")
   public ResponseEntity<Release> saveRelease(@Valid @RequestBody Release release) {
     try {
       Optional<Admin> AdminOptional = adminRepository.findById(release.getAdmin().getId_admin());
       Optional<Engineer> EngineerOptional = engineerRepository.findById(release.getEngineer().getId_engineer());
 
       if (!AdminOptional.isPresent()) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found");
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
       if (!EngineerOptional.isPresent()) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Engineer not found");
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
       release.setAdmin(AdminOptional.get());
@@ -110,16 +110,16 @@ public class ReleaseController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Release was updated", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = Release.class)) }),
-      @ApiResponse(responseCode = "404", description = "Release or Admin or Engineer not found", content = @Content),
+      @ApiResponse(responseCode = "400", description = "Release or Admin or Engineer not found", content = @Content),
       @ApiResponse(responseCode = "500", description = "An error occurred while processing the request", content = @Content)
   })
-  @PostMapping("/update/{id}") // TO DO: CAMBIAR A PutMapping
+  @PutMapping("/{id}")
   public ResponseEntity<Release> updateReleaseById(@PathVariable Long id, @Valid @RequestBody Release releaseToUpdate) {
     try {
       Release existingRelease = releaseService.getReleaseById(id);
 
       if (existingRelease == null) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // TO DO: CAMBIAR A BADREQUEST
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
       // Update engineer only if ID is different
@@ -127,8 +127,7 @@ public class ReleaseController {
         Optional<Engineer> engineerOptional = engineerRepository
             .findById(releaseToUpdate.getEngineer().getId_engineer());
         if (!engineerOptional.isPresent()) {
-          throw new ResponseStatusException(
-              HttpStatus.NOT_FOUND, "Engineer not found");
+          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         existingRelease.setEngineer(engineerOptional.get());
       }
