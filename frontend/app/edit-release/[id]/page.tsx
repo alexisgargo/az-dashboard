@@ -1,9 +1,9 @@
 import { EditReleaseForm } from "@/components/releaseManagement/editReleaseForm";
 
-export default function editReleasePage() {
+export default function editReleasePage({params}: any) {
     return (
         <div className="w-full">
-            <EditReleaseForm id={1} />
+            <EditReleaseForm id={params.id} />
         </div>
     );
 }
