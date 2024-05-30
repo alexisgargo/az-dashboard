@@ -10,7 +10,8 @@ import useReleaseList from "@/app/admin-menu/adminMenu.hook";
 
 export const AdminMenuForm = () => {
   const [selectedTab, setSelectedTab] = useState("create");
-  const [selectedRelease, setSelectedRelease] = useState(null);
+  const [selectedReleaseId, setSelectedReleaseId] = useState<any>(0);
+  const [selectedRelease, setSelectedRelease] = useState<any>(0);
   const { releaseList } = useReleaseList();
   const router = useRouter(); 
 
@@ -19,24 +20,26 @@ export const AdminMenuForm = () => {
   };
 
   const handleSelectChange = (key: any) => {
-    console.log(key.size)
     if (key.size == 0) {
-      setSelectedRelease(null) 
+      setSelectedRelease(0) 
     }   
-    else { setSelectedRelease(key) };
+    else { 
+      setSelectedRelease(key);
+    };
   };
 
   const handleCreatePress = () => {
     router.push("/create-release"); 
   };
 
-  const handleEditPress = () => {
-    router.push("/edit-release");
+  const handleEditPress = (id: number) => {
+    router.push(`/edit-release/${id}`);
   };
 
   useEffect(() => {
-    console.log(selectedRelease);
+    setSelectedReleaseId(selectedRelease.currentKey); 
 }, [selectedRelease]);
+
 
   return (
     <div className="flex flex-col w-full">
@@ -96,8 +99,8 @@ export const AdminMenuForm = () => {
                         color="primary"
                         variant="shadow"
                         size="lg"
-                        isDisabled={!selectedRelease}
-                        onPress={handleEditPress}
+                        isDisabled={selectedRelease === 0}
+                        onPress={() => handleEditPress(selectedReleaseId)}
                         >
                         Edit
                     </Button>

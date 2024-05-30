@@ -5,7 +5,6 @@ const API_URL = "http://localhost:8080/";
 export async function getRelease(id: number): Promise<release> {
     const res = await fetch(`${API_URL}az_dashboard/release/${id}`);
     const data = await res.json();
-    // console.log(data);
     return data;
 }
 
