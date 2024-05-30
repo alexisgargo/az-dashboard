@@ -44,7 +44,7 @@ public class IssueService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~"
                         + versionGiven + "%20AND%20project=" + projectIdOrKey
-                        + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment"))
+                        + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,status"))
                 .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
                 .GET()
                 .build();
@@ -76,6 +76,11 @@ public class IssueService {
 
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
             JsonArray allcomments = commentsObject.getAsJsonArray("comments");
+
+            JsonObject statusObject = fieldsObject.get("status").getAsJsonObject();
+            String status = statusObject.get("name").getAsString();
+
+
 
             String lastComment = "";
 
@@ -111,6 +116,7 @@ public class IssueService {
             issue.setCreated_by(created_by);
             issue.setCreation_date(creation_date);
             issue.setEnvironment("No environemnts on issues");
+            issue.setIssue_status(status);
             issues.add(issue);
 
         }
@@ -124,7 +130,7 @@ public class IssueService {
     public List<Issue> getBugs(String projectIdOrKey, String versionGiven) throws URISyntaxException, IOException, InterruptedException {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-            .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055,comment"))
+            .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven + "%20AND%20project=" + projectIdOrKey + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055,comment,status"))
             .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
             .GET()
             .build();
@@ -161,6 +167,9 @@ public class IssueService {
 
             String lastComment = "";
 
+            JsonObject statusObject = fieldsObject.get("status").getAsJsonObject();
+            String status = statusObject.get("name").getAsString();
+
             for (JsonElement commentElement : allcomments) {
                 JsonObject commentObject = commentElement.getAsJsonObject();
 
@@ -191,6 +200,7 @@ public class IssueService {
             bug.setIssue_summary(issue_summary);
             bug.setCreated_by(created_by);
             bug.setCreation_date(creation_date);
+            bug.setIssue_status(status);
             //bug.setEnvironment(environment);
             bugs.add(bug);
 
