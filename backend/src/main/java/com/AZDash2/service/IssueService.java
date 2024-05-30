@@ -124,6 +124,7 @@ public class IssueService {
             issue.setIssue_summary(issue_summary);
             issue.setCreated_by(created_by);
             issue.setCreation_date(creation_date);
+            issue.setEnvironment("No environemnts on issues");
             issues.add(issue);
 
         }
@@ -164,8 +165,13 @@ public class IssueService {
             String created_by = creatorObject.get("displayName").getAsString();
             String creation_date = fieldsObject.get("created").getAsString();
 
-            JsonObject environmentObject = fieldsObject.getAsJsonObject("customfield_10055");
-            String environment = environmentObject.get("value").getAsString();
+            if (!fieldsObject.get("customfield_10055").isJsonNull()) {
+                JsonObject environmentObject = fieldsObject.getAsJsonObject("customfield_10055");
+                String environment = environmentObject.get("value").getAsString();
+                bug.setEnvironment(environment);
+            } else {
+                bug.setEnvironment("No environment set");
+            }
 
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
             JsonArray allcomments = commentsObject.getAsJsonArray("comments");
@@ -202,7 +208,7 @@ public class IssueService {
             bug.setIssue_summary(issue_summary);
             bug.setCreated_by(created_by);
             bug.setCreation_date(creation_date);
-            bug.setEnvironment(environment);
+            //bug.setEnvironment(environment);
             bugs.add(bug);
 
         }
