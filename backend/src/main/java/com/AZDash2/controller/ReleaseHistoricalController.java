@@ -1,5 +1,6 @@
 package com.AZDash2.controller;
 
+import com.AZDash2.entity.Release;
 import com.AZDash2.entity.ReleaseHistorical;
 import com.AZDash2.service.ReleaseHistoricalService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -54,6 +56,25 @@ public class ReleaseHistoricalController {
     }
 
     return new ResponseEntity<>(record.get(), HttpStatus.OK);
+  }
+
+  @Operation(summary = "Get a list of releases with their progress and information for a given date", description = "Get a list of releases with their progress and information for a given date")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Releases were found", content = {
+          @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Release.class))) }),
+      @ApiResponse(responseCode = "404", description = "Releases were not found", content = @Content)
+  })
+  @GetMapping("/releases-historicals/{date}")
+  public ResponseEntity<List<Optional<ReleaseHistorical>>> getReleasesByDate(@PathVariable Date date) {
+    List<Optional<ReleaseHistorical>> releaseHistoricals = new ArrayList<>();
+
+    releaseHistoricals = releaseHistoricalService.getByDate(date);
+
+    if (releaseHistoricals == null) {
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT); // NO USAR NOT_FOUND, USAR NO_CONTENT
+    }
+
+    return new ResponseEntity<>(releaseHistoricals, HttpStatus.OK);
   }
 
   @Operation(summary = "Gets all dev team's current percent status")
