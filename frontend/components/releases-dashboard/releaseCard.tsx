@@ -7,13 +7,15 @@ import { releaseProgress } from "@/app/releases-dashboard/releases-dashboard.typ
 export default function ReleaseCard(prop: { releaseInfo: releaseProgress, totalRelease: number }) {
   const router = useRouter()
 
-  const onRedirect = () => {
-    router.push('/release')
+  const onRedirect = (id: number) => {
+    router.push(`/release/${id}`)
   }
+
+  console.log("Id:",prop.releaseInfo.release.id_release);
 
   return (
     <div className="flex flex-none">
-      <Card isPressable onPress={() => onRedirect()}>
+      <Card isPressable onPress={() => onRedirect(prop.releaseInfo.release.id_release)}>
         <CardBody>
           <div className="flex flex-row justify-around space-x-5">
             <CircularProgress
