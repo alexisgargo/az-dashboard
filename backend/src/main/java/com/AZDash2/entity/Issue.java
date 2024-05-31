@@ -17,6 +17,7 @@ public class Issue {
 
     @NotNull(message = "Issue number is mandatory")
     @Size(min = 1, max = 50, message = "Issue number must be between 1 and 50 characters")
+    @Column(name = "issue_number")
     private String issue_number;
 
     @Schema(description = "Issue status")
@@ -54,7 +55,7 @@ public class Issue {
     private String assignee;
 
     @Schema(description = "Where was this issue found")
-    @NotNull(message = "Environment is mandatory")
+    //@NotNull(message = "Environment is mandatory")
     @Size(min = 1, max = 50, message = "Environment must be between 1 and 50 characters")
     private String environment;
     
@@ -64,13 +65,30 @@ public class Issue {
     @NotNull(message = "Release is mandatory")
     private Release release;
 
+
     @NotNull(message = "Record date is mandatory")
     @PastOrPresent(message = "Record date must be in the past or present")
     private Date record_date;
 
+    public Date getRecord_date() {
+        return record_date;
+    }
+
+    public void setRecord_date(Date record_date) {
+        this.record_date = record_date;
+    }
+
     @NotNull(message = "Record time is mandatory")
     @PastOrPresent(message = "Record time must be in the past or present")
     private Time record_time;
+
+    public Time getRecord_time() {
+        return record_time;
+    }
+
+    public void setRecord_time(Time record_time) {
+        this.record_time = record_time;
+    }
 
     private String close_date;
 
@@ -140,6 +158,13 @@ public class Issue {
         this.created_by = created_by;
     }
 
+    public Release getRelease() {
+        return release;
+    }
+
+    public void setRelease(Release release) {
+        this.release = release;
+    }
     public boolean isIs_feature() {
         return is_feature;
     }
