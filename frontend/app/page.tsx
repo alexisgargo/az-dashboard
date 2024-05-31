@@ -1,33 +1,39 @@
-'use client'
-import { title, subtitle } from "@/components/primitives";
+"use client";
+import ReleaseCard from "@/components/releases-dashboard/releaseCard";
+import useReleases from "./releases-dashboard/releases-dashboard.hook";
 import CalendarComponent from "@/components/Calendar/Calendar";
 import { Button } from "@nextui-org/button";
-import { useState } from "react";
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
-export default function Home() {
-  const [showCalendar, setShowCalendar] = useState(false);
+export default function ReleasePage() {
+  const { releases, totalProgress, chosenDate, setSelectedDate } = useReleases()
+  console.log(releases)
 
-  const toggleCalendar = () => {
-    setShowCalendar(!showCalendar);
-  };
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-lg text-center justify-center">
-        <h1 className={title()}>Make&nbsp;</h1>
-        <h1 className={title({ color: "violet" })}>beautiful&nbsp;</h1>
-        <br />
-        <h1 className={title()}>
-          websites regardless of your design experience.
-        </h1>
-        <h2 className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </h2>
+    <div className="py-5">
+      <h1 className="text-xl"> Autozone B2B Releases</h1>
+      <div className="flex justify-end">
+        <Popover placement="left" showArrow={true}>
+          <PopoverTrigger>
+            <Button variant="light">
+              <p> {chosenDate} </p>
+              <CalendarMonthIcon />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="bg-white">
+              <CalendarComponent setDate={setSelectedDate} />
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
-      <div>
-        <Button onClick={toggleCalendar}>CalendarComponent</Button>
-        {showCalendar && <CalendarComponent />}
+      <h1 className="text-4xl font-bold"> In-Progress Releases</h1>
+      <div className="flex flex-row gap-5 py-5 overflow-auto">
+        {releases.map((release, index) => (
+          <ReleaseCard releaseInfo={release} totalRelease={totalProgress[index]} key={index} />
+        ))}
       </div>
-
-    </section>
+    </div>
   );
 }
