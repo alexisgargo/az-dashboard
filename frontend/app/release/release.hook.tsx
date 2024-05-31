@@ -48,7 +48,7 @@ const useRelease = () => {
 
     useEffect(() => {
         const fetchRelease = async () => {
-            setRelease(await getRelease(1));
+            setRelease(await getRelease(release.id_release));
         };
         fetchRelease();
     }, []);
@@ -63,6 +63,8 @@ const useRelease = () => {
             );
         };
         fetchProgress();
+        console.log("Release: ", release);
+        console.log("ChosenDate: ", chosenDate);
     }, [release, chosenDate]);
 
     const onOpen = () => {
