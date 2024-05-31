@@ -1,21 +1,20 @@
 package com.AZDash2.entity;
 
-import jakarta.persistence.*;
-import java.sql.Date;
-
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
-
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
+import java.sql.Date;
 
 @Entity
 @Table(name = "admins")
 public class Admin {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_admin;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id_admin;
 
     @NotNull(message = "Admin name is mandatory")
     @Size(min = 1, max = 50, message = "Admin name must be between 1 and 50 characters")
@@ -42,20 +41,19 @@ public class Admin {
         this.creationDate = creationDate;
     }
 
-    public Admin(Long id_admin) {
-        this.id_admin = id_admin;
-    }
+  public Admin(Long id_admin) {
+    this.id_admin = id_admin;
+  }
 
-    public Admin() {
-    }
+  public Admin() {}
 
-    public Long getId_admin() {
-        return id_admin;
-    }
+  public Long getId_admin() {
+    return id_admin;
+  }
 
-    public void setId_admin(Long id_admin) {
-        this.id_admin = id_admin;
-    }
+  public void setId_admin(Long id_admin) {
+    this.id_admin = id_admin;
+  }
 
     public String getUsername() {
         return username;

@@ -1,48 +1,50 @@
 package com.AZDash2.service;
 
+import com.AZDash2.entity.Release;
+import com.AZDash2.entity.ReleaseHistorical;
+import com.AZDash2.repository.ReleaseHistoricalRepository;
+import com.AZDash2.repository.ReleaseRepository;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
-import org.springframework.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import com.AZDash2.entity.Release;
-import com.AZDash2.entity.ReleaseHistorical;
-import com.AZDash2.repository.ReleaseHistoricalRepository;
-import com.AZDash2.repository.ReleaseRepository;
 
 @Service
 public class ReleaseHistoricalService {
   private ReleaseRepository releaseRepository;
-  @Autowired
-  private ReleaseHistoricalRepository releaseHistoricalRepository;
+  @Autowired private ReleaseHistoricalRepository releaseHistoricalRepository;
 
   public Optional<ReleaseHistorical> getIssuesByDateAndRelease(Date date, Long idRelease) {
     return releaseHistoricalRepository.findByDateAndIdRelease(date, idRelease).stream().findFirst();
   }
 
   public Optional<ReleaseHistorical> getProgressByDateAndRelease(Date date, Long idRelease) {
-    return releaseHistoricalRepository.findByDateBeforeAndReleaseIdOrderByRecordDateDescRecordTimeDesc(date, idRelease)
-        .stream().findFirst();
+    return releaseHistoricalRepository
+        .findByDateBeforeAndReleaseIdOrderByRecordDateDescRecordTimeDesc(date, idRelease)
+        .stream()
+        .findFirst();
   }
 
   public List<Optional<ReleaseHistorical>> getByDate(Date date) {
@@ -51,8 +53,8 @@ public class ReleaseHistoricalService {
     for (int release = 0; release < releases.size(); release++) {
       if (releases.get(release).getCreation_date().compareTo(date) <= 0
           && releases.get(release).getCurr_release_date().compareTo(date) >= 0) {
-        Optional<ReleaseHistorical> releaseHistorical = getProgressByDateAndRelease(date,
-            releases.get(release).getId_release());
+        Optional<ReleaseHistorical> releaseHistorical =
+            getProgressByDateAndRelease(date, releases.get(release).getId_release());
 
         if (releaseHistorical.isPresent()) {
           releaseHistoricals.add(releaseHistorical);
@@ -65,6 +67,7 @@ public class ReleaseHistoricalService {
 
   ////
   Logger logger = LoggerFactory.getLogger(IssueService.class);
+
   @Value("${jira.api.url}")
   private String jiraApiUrl;
 
@@ -78,16 +81,21 @@ public class ReleaseHistoricalService {
   public ReleaseHistorical getProgressByVersion(String versionGiven, String projectIdOrKey)
       throws URISyntaxException, IOException, InterruptedException {
     HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~" + versionGiven
-            + "%20AND%20project=" + projectIdOrKey
-            + "&fields=customfield_10049,customfield_10048,value,customfield_10046"))
-        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
-        .GET()
-        .build();
+    HttpRequest request =
+        HttpRequest.newBuilder()
+            .uri(
+                new URI(
+                    jiraApiUrl
+                        + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~"
+                        + versionGiven
+                        + "%20AND%20project="
+                        + projectIdOrKey
+                        + "&fields=customfield_10049,customfield_10048,value,customfield_10046"))
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+            .GET()
+            .build();
 
-    HttpResponse<String> response = client.send(request,
-        HttpResponse.BodyHandlers.ofString());
+    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
     logger.debug("Response Http Status {}", response.statusCode());
     logger.debug("Response Body {}", response.body());
 
@@ -113,14 +121,14 @@ public class ReleaseHistoricalService {
       } else if (team.equals("UAT")) {
         teamProgress.setPercent_uat(progress);
       }
-
     }
 
     return teamProgress;
   }
 
   @Autowired
-  public void SaveTeamProgressService(ReleaseRepository releaseRepository,
+  public void SaveTeamProgressService(
+      ReleaseRepository releaseRepository,
       ReleaseHistoricalRepository releaseHistoricalRepository) {
     this.releaseRepository = releaseRepository;
     this.releaseHistoricalRepository = releaseHistoricalRepository;
@@ -128,32 +136,32 @@ public class ReleaseHistoricalService {
 
   public List<ReleaseHistorical> getAndSaveProgressReleases(String projectIdOrKey)
       throws URISyntaxException, IOException, InterruptedException {
-    List<Release> releases = releaseRepository.findByStatus("progress");
+    List<Release> releases = releaseRepository.findByStatus("On Time");
     List<ReleaseHistorical> progressReleases = new ArrayList<>();
-
+    LocalDate currentDate = LocalDate.now(ZoneId.of("America/Chihuahua"));
+    LocalTime currentTime = LocalTime.now(ZoneId.of("America/Chihuahua"));
     for (Release release : releases) {
-      String version = release.getVersion();
+
       try {
-        ReleaseHistorical teamProgress = getProgressByVersion(version, release.getName());
+        ReleaseHistorical teamProgress =
+            getProgressByVersion(release.getVersion(), release.getName());
         if (teamProgress != null) {
-          LocalDate currentDate = LocalDate.now();
-          LocalTime currentTime = LocalTime.now();
           teamProgress.setRecordDate(Date.valueOf(currentDate));
           teamProgress.setRelease(release);
-          teamProgress.setRecordTime(Time.valueOf(currentTime)); // Establecer la hora actual para el registro
+          teamProgress.setRecordTime(Time.valueOf(currentTime));
 
-          if (currentTime.equals(LocalTime.MIDNIGHT)) {
-            // Guardar el registro si es medianoche
-            logger.debug("Saving team progress at midnight for release: {}", release.getName());
+          if (currentTime.getHour() == 0 && currentTime.getMinute() == 0) {
+            logger.info("Saving team progress at midnight for release: {}", release.getName());
             releaseHistoricalRepository.save(teamProgress);
             progressReleases.add(teamProgress);
           } else {
-            // Si no es medianoche, actualizar el último registro para este release
-            logger.debug("Updating team progress for release: {}", release.getName());
-            List<ReleaseHistorical> lastRecords = releaseHistoricalRepository
-                .findTopByReleaseOrderByRecordDateDescRecordTimeDesc(release.getId_release());
+            logger.info("Updating team progress for release: {}", release.getName());
+            List<ReleaseHistorical> lastRecords =
+                releaseHistoricalRepository.findTopByReleaseOrderByRecordDateDescRecordTimeDesc(
+                    release.getId_release());
             if (!lastRecords.isEmpty()) {
-              ReleaseHistorical updateRecord = lastRecords.get(0); // Tomar el primer registro como el más reciente
+              ReleaseHistorical updateRecord =
+                  lastRecords.get(0); // Tomar el primer registro como el más reciente
               updateRecord.setPercent_qa(teamProgress.getPercent_qa());
               updateRecord.setPercent_uat(teamProgress.getPercent_uat());
               updateRecord.setPercent_third_party(teamProgress.getPercent_third_party());
@@ -162,25 +170,33 @@ public class ReleaseHistoricalService {
               updateRecord.setRecordTime(Time.valueOf(currentTime));
               releaseHistoricalRepository.save(updateRecord);
               progressReleases.add(updateRecord);
-              logger.debug("Updated team progress for release: {}", release.getName());
+              logger.info("Updated team progress for release: {}", release.getName());
             } else {
-              // Si no hay registro previo, simplemente guardar este
-              logger.debug("No previous record found, saving new team progress for release: {}", release.getName());
+              logger.info(
+                  "No previous record found, saving new team progress for release: {}",
+                  release.getName());
               releaseHistoricalRepository.save(teamProgress);
               progressReleases.add(teamProgress);
             }
           }
         } else {
-          logger.error("No progress data found for version: {} and name: {}", version, release.getName());
+          logger.error(
+              "No progress data found for version: {} and name: {}",
+              release.getVersion(),
+              release.getName());
         }
       } catch (Exception e) {
-        logger.error("Error saving progress for version: {} and name: {}", version, release.getName(), e);
+        logger.error(
+            "Error saving progress for version: {} and name: {}",
+            release.getVersion(),
+            release.getName(),
+            e);
       }
     }
     return progressReleases;
   }
 
-  @Scheduled(cron = "0 */5 * * * *", zone = "America/Chihuahua")
+  @Scheduled(cron = "0 0 * * * *", zone = "America/Chihuahua")
   public void scheduledTask() {
     try {
       getAndSaveProgressReleases(jiraApiToken);

@@ -31,11 +31,12 @@ public class ReleaseHistoricalController {
   @Autowired
   ReleaseHistoricalService releaseHistoricalService;
 
-  @Operation(summary = "Get Release Teams's Progress by date and Release ID")
+  @Operation(summary = "Get Release Teams' Progress by date and Release ID")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Retrieved all team's historical progress", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = ReleaseHistorical.class))
       }),
+      @ApiResponse(responseCode = "400", description = "Bad Request: Invalid date or idRelease", content = @Content),
       @ApiResponse(responseCode = "404", description = "Release Historical not found", content = @Content),
       @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
   })
@@ -43,11 +44,12 @@ public class ReleaseHistoricalController {
   public ResponseEntity<ReleaseHistorical> getIssuesByDateAndRelease(
       @PathVariable("date") Date date, @PathVariable("idRelease") Long idRelease) {
     Optional<ReleaseHistorical> record;
-    try {
-      record = releaseHistoricalService.getIssuesByDateAndRelease(date, idRelease);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+    if (date == null || idRelease == null) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    record = releaseHistoricalService.getProgressByDateAndRelease(date, idRelease);
 
     if (!record.isPresent()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

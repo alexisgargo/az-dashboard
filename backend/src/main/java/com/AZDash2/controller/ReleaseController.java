@@ -7,6 +7,7 @@ import com.AZDash2.repository.AdminRepository;
 import com.AZDash2.repository.EngineerRepository;
 import com.AZDash2.service.ReleaseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,20 +67,30 @@ public class ReleaseController {
     return new ResponseEntity<>(release, HttpStatus.OK);
   }
 
-  @Autowired
-  AdminRepository adminRepository;
+  @Autowired AdminRepository adminRepository;
 
-  @Autowired
-  EngineerRepository engineerRepository;
+  @Autowired EngineerRepository engineerRepository;
 
-  @Operation(summary = "Save a Release")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "Release created", content = {
-          @Content(mediaType = "application/json", schema = @Schema(implementation = Release.class))
-      }),
-      @ApiResponse(responseCode = "404", description = "Admin or Engineer not found", content = @Content),
-      @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-  })
+  @Operation(summary = "Save a Release and also create a ReleaseHistorical in zeros record")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "201",
+            description = "Release created",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = Release.class))
+            }),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Admin or Engineer not found",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal server error",
+            content = @Content)
+      })
   @PostMapping("")
   public ResponseEntity<Release> saveRelease(@Valid @RequestBody Release release) {
     try {
