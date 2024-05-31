@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("az_dashboard")
+@RequestMapping("engineers")
 public class EngineerController {
   @Autowired EngineerService engineerService;
 
@@ -31,15 +31,15 @@ public class EngineerController {
                   mediaType = "application/json",
                   array = @ArraySchema(schema = @Schema(implementation = Engineer.class)))
             }),
-        @ApiResponse(responseCode = "404", description = "Engineers not found", content = @Content)
+        @ApiResponse(responseCode = "204", description = "No engineers were found", content = @Content)
       })
-  @GetMapping(value = "/engineers", produces = "application/json")
+  @GetMapping(value = "", produces = "application/json")
   public ResponseEntity<List<Engineer>> getEngineers() {
     try {
       List<Engineer> inges = engineerService.getEngineers();
 
-      if (!inges.isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      if (inges.isEmpty()) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       }
 
       return new ResponseEntity<>(inges, HttpStatus.OK);
@@ -65,7 +65,7 @@ public class EngineerController {
             description = "Internal server error",
             content = @Content)
       })
-  @PostMapping(value = "/engineer", produces = "application/json")
+  @PostMapping(value = "", produces = "application/json")
   public ResponseEntity<Engineer> saveEngineer(
       @Parameter(description = "Engineer Name") @RequestBody @Valid Engineer engineer) {
     try {
