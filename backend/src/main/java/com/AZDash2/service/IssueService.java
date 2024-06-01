@@ -1,6 +1,7 @@
 package com.AZDash2.service;
 
 import com.AZDash2.entity.Issue;
+import com.AZDash2.valueobject.Changelog;
 
 import java.io.IOException;
 import java.net.URI;
@@ -41,7 +42,7 @@ public class IssueService {
     public List<Issue> getIssues(String projectIdOrKey, String versionGiven)
             throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest request = HttpRequest.newBuilder() //en vez de project=, hacer porejectIN
                 .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~"
                         + versionGiven + "%20AND%20project=" + projectIdOrKey
                         + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,status"))
@@ -201,7 +202,6 @@ public class IssueService {
             bug.setCreated_by(created_by);
             bug.setCreation_date(creation_date);
             bug.setIssue_status(status);
-            //bug.setEnvironment(environment);
             bugs.add(bug);
 
         }
@@ -241,6 +241,50 @@ public class IssueService {
         amount.put("bugs",Bugnumber);
         amount.put("issues",issueNumber);
         return amount;
+
+    }
+
+    public List<Changelog> getChangelogs(String issueIdOrKey) throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest requestChangelog = HttpRequest.newBuilder() //rest/api/3/issue/{issueIdOrKey}/changelog
+        .uri(new URI(jiraApiUrl + "/rest/api/3/issue/" + issueIdOrKey + "/changelog"))
+        .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken) 
+        .GET()
+        .build();
+
+        HttpResponse<String> response = client.send(requestChangelog,
+        HttpResponse.BodyHandlers.ofString());
+        logger.debug("Response Http Status {}", response.statusCode());
+        logger.debug("Response Body {}", response.body());
+
+        JsonObject ChangelogJson = JsonParser.parseString(response.body()).getAsJsonObject();
+        JsonArray allChanges = ChangelogJson.getAsJsonArray("values");
+        List<Changelog> values = new ArrayList<>();
+
+        
+        for (JsonElement valuesElement : allChanges) {
+            
+            Changelog value = new Changelog(); //Jira returns a list of values for its changelog's info
+            JsonObject authorObject = valuesElement.getAsJsonObject().getAsJsonObject("author");
+            String value_author = authorObject.get("displayName").getAsString();
+            JsonObject valuesObject = valuesElement.getAsJsonObject();            
+            String value_date = valuesObject.get("created").getAsString();
+
+            JsonArray itemsArray = valuesElement.getAsJsonObject().getAsJsonArray("items");
+            JsonObject itemObject = itemsArray.get(0).getAsJsonObject();
+            String field = itemObject.get("field").getAsString();
+            if ("Progress".equals(field)) {
+                String value_from = itemObject.get("fromString").getAsString();
+                String value_to = itemObject.get("toString").getAsString();
+                value.setFrom(value_from);
+                value.setTo(value_to);
+                value.setWho(value_author);
+                value.setWhen(value_date);
+                values.add(value);
+            }
+        }
+
+        return values;
 
     }
 
