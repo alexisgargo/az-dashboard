@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.AZDash2.entity.Issue;
 import com.AZDash2.service.IssueService;
+import com.AZDash2.valueobject.Changelog;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -125,6 +127,19 @@ public class IssueController {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
             }
     
-            return new ResponseEntity<>(amount, HttpStatus.OK);
+        return new ResponseEntity<>(amount, HttpStatus.OK);
+    }
+
+    @GetMapping("/issue/{issueIdOrKey}/changelog")
+    public ResponseEntity<List<Changelog>> pullChangeLogs(@PathVariable String issueIdOrKey) {
+        List<Changelog> changelog;
+        try {
+            changelog = issueService.getChangelogs(issueIdOrKey);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return new ResponseEntity<>(changelog, HttpStatus.OK);
+    }
+
 }
+
