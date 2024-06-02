@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Card, CardBody } from "@nextui-org/card";
 import { CircularProgress } from "@nextui-org/progress";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useRouter } from "next/navigation";
@@ -28,14 +28,16 @@ export default function ReleaseCard(prop: { releaseInfo: releaseProgress, totalR
             />
             <div className="content-center">
               <h1 className="text-xl font-bold py-3">{prop.releaseInfo.release.name}</h1>
-              <p>QA testing: {prop.releaseInfo.percent_qa}%</p>
-              <p>UAT testing: {prop.releaseInfo.percent_uat}%</p>
-              <p>PT testing: {prop.releaseInfo.percent_pt}%</p>
-              <p>3rd Party testing: {prop.releaseInfo.percent_third_party}%</p>
+              <div className="text-sm">
+                <p>QA testing: {prop.releaseInfo.percent_qa}%</p>
+                <p>UAT testing: {prop.releaseInfo.percent_uat}%</p>
+                <p>PT testing: {prop.releaseInfo.percent_pt}%</p>
+                <p>3rd Party testing: {prop.releaseInfo.percent_third_party}%</p>
+              </div>
             </div>
           </div>
           <div className="flex flex-row justify-between space-x-5 pt-5">
-            <div>
+            <div className="text-sm">
               <p>Release status: {prop.releaseInfo.release.status}</p>
               <p>Code-cutoff date: {prop.releaseInfo.release.code_cutoff}</p>
               <p>Release date: {prop.releaseInfo.release.curr_release_date}</p>

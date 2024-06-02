@@ -1,17 +1,18 @@
 "use client";
-import ReleaseCard from "@/components/releases-dashboard/releaseCard";
+import ReleaseCard from "@/components/releases-dashboard/release-card";
 import useReleases from "./releases-dashboard/releases-dashboard.hook";
 import CalendarComponent from "@/components/Calendar/Calendar";
 import { Button } from "@nextui-org/button";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import DashboardBottom from "@/components/releases-dashboard/dashboard-bottom";
+import { useState } from "react";
 
 export default function ReleasePage() {
-  const { releases, totalProgress, chosenDate, setSelectedDate } = useReleases()
-  console.log(releases)
+  const { releases, totalProgress, metrics, chosenDate, setSelectedDate } = useReleases()
 
   return (
-    <div className="py-5">
+    <div className="pt-5">
       <h1 className="text-xl"> Autozone B2B Releases</h1>
       <div className="flex justify-end">
         <Popover placement="left" showArrow={true}>
@@ -29,11 +30,12 @@ export default function ReleasePage() {
         </Popover>
       </div>
       <h1 className="text-4xl font-bold"> In-Progress Releases</h1>
-      <div className="flex flex-row gap-5 py-5 overflow-auto">
+      <div className="flex flex-row gap-7 py-5 overflow-auto">
         {releases.map((release, index) => (
           <ReleaseCard releaseInfo={release} totalRelease={totalProgress[index]} key={index} />
         ))}
       </div>
+      <DashboardBottom metrics={metrics} />
     </div>
   );
 }
