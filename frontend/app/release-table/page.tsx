@@ -15,6 +15,7 @@ export default async function ReleaseTablePage() {
                 rows={rows}
                 filters={filters}
                 dateFilters={dateFilters}
+                rowKey="id_release"
             />
         </div>
     );

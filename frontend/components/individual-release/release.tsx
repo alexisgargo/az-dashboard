@@ -23,7 +23,12 @@ export default function Tickets(prop: {
 		</div>
 		<div style={{display:'flex',alignItems:'center'}}>
 			
-			<TicketsIssuesCard ticketsCount={prop.ticketsCount} bugsCount={prop.bugsCount}></TicketsIssuesCard>
+			<TicketsIssuesCard 
+				ticketsCount={prop.ticketsCount} 
+				bugsCount={prop.bugsCount} 
+				releaseName={prop.releaseInfo.name} 
+				releaseVersion={prop.releaseInfo.version}>
+			</TicketsIssuesCard>
 
 			<ReleaseInfo releaseInfo={prop.releaseInfo} totalProgress={prop.totalProgress}></ReleaseInfo>
 		</div>
