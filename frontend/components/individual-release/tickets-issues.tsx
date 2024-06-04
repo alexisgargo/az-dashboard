@@ -19,11 +19,11 @@ export default function TicketsIssuesCard(props: { ticketsCount: number, bugsCou
 
       <Card className="w-64">
         <CardHeader className="flex justify-center">
-          <h1 className="text-xl">View Tickets and Bugs</h1>
+          <h1 className="text-xl">View Issues and Bugs</h1>
         </CardHeader>
         <CardBody>
           <Button variant="light" className="flex justify-between py-2" onPress={() => onRedirectIssues(props.releaseName, props.releaseVersion)}>
-            <h1 className="text-small">Tickets list</h1>
+            <h1 className="text-small">Issues list</h1>
             <div>
               <Chip color="primary">{props.ticketsCount}</Chip>
             </div>
