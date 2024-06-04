@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Card, CardBody } from "@nextui-org/card";
 import { CircularProgress } from "@nextui-org/progress";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useRouter } from "next/navigation";
@@ -7,14 +7,11 @@ import { releaseProgress } from "@/app/releases-dashboard/releases-dashboard.typ
 export default function ReleaseCard(prop: {
     releaseInfo: releaseProgress;
     totalRelease: number;
-    date: string;
 }) {
     const router = useRouter();
 
     const onRedirect = (id: number) => {
-        // router.push(`/release/${id}`)
-        console.log("date", prop.date);
-        router.push(`/release/${id}?date=${prop.date}`);
+        router.push(`/release/${id}`);
     };
 
     console.log("Id:", prop.releaseInfo.release.id_release);
@@ -42,17 +39,25 @@ export default function ReleaseCard(prop: {
                             <h1 className="text-xl font-bold py-3">
                                 {prop.releaseInfo.release.name}
                             </h1>
-                            <p>QA testing: {prop.releaseInfo.percent_qa}%</p>
-                            <p>UAT testing: {prop.releaseInfo.percent_uat}%</p>
-                            <p>PT testing: {prop.releaseInfo.percent_pt}%</p>
-                            <p>
-                                3rd Party testing:{" "}
-                                {prop.releaseInfo.percent_third_party}%
-                            </p>
+                            <div className="text-sm">
+                                <p>
+                                    QA testing: {prop.releaseInfo.percent_qa}%
+                                </p>
+                                <p>
+                                    UAT testing: {prop.releaseInfo.percent_uat}%
+                                </p>
+                                <p>
+                                    PT testing: {prop.releaseInfo.percent_pt}%
+                                </p>
+                                <p>
+                                    3rd Party testing:{" "}
+                                    {prop.releaseInfo.percent_third_party}%
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-row justify-between space-x-5 pt-5">
-                        <div>
+                        <div className="text-sm">
                             <p>
                                 Release status:{" "}
                                 {prop.releaseInfo.release.status}

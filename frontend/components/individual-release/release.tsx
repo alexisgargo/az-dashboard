@@ -19,20 +19,20 @@ export default function Tickets(prop: {
     return (
         <div>
             <div>
-                <CalendarRelease
-                    selectedDate={prop.selectedDate}
-                ></CalendarRelease>
+                <CalendarRelease selectedDate={prop.selectedDate} />
                 <div></div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <TicketsIssuesCard
                         ticketsCount={prop.ticketsCount}
                         bugsCount={prop.bugsCount}
-                    ></TicketsIssuesCard>
+                        releaseName={prop.releaseInfo.name}
+                        releaseVersion={prop.releaseInfo.version}
+                    />
 
                     <ReleaseInfo
                         releaseInfo={prop.releaseInfo}
                         totalProgress={prop.totalProgress}
-                    ></ReleaseInfo>
+                    />
                 </div>
 
                 <div>

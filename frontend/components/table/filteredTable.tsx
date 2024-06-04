@@ -18,6 +18,7 @@ export interface TableProps {
     rows: Record<string, any>[];
     filters: filter[];
     dateFilters: dateFilter[];
+    rowKey: string;
 }
 
 export const FilteredTable: FC<TableProps> = (props) => {
@@ -176,7 +177,7 @@ export const FilteredTable: FC<TableProps> = (props) => {
                 </TableHeader>
                 <TableBody emptyContent={"No records found"} items={sortedRows}>
                     {(row) => (
-                        <TableRow key={row.id_release}>
+                        <TableRow key={row[props.rowKey]}>
                             {(columnKey) => (
                                 <TableCell>{row[columnKey]}</TableCell>
                             )}
