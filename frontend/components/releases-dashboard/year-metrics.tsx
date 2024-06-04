@@ -20,9 +20,9 @@ export default function YearMetrics(prop: { metrics: number[] }) {
       </CardHeader>
       <CardBody>
         <div className="grow grid grid-cols-2">
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row gap-5 justify-between">
             <CircularProgress
-              classNames={{ svg: "w-32 h-32", value: "text-3xl font-semibold text-white", }}
+              classNames={{ svg: "w-24 h-24", value: "text-xl font-semibold text-white", }}
               value={successCalculation}
               color={successCalculation > 75 ? 'success' : (successCalculation > 50 ? 'warning' : 'danger')}
               label={'Successful Releases'}
@@ -30,7 +30,7 @@ export default function YearMetrics(prop: { metrics: number[] }) {
             />
 
             <CircularProgress
-              classNames={{ svg: "w-32 h-32", value: "text-3xl font-semibold text-white", }}
+              classNames={{ svg: "w-24 h-24", value: "text-xl font-semibold text-white", }}
               value={hotfixCalculation}
               color={'success'}
               label={'Total Hotfixes'}
