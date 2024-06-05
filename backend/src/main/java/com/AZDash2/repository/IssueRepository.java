@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.sql.Time;
 import com.AZDash2.entity.Issue;
 
+
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Long> {
     @Query("SELECT MAX(i.record_time) FROM Issue i WHERE i.record_date <= :date AND i.release.id_release = :idRelease")
@@ -26,5 +27,9 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     @Query("SELECT COUNT(i) FROM Issue i WHERE i.record_date <= :date AND i.release.id_release = :idRelease AND i.record_time <= :time AND i.is_feature = false AND i.close_date IS  NULL")
     long countBugByDateAndIdReleaseAndTime(@Param("date") Date date, @Param("idRelease") Long idRelease,
      @Param("time") Time time);
+
+    @Query("SELECT i FROM Issue i WHERE i.issue_number = :issueNumber")
+    List<Issue> findByIssueNumber(@Param("issueNumber") String issueNumber);
+
 }
 
