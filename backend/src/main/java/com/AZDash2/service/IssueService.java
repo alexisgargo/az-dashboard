@@ -36,6 +36,9 @@ public class IssueService {
     @Value("${jira.api.token}")
     private String jiraApiToken;
 
+    @Value("#{'${jira.project.list}'.split(',')}")
+    private List<String> projectList;
+
     /*
      * Gets all ISSUES' specified information.
      */
@@ -57,7 +60,26 @@ public class IssueService {
 
         return processHttpResponse(response);
     }
+
+
+    public List<Issue> getIssuesOfGivenVersionFromAllProjects(String versionGiven) throws URISyntaxException, IOException, InterruptedException {
+        // TODO Auto-generated method stub
+        // for items on this list, get all issues of given version.
+
+        for (int i = 0; i < projectList.size(); ++i){
+            getIssues(projectList.get(i), versionGiven);
+            
+        }
+
+
+        throw new UnsupportedOperationException("Unimplemented method 'getIssuesOfGivenVersionFromAllProjects'");
+    }
     
+
+
+
+
+
     private List<Issue> processHttpResponse(HttpResponse<String> response) {
 
         JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
@@ -287,5 +309,7 @@ public class IssueService {
         return values;
 
     }
+
+
 
 }

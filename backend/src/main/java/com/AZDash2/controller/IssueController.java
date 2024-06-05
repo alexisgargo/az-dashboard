@@ -66,6 +66,22 @@ public class IssueController {
     }
 
 
+    @GetMapping("/issue/{versionGiven}")
+    public ResponseEntity<List<Issue>> pullIssuesOfGivenVersionFromAllProjects(@PathVariable String versionGiven) {
+    List<Issue> issues;
+        try {
+            issues = issueService.getIssuesOfGivenVersionFromAllProjects(versionGiven);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            logger.error("JIRA API failed", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+        }
+
+        return new ResponseEntity<>(issues, HttpStatus.OK);
+    }
+
+
+
+
     @Operation(summary = "Pull all BUGS from Jira of given project name and version")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Bugs from given project and version found",
