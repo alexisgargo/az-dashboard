@@ -39,7 +39,6 @@ const useRelease = () => {
     });
 
     const [totalProgress, setTotalProgress] = useState<number>(0);
-    const [showCalendar, setShowCalendar] = useState(false);
     const [chosenDate, setChosenDate] = useState("");
 
     function setSelectedDate(date: string) {
@@ -63,13 +62,7 @@ const useRelease = () => {
             );
         };
         fetchProgress();
-        console.log("Release: ", release);
-        console.log("ChosenDate: ", chosenDate);
     }, [release, chosenDate]);
-
-    const onOpen = () => {
-        setShowCalendar(!showCalendar);
-    };
 
     useEffect(() => {
         setTotalProgress(
@@ -86,7 +79,7 @@ const useRelease = () => {
         progress,
         issueCount,
         totalProgress,
-        showCalendar,
+        chosenDate,
         setRelease,
         setProgress,
         setIssueCount,

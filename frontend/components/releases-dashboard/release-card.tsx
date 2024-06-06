@@ -4,17 +4,18 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useRouter } from "next/navigation";
 import { releaseProgress } from "@/app/releases-dashboard/releases-dashboard.types";
 
-export default function ReleaseCard(prop: {
-    releaseInfo: releaseProgress;
-    totalRelease: number;
-}) {
+export default function ReleaseCard(
+    prop: Readonly<{
+        releaseInfo: releaseProgress;
+        totalRelease: number;
+        date: string;
+    }>
+) {
     const router = useRouter();
 
     const onRedirect = (id: number) => {
-        router.push(`/release/${id}`);
+        router.push(`/release/${id}?date=${prop.date}`);
     };
-
-    console.log("Id:", prop.releaseInfo.release.id_release);
 
     return (
         <div className="flex flex-none">
