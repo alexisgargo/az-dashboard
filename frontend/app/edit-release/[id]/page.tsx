@@ -1,4 +1,4 @@
-import { EditReleaseForm } from "@/components/releaseManagement/editReleaseForm";
+import { EditReleaseForm } from "@/components/edit-release/editReleaseForm";
 
 export default function editReleasePage({params}: any) {
     return (

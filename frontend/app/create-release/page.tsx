@@ -1,4 +1,4 @@
-import { CreateReleaseForm } from "@/components/releaseManagement/createReleaseForm";
+import { CreateReleaseForm } from "@/components/create-release/createReleaseForm";
 
 export default function createReleasePage() {
     return (
