@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("az_dashboard")
 public class DBIssueController {
 
   @Autowired DBIssueService issueService;
