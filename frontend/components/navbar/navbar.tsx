@@ -1,9 +1,15 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import GridViewIcon from '@mui/icons-material/GridView';
 import Image from "next/image"
 import Link from "next/link";
+import React from "react";
 
-export default function NavBar() {
+interface NavBarProps {
+  isAdminMenu?: boolean
+}
+
+const NavBar: React.FC<NavBarProps> = (props: NavBarProps) => {
   return (
     <Navbar isBordered>
       <NavbarBrand>
@@ -12,18 +18,27 @@ export default function NavBar() {
 
       <NavbarContent justify="center">
         <NavbarItem>
-          <Link href={"/"}>Dashboard</Link>
-        </NavbarItem>
-      </NavbarContent>
-
-      <NavbarContent justify="end">
-        <NavbarItem>
-          <Link href={"/login"}>
-            <AccountCircleIcon />
-            Log in
+          <Link href={"/"} className="flex flex-row">
+            <GridViewIcon />
+            <p className="pl-1"> Dashboard </p>
           </Link>
         </NavbarItem>
       </NavbarContent>
+
+      {!props.isAdminMenu ? (
+        <NavbarContent justify="end">
+          <NavbarItem>
+            <Link href={"/login"} className="flex flex-row">
+              <SupervisorAccountIcon />
+              <p className="pl-1"> Admin menu </p>
+            </Link>
+          </NavbarItem>
+        </NavbarContent>
+      ) : (
+        <NavbarContent></NavbarContent>
+      )}
     </Navbar>
   )
 }
+
+export default NavBar;

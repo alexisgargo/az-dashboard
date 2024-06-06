@@ -6,7 +6,6 @@ import { Button } from "@nextui-org/button";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DashboardBottom from "@/components/releases-dashboard/dashboard-bottom";
-import { useState } from "react";
 import NavBar from "@/components/navbar/navbar";
 
 export default function ReleasePage() {
@@ -35,7 +34,7 @@ export default function ReleasePage() {
           </div>
           <h1 className="text-4xl font-bold"> In-Progress Releases</h1>
           <div className="flex flex-row gap-7 py-5 overflow-auto">
-            {releases.map((release, index) => (
+            {releases?.map((release, index) => (
               <ReleaseCard releaseInfo={release} totalRelease={totalProgress[index]} key={index} />
             ))}
           </div>
