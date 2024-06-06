@@ -1,10 +1,10 @@
-export default function ReleaseLayout({
+export default function ReleaseDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex items-center justify-center">
+    <section>
       {children}
     </section>
   );

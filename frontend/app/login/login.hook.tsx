@@ -17,8 +17,13 @@ const useLogin = () => {
         }
     };
 
+    const handleCancelClick = () => {
+        console.log("Cancel clicked");
+        window.location.href = "/releases-dashboard";
+    };
+
     return {
-        username, setUsername, password, setPassword, message, handleLoginClick
+        username, setUsername, password, setPassword, message, handleLoginClick, handleCancelClick
     };
 
 };

@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,31 +45,7 @@ public class DBIssueController {
     return new ResponseEntity<>(issues, HttpStatus.OK);
   }
 
-  @Operation(summary = "Create a new Issue")
-  @ApiResponses(
-      value = {
-        @ApiResponse(
-            responseCode = "201",
-            description = "Issue created successfully",
-            content = {
-              @Content(
-                  mediaType = "application/json",
-                  schema = @Schema(implementation = Issue.class))
-            }),
-        @ApiResponse(
-            responseCode = "500",
-            description = "An error occurred while creating the Issue",
-            content = @Content)
-      })
-  @PostMapping("/issue")
-  public ResponseEntity<Issue> saveIssues(@RequestBody @Valid Issue issues) {
-    try {
-      issueService.saveIssues(issues);
-      return new ResponseEntity<>(issues, HttpStatus.CREATED);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+
 
   @Operation(summary = "Get the latest Issues by date and Release")
   @ApiResponses(
@@ -111,20 +86,29 @@ public class DBIssueController {
               @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))
             }),
         @ApiResponse(
-            responseCode = "500",
-            description = "An error occurred while fetching the Issue count",
+            responseCode = "400",
+            description = "Invalid date or release ID provided",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "204",
+            description = "No issues found for the provided date and release ID",
             content = @Content)
       })
   @GetMapping("/issues/count/{date}/{idRelease}")
-  public ResponseEntity<Map<String, Long>> countLatestIssuesByDateAndRelease(
+  public ResponseEntity<?> countLatestIssuesByDateAndRelease(
       @PathVariable("date") Date date, @PathVariable("idRelease") Long idRelease) {
-    Map<String, Long> counts = new HashMap<>();
-    try {
-      counts = issueService.countLatestIssuesByDateAndRelease(date, idRelease);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+    if (date == null || idRelease == null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body("Invalid date or release ID provided");
     }
 
-    return new ResponseEntity<>(counts, HttpStatus.OK);
+    Map<String, Long> counts = issueService.countLatestIssuesByDateAndRelease(date, idRelease);
+    if (counts == null
+        || counts.isEmpty()
+        || (counts.get("issues") == 0 && counts.get("bugs") == 0)) {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    return ResponseEntity.ok(counts);
   }
 }

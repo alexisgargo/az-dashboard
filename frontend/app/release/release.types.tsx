@@ -1,9 +1,7 @@
 export type release = {
-    // from release
-    id_release: number; // api params
+    id_release: number;
     name: string;
     version: string;
-    // engineer: string; // from release_engineer
     engineer: { name: string; id: number };
     code_cutoff: string;
     init_release_date: string;
@@ -12,7 +10,6 @@ export type release = {
     status: string;
     is_rollback: boolean;
     creation_date: string;
-    // admin: string; // from admin
     admin: {
         admin_name: string;
         admin_password: string;

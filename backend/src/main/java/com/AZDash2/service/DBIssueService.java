@@ -21,10 +21,6 @@ public class DBIssueService {
         return issueRepository.findAll();
     }
 
-    public void saveIssues(Issue issue) {
-        issueRepository.save(issue);
-    }
-
     public List<Issue> getLatestIssuesByDateAndRelease(Date date, Long idRelease) {
         Time latestTime = issueRepository.findLatestTimeByDateAndIdRelease(date, idRelease);
         return issueRepository.findByDateAndIdReleaseAndTime(date, idRelease, latestTime);
