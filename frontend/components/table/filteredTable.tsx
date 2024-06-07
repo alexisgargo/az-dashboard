@@ -28,7 +28,6 @@ export const FilteredTable: FC<TableProps> = (props) => {
     });
     const [filters, setFilters] = useState(props.filters);
     const [dateFilters, setDateFilters] = useState(props.dateFilters);
-    const [isFilterDate, setIsFilterDate] = useState(false);
 
     const filteredRows = useMemo(() => {
         let filteredRows = [...props.rows];
@@ -61,11 +60,10 @@ export const FilteredTable: FC<TableProps> = (props) => {
     }, [props.rows, filters, dateFilters]);
 
     const sortedRows = useMemo(() => {
-        if (!sortDescriptor.column) {
-            return filteredRows;
-        }
-
         return [...filteredRows].sort((a, b) => {
+            if (!sortDescriptor.column) {
+                return sortDescriptor.direction === "descending" ? -1 : 1;
+            }
             const first = a[sortDescriptor.column];
             const second = b[sortDescriptor.column];
             const cmp = first < second ? -1 : first > second ? 1 : 0;
@@ -92,7 +90,6 @@ export const FilteredTable: FC<TableProps> = (props) => {
                                         (f) => f.column === filter.column
                                     );
                                     newFilters[index].selected = "";
-                                    setIsFilterDate(false);
                                     return newFilters;
                                 })
                             }
@@ -103,7 +100,6 @@ export const FilteredTable: FC<TableProps> = (props) => {
                                         (f) => f.column === filter.column
                                     );
                                     newFilters[index].selected = e;
-                                    setIsFilterDate(false);
                                     return newFilters;
                                 })
                             }
@@ -128,7 +124,6 @@ export const FilteredTable: FC<TableProps> = (props) => {
                                         (f) => f.column === filter.column
                                     );
                                     newFilters[index].initialDate = e;
-                                    setIsFilterDate(true);
                                     return newFilters;
                                 });
                             }}
@@ -146,7 +141,6 @@ export const FilteredTable: FC<TableProps> = (props) => {
                                         (f) => f.column === filter.column
                                     );
                                     newFilters[index].finalDate = e;
-                                    setIsFilterDate(true);
                                     return newFilters;
                                 });
                             }}
