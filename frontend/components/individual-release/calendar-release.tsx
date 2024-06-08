@@ -15,7 +15,8 @@ export default function CalendarRelease(
         <div>
             <Popover placement="left" showArrow={true}>
                 <PopoverTrigger>
-                    <Button isIconOnly variant="light">
+                    <Button variant="light">
+                        {prop.date}
                         <CalendarMonthIcon />
                     </Button>
                 </PopoverTrigger>

@@ -25,6 +25,8 @@ export default function ReleasePage({
     useEffect(() => {
         if (date) {
             setSelectedDate(date);
+        } else {
+            setSelectedDate(new Date().toJSON().slice(0, 10));
         }
     }, [date]);
 
@@ -34,10 +36,6 @@ export default function ReleasePage({
         };
         fetchRelease();
     }, []);
-
-    if (chosenDate === "") {
-        return <div>No date selected</div>;
-    }
 
     return (
         <div>
