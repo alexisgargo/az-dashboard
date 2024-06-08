@@ -1,0 +1,8 @@
+Dockerfile
+.dockerignore
+frontend/node_modules
+frontend/npm-debug.log
+README.md
+frontend/.next
+.git
+.vscode
