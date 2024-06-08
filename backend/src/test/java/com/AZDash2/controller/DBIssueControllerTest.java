@@ -103,5 +103,39 @@ public class DBIssueControllerTest {
         .perform(get("/OnlyBugs/invalid-date/invalid-idRelease"))
         .andExpect(status().isBadRequest());
   }
+  @Test
+  public void testGetOnlyIssuesByDateAndRelease_Existing() throws Exception {
+    Date validDate = new Date(dateFormat.parse("2024-05-16").getTime());
+    Long validIdRelease = 1L;
+
+    this.mockMvc
+        .perform(get("/OnlyIssues/" + validDate + "/" + validIdRelease))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$", not(empty())));
+  }
+
+  @Test
+  public void testGetOnlyIssuesByDateAndRelease_NullDate() throws Exception {
+    Long validIdRelease = 1L;
+    this.mockMvc
+        .perform(get("/OnlyIssues/null/" + validIdRelease))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetOnlyIssuesByDateAndRelease_NullIdRelease() throws Exception {
+    Date validDate = new Date(dateFormat.parse("2024-05-16").getTime());
+    this.mockMvc
+        .perform(get("/OnlyIssues/" + validDate + "/null"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetOnlyIssuesByDateAndRelease_InvalidData() throws Exception {
+    this.mockMvc
+        .perform(get("/OnlyIssues/invalid-date/invalid-idRelease"))
+        .andExpect(status().isBadRequest());
+  }
 
 }
