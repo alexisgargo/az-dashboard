@@ -17,8 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.AZDash2.entity.Admin;
 import com.AZDash2.entity.Engineer;
 import com.AZDash2.entity.Release;
+import com.AZDash2.entity.ReleaseHistorical;
 import com.AZDash2.repository.AdminRepository;
 import com.AZDash2.repository.EngineerRepository;
+import com.AZDash2.repository.ReleaseHistoricalRepository;
 import com.AZDash2.repository.ReleaseRepository;
 
 @SpringBootTest
@@ -31,6 +33,9 @@ public class ReleaseServiceTests {
 
   @Mock
   ReleaseRepository releaseRepository;
+ 
+  @Mock
+  ReleaseHistoricalRepository releaseHistoricalRepository;
 
   @InjectMocks
   ReleaseService releaseService;
@@ -106,13 +111,14 @@ public class ReleaseServiceTests {
   void testSaveRelease() {
     // given
     Engineer engineer = new Engineer(1L, "John Doe");
-    Admin admin = new Admin(1L, "Jane Doe", "123", null); // Assuming no specific date is required for admin in this
-                                                          // test
+    Admin admin = new Admin(1L, "Jane Doe", "123", null);
     Release release = new Release(1L, "AZPRO", "1.0", engineer, admin, null, null, null, null, null, true,
         "In Progress", true, "Release Note");
     given(adminRepository.findById(admin.getId_admin())).willReturn(Optional.of(admin));
     given(engineerRepository.findById(engineer.getId_engineer())).willReturn(Optional.of(engineer));
     given(releaseRepository.save(any(Release.class))).willReturn(release);
+    given(releaseHistoricalRepository.save(any(ReleaseHistorical.class)))
+        .willAnswer(invocation -> invocation.getArgument(0));
 
     // when
     Release savedRelease = releaseService.saveRelease(release);

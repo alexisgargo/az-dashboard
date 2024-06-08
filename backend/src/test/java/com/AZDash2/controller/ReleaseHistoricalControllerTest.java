@@ -27,7 +27,7 @@ public class ReleaseHistoricalControllerTest {
     Long validIdRelease = 1L;
 
     mockMvc
-        .perform(get("/az_dashboard/historical/" + "2024-05-16" + "/" + 1L))
+        .perform(get("/historical/" + "2024-05-16" + "/" + 1L))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.release.id_release", is(validIdRelease.intValue())))
@@ -37,7 +37,7 @@ public class ReleaseHistoricalControllerTest {
   @Test
   public void testGetIssuesByDateAndRelease_InvalidInput() throws Exception {
     mockMvc
-        .perform(get("/az_dashboard/historical/" + "fecha-invalida" + "/" + "idRelease-invalido"))
+        .perform(get("/historical/" + "fecha-invalida" + "/" + "idRelease-invalido"))
         .andExpect(status().isBadRequest());
   }
 
@@ -46,7 +46,7 @@ public class ReleaseHistoricalControllerTest {
     Long invalidIdRelease = 99L;
 
     mockMvc
-        .perform(get("/az_dashboard/historical/" + "2024-05-16" + "/" + invalidIdRelease))
+        .perform(get("/historical/" + "2024-05-16" + "/" + invalidIdRelease))
         .andExpect(status().isNotFound());
   }
 }
