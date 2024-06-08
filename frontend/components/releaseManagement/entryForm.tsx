@@ -1,6 +1,5 @@
 import { release } from "@/app/release/release.types";
 import { Input } from "@nextui-org/input";
-import { useEffect } from "react";
 
 export interface EntryFormProps {
     label: string;

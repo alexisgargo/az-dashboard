@@ -8,8 +8,7 @@ import { useState, useEffect } from "react";
 import { release } from "@/app/release/release.types";
 import { Select, SelectSection, SelectItem } from "@nextui-org/select";
 import { getRelease } from "@/app/release/release.api";
-import { putRelease } from "@/app/edit-release/edit-release.api";
-import { getEngineers } from "@/app/edit-release/edit-release.api";
+import { putRelease, getEngineers } from "@/app/edit-release/edit-release.api";
 import { engineer } from "@/app/edit-release/release.types";
 
 export const EditReleaseForm = (props: { id: number }) => {

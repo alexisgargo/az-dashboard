@@ -37,6 +37,10 @@ export default function ReleasePage({
         fetchRelease();
     }, []);
 
+    if (!release || !progress) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div>
             <NavBar />
