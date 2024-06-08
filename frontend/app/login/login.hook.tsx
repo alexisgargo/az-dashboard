@@ -11,7 +11,14 @@ const useLogin = () => {
     const handleLoginClick = async () => {
         try {
             const response = await login(username, password);
-            setMessage('Login successful');
+            if (response.success) {
+                localStorage.setItem('isAuthenticated', 'true');
+                window.location.href = '/create-release';
+                setMessage('Login successful');
+            } else {
+                console.log('Login failed: Invalid Username or Password', response.message);
+                setMessage('Login failed: Invalid Username or Password');
+            }
         } catch (error: any) {
             setMessage(error.message || 'An error occurred');
         }
