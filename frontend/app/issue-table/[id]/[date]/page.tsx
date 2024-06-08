@@ -2,10 +2,9 @@
 import { FilteredTable } from "@/components/table/filteredTable";
 import { Divider } from "@nextui-org/divider";
 import { getIssues } from "../../issue-table.api";
-import { columns, filters, dateFilters } from "../../issue-table.types";
+import { columns, filters, dateFilters, issue } from "../../issue-table.types";
 import CalendarRelease from "@/components/individual-release/calendar-release";
 import { useEffect, useState } from "react";
-import { issue } from "../../issue-table.types";
 import NavBar from "@/components/navbar/navbar";
 
 export default function IssueTablePage({

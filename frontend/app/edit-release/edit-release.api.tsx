@@ -14,7 +14,6 @@ export async function putRelease(
         body: JSON.stringify(Release),
     });
     const data = await res.json();
-    console.log(data);
     return data;
 }
 

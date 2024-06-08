@@ -11,7 +11,6 @@ export async function postCreateRelease(Release: release): Promise<release> {
         body: JSON.stringify(Release),
     });
     const data = await res.json();
-    console.log(data);
     return data;
 }
 
