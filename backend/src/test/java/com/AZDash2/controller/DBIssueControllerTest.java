@@ -20,7 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public class DBIssueControllerTest {
 
-  @Autowired private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
   private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -30,7 +31,7 @@ public class DBIssueControllerTest {
     Long validIdRelease = 1L;
 
     this.mockMvc
-        .perform(get("/az_dashboard/issues/count/" + validDate + "/" + validIdRelease))
+        .perform(get("/issues/count/" + validDate + "/" + validIdRelease))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$", not(empty())));
@@ -40,7 +41,7 @@ public class DBIssueControllerTest {
   public void testCountLatestIssuesByDateAndRelease_NullDate() throws Exception {
     Long validIdRelease = 1L;
     this.mockMvc
-        .perform(get("/az_dashboard/issues/count/null/" + validIdRelease))
+        .perform(get("/issues/count/null/" + validIdRelease))
         .andExpect(status().isBadRequest());
   }
 
@@ -48,7 +49,7 @@ public class DBIssueControllerTest {
   public void testCountLatestIssuesByDateAndRelease_NullIdRelease() throws Exception {
     Date validDate = new Date(dateFormat.parse("2024-05-16").getTime());
     this.mockMvc
-        .perform(get("/az_dashboard/issues/count/" + validDate + "/null"))
+        .perform(get("/issues/count/" + validDate + "/null"))
         .andExpect(status().isBadRequest());
   }
 
@@ -57,14 +58,50 @@ public class DBIssueControllerTest {
     Date validDate = new Date(dateFormat.parse("2024-05-16").getTime());
     Long validIdRelease = 99L;
     this.mockMvc
-        .perform(get("/az_dashboard/issues/count/" + validDate + "/" + validIdRelease))
+        .perform(get("/issues/count/" + validDate + "/" + validIdRelease))
         .andExpect(status().isNoContent());
   }
 
   @Test
   public void testCountLatestIssuesByDateAndRelease_InvalidData() throws Exception {
     this.mockMvc
-        .perform(get("/az_dashboard/issues/count/invalid-date/invalid-idRelease"))
+        .perform(get("/issues/count/invalid-date/invalid-idRelease"))
         .andExpect(status().isBadRequest());
   }
+
+  @Test
+  public void testGetOnlyBugByDateAndRelease_Existing() throws Exception {
+    Date validDate = new Date(dateFormat.parse("2024-05-17").getTime());
+    Long validIdRelease = 1L;
+
+    this.mockMvc
+        .perform(get("/OnlyBugs/" + validDate + "/" + validIdRelease))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$", not(empty())));
+  }
+
+  @Test
+  public void testGetOnlyBugByDateAndRelease_NullDate() throws Exception {
+    Long validIdRelease = 1L;
+    this.mockMvc
+        .perform(get("/OnlyBugs/null/" + validIdRelease))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetOnlyBugByDateAndRelease_NullIdRelease() throws Exception {
+    Date validDate = new Date(dateFormat.parse("2024-05-16").getTime());
+    this.mockMvc
+        .perform(get("/OnlyBugs/" + validDate + "/null"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetOnlyBugByDateAndRelease_InvalidData() throws Exception {
+    this.mockMvc
+        .perform(get("/OnlyBugs/invalid-date/invalid-idRelease"))
+        .andExpect(status().isBadRequest());
+  }
+
 }
