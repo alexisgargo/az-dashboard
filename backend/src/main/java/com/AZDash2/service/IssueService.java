@@ -77,23 +77,34 @@ public class IssueService {
     }
 
 
-    public List<Issue> getIssuesOfGivenVersionFromAllProjects(String versionGiven) throws URISyntaxException, IOException, InterruptedException {
-        // TODO Auto-generated method stub
-        // for items on this list, get all issues of given version.
+    public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
+    throws URISyntaxException, IOException, InterruptedException {
+    HttpClient client = HttpClient.newHttpClient();
+    HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20fixVersion=" + versionGiven
+            + "&maxResults=1000&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,comment,status"))
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+            .GET()
+            .build();
 
-        for (int i = 0; i < projectList.size(); ++i){
-            getIssues(projectList.get(i), versionGiven);
-            
-        }
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+        logger.debug("Response Http Status {}", response.statusCode());
+        logger.debug("Response Body {}", response.body());
 
-
-        throw new UnsupportedOperationException("Unimplemented method 'getIssuesOfGivenVersionFromAllProjects'");
+        return processHttpResponse(response);
     }
     
 
+    public List<Issue> getIssuesOfGivenVersionFromAllProjects(String versionGiven) throws URISyntaxException, IOException, InterruptedException {
+        List<Issue> issues = new ArrayList<>();
+        
+        for (int i = 0; i < projectList.size(); ++i){
+            issues.addAll(getIssuesFromProjectList(projectList.get(i), versionGiven));
+        }
+        return issues;
 
-
-
+    }
 
     private List<Issue> processHttpResponse(HttpResponse<String> response) {
 
@@ -161,6 +172,7 @@ public class IssueService {
         return issues;
     }
 
+    
     /*
      * Gets all BUGS' specified information
      */

@@ -66,7 +66,7 @@ public class IssueController {
     }
 
 
-    @GetMapping("/issue/{versionGiven}")
+    @GetMapping("/projects-issues/{versionGiven}")
     public ResponseEntity<List<Issue>> pullIssuesOfGivenVersionFromAllProjects(@PathVariable String versionGiven) {
     List<Issue> issues;
         try {
@@ -78,8 +78,6 @@ public class IssueController {
 
         return new ResponseEntity<>(issues, HttpStatus.OK);
     }
-
-
 
 
     @Operation(summary = "Pull all BUGS from Jira of given project name and version")
