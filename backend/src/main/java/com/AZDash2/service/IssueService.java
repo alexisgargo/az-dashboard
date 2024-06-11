@@ -51,12 +51,14 @@ public class IssueService {
     @Value("${jira.api.token}")
     private String jiraApiToken;
 
+    @Autowired
+    HttpClient client;
+
     /*
      * Gets all ISSUES' specified information.
      */
     public List<Issue> getIssues(String projectIdOrKey, String versionGiven)
             throws URISyntaxException, IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder() //en vez de project=, hacer porejectIN
                 .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~"
                         + versionGiven + "%20AND%20project=" + projectIdOrKey
