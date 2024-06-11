@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { login } from "./login.api";
-
+import { redirect } from "next/navigation";
 
 const useLogin = () => {
     const [username, setUsername] = useState<string>('');
@@ -16,13 +16,13 @@ const useLogin = () => {
                 window.location.href = '/create-release';
                 setMessage('Login successful');
             } else {
-                console.log('Login failed: Invalid Username or Password', response.message);
                 setMessage('Login failed: Invalid Username or Password');
             }
         } catch (error: any) {
             setMessage(error.message || 'An error occurred');
         }
     };
+    
 
     const handleCancelClick = () => {
         console.log("Cancel clicked");

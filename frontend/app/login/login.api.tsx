@@ -17,6 +17,6 @@ export async function login(username: string, password: string): Promise<{ succe
     const data = await res.json();
     return {
         success: data.success,
-        message: data.message // Optional message property for additional information
+        message: data.message 
     };
 }

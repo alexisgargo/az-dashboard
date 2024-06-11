@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import {useLayoutEffect, useState } from "react";
 
 const useAuth = () => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!localStorage.getItem('isAuthenticated')) {
             window.location.href = '/login';
         }

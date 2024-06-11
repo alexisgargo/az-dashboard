@@ -22,7 +22,7 @@ const LoginPage: React.FC = () => {
                         <LoginButton onClick={handleLoginClick} />
                         <CancelButton onClick={handleCancelClick} />
                     </div>
-                    <p className="mt-4 text-red-500">{message}</p>
+                    <p className={`mt-4 ${message === 'Login successful' ? 'text-green-500' : 'text-red-500'}`}>{message}</p>
                 </CardBody>
             </Card>
         </div>
