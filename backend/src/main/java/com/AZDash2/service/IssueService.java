@@ -299,9 +299,9 @@ public class IssueService {
     }
     
     @Scheduled(cron = "0 1 * * * *", zone = "America/Chihuahua")
-    public void scheduledTask() {
+    public void scheduledgetAndSaveIssues() {
         try {
-            getAndSaveIssues("DAS");
+            getAndSaveIssues(jiraApiToken);
         } catch (Exception e) {
             e.printStackTrace();
         }

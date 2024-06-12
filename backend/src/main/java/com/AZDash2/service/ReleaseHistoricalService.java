@@ -196,7 +196,7 @@ public class ReleaseHistoricalService {
   }
 
   @Scheduled(cron = "0 0 * * * *", zone = "America/Chihuahua")
-  public void scheduledTask() {
+  public void scheduledGetAndSaveProgressReleases() {
     try {
       getAndSaveProgressReleases(jiraApiToken);
     } catch (Exception e) {
