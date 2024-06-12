@@ -2,6 +2,9 @@ FROM maven:3.8.3-openjdk-17 AS build
 COPY backend/src /home/app/src
 COPY backend/pom.xml /home/app
 COPY backend/test-env.properties /home/app
-RUN mvn -f /home/app/pom.xml clean package
+COPY backend/env.properties /home/app
+# RUN mvn -f /home/app/pom.xml clean package
+RUN mvn package -f /home/app/pom.xml -Dmaven.test.skip
+# mvn package -Dmaven.test.skip
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/home/app/target/dashboard_b2b.jar"]

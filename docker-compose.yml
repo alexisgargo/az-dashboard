@@ -40,7 +40,7 @@ services:
             - ./data/db:/var/lib/mysql
         environment:
             MYSQL_DATABASE: az_dashboard
-            MYSQL_USER: root
+            MYSQL_USER: dashboard_user
             MYSQL_PASSWORD_FILE: /run/secrets/db_password
             MYSQL_ROOT_PASSWORD: /run/secrets/db_password_root
         secrets:
