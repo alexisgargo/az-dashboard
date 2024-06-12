@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 
-
-
 @RestController
 public class IssueController {
     
@@ -52,19 +49,6 @@ public class IssueController {
         @ApiResponse(responseCode = "404", description = "Project not found", 
         content = @Content)
     })
-    @GetMapping("/issue/{projectIdOrKey}/{versionGiven}")
-    public ResponseEntity<List<Issue>> pullIssues(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
-    List<Issue> issues;
-        try {
-            issues = issueService.getIssues(projectIdOrKey, versionGiven);
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            logger.error("JIRA API failed", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
-        }
-
-        return new ResponseEntity<>(issues, HttpStatus.OK);
-    }
-
 
     @GetMapping("/projects-issues/{versionGiven}")
     public ResponseEntity<List<Issue>> pullIssuesOfGivenVersionFromAllProjects(@PathVariable String versionGiven) {
