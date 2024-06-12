@@ -1,0 +1,1186 @@
+{
+    "expand": "schema,names",
+    "startAt": 0,
+    "maxResults": 1000,
+    "total": 3,
+    "issues": [
+      {
+        "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+        "id": "530707",
+        "self": "https://track.autozone.com/rest/api/2/issue/530707",
+        "key": "EOTP-1916",
+        "fields": {
+          "summary": "JSON 856 ASN crossReferenceId left padding",
+          "creator": {
+            "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+            "name": "10568198",
+            "key": "10568198",
+            "emailAddress": "enrique.sanchez@autozone.com",
+            "avatarUrls": {
+              "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+              "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+              "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+              "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+            },
+            "displayName": "ENRIQUE ANTONIO SANCHEZ",
+            "active": true,
+            "timeZone": "America/Chicago"
+          },
+          "resolutiondate": "2024-05-17T10:30:26.000-0500",
+          "created": "2024-05-14T13:51:22.000-0500",
+          "comment": {
+            "comments": [
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/530707/comment/862920",
+                "id": "862920",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "https://gitlab.autozone.com/commercial/b2b/azpro/-/merge_requests/4773",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-14T15:18:51.892-0500",
+                "updated": "2024-05-14T15:18:51.892-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/530707/comment/862922",
+                "id": "862922",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~10877817]  please perform code review",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-14T15:19:22.728-0500",
+                "updated": "2024-05-14T15:19:22.728-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/530707/comment/862960",
+                "id": "862960",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+                  "name": "10877817",
+                  "key": "10877817",
+                  "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+                  },
+                  "displayName": "Mohanaprasad Pushpanathan",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "The change looks good",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+                  "name": "10877817",
+                  "key": "10877817",
+                  "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+                  },
+                  "displayName": "Mohanaprasad Pushpanathan",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-14T15:55:01.035-0500",
+                "updated": "2024-05-14T15:55:01.035-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/530707/comment/864652",
+                "id": "864652",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Validated for below values in cross reference id and works fine. The scenarios are validated thru placing order from AZEO service. The batch process scenarios will be validated along with EOTP-1802.\r\n\r\nCross Reference ID in DB --\u003E ediCrossReferanceId\r\n1 --\u003E 00001\r\n32 --\u003E 00032\r\n0324 --\u003E 00324\r\n1234 --\u003E 01234\r\n14565 --\u003E14565\r\n145566 --\u003E 145566\r\n\r\n [^EOTP-1916.docx] ",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-16T11:19:37.746-0500",
+                "updated": "2024-05-16T11:19:37.746-0500"
+              }
+            ],
+            "maxResults": 4,
+            "total": 4,
+            "startAt": 0
+          },
+          "fixVersions": [
+            {
+              "self": "https://track.autozone.com/rest/api/2/version/16860",
+              "id": "16860",
+              "description": "",
+              "name": "AZP-release-3.7.0",
+              "archived": false,
+              "released": false
+            }
+          ],
+          "assignee": {
+            "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+            "name": "10568198",
+            "key": "10568198",
+            "emailAddress": "enrique.sanchez@autozone.com",
+            "avatarUrls": {
+              "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+              "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+              "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+              "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+            },
+            "displayName": "ENRIQUE ANTONIO SANCHEZ",
+            "active": true,
+            "timeZone": "America/Chicago"
+          },
+          "status": {
+            "self": "https://track.autozone.com/rest/api/2/status/10001",
+            "description": "",
+            "iconUrl": "https://track.autozone.com/",
+            "name": "Done",
+            "id": "10001",
+            "statusCategory": {
+              "self": "https://track.autozone.com/rest/api/2/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "success",
+              "name": "Done"
+            }
+          }
+        }
+      },
+      {
+        "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+        "id": "516229",
+        "self": "https://track.autozone.com/rest/api/2/issue/516229",
+        "key": "EOTP-1794",
+        "fields": {
+          "summary": "Changes to send JSON format for 856 ASN",
+          "creator": {
+            "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+            "name": "10877817",
+            "key": "10877817",
+            "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+            "avatarUrls": {
+              "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+              "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+              "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+              "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+            },
+            "displayName": "Mohanaprasad Pushpanathan",
+            "active": true,
+            "timeZone": "America/Chicago"
+          },
+          "resolutiondate": "2024-05-20T09:49:29.000-0500",
+          "created": "2024-04-11T13:51:51.000-0500",
+          "comment": {
+            "comments": [
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/842155",
+                "id": "842155",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Attached there is an example of a generated ASN.  [^20240417201525287-sample.monro.dev.report] \r\n\r\nthis is the content with format (files is not formatted)\r\n{code:js}\r\n{\r\n    \"ediVendorId\": \"30882\",\r\n    \"ediTypeId\": 856,\r\n    \"ediCrossReferanceId\": \"17517\",\r\n    \"pin\": \"11096251\",\r\n    \"poNumber\": \"PO-0001\",\r\n    \"cicNumber\": 202896,\r\n    \"invoiceDate\": \"2024-03-28\",\r\n    \"lineItems\": [\r\n        {\r\n            \"seqId\": 1,\r\n            \"lineCode\": \"CHL\",\r\n            \"partNumber\": \"S4967\",\r\n            \"skuNumber\": 61747,\r\n            \"quantity\": 4\r\n        }\r\n    ]\r\n}{code}\r\n\r\nstructure is based on  [^Schema-ASN-EDI.json] ",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-17T15:24:21.459-0500",
+                "updated": "2024-04-17T15:28:14.969-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/842173",
+                "id": "842173",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~10877817] Please perform code review.\r\n\r\n[https://gitlab.autozone.com/commercial/b2b/azpro/-/merge_requests/4672]\r\n\r\nPlease notice that the changes for this ticket are only these commits.\r\n[https://gitlab.autozone.com/commercial/b2b/azpro/-/merge_requests/4672/diffs?commit_id=cb772ecff25545ea73bf4a3f89baf56931bc2e32]\r\n[https://gitlab.autozone.com/commercial/b2b/azpro/-/merge_requests/4672/diffs?commit_id=7efc6dd81ba4e6f78d6b74e108abbfa805f8a76f]",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-17T15:39:40.198-0500",
+                "updated": "2024-04-17T15:39:40.198-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/844500",
+                "id": "844500",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+                  "name": "10877817",
+                  "key": "10877817",
+                  "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+                  },
+                  "displayName": "Mohanaprasad Pushpanathan",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Please address the code review comments",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+                  "name": "10877817",
+                  "key": "10877817",
+                  "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+                  },
+                  "displayName": "Mohanaprasad Pushpanathan",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-19T17:05:24.362-0500",
+                "updated": "2024-04-19T17:05:24.362-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/845490",
+                "id": "845490",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~10877817]  code review suggestions have been addressed. Please review",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-22T14:55:08.823-0500",
+                "updated": "2024-04-22T14:55:08.823-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/845492",
+                "id": "845492",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+                  "name": "10877817",
+                  "key": "10877817",
+                  "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+                  },
+                  "displayName": "Mohanaprasad Pushpanathan",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Code review passed",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+                  "name": "10877817",
+                  "key": "10877817",
+                  "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+                  },
+                  "displayName": "Mohanaprasad Pushpanathan",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-22T14:56:06.137-0500",
+                "updated": "2024-04-22T14:56:06.137-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/852220",
+                "id": "852220",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~10877817] MRs for release 3.7.0\r\n\r\n[https://gitlab.autozone.com/commercial/b2b/azpro/-/merge_requests/4727]\r\n\r\n[https://gitlab.autozone.com/secrets/commercial/b2b/azpro-new/-/merge_requests/707]\r\n\r\n \r\n\r\n ",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-30T14:14:41.559-0500",
+                "updated": "2024-04-30T14:38:47.023-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/856985",
+                "id": "856985",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=11050615",
+                  "name": "11050615",
+                  "key": "JIRAUSER163953",
+                  "emailAddress": "manjulatha.arumugam@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=11802",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=11802",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=11802",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=11802"
+                  },
+                  "displayName": "Manjulatha Arumugam",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "{*}Pre-condition:{*}{*}{{*}}\r\n\r\nPin should be in customer group -\u003E Digital B2B USA -\u003E Monro EDI Order Feed\r\nPin should  be in customer group-\u003E Digital B2B USA -\u003E AZEO Invoice Reconciliation\r\nPin should have cross reference id set up in CFM DB *SELECT* * *FROM* CF.CMRCL_CUST_ID_XREF *WHERE* CMRCL_CUST_ID = '100818' or [https://dv-api.autozone.com/customers/commercial/v3/customers/100818/cross-references?referenceTypeCode=MONRO&isActiveFl=true]\r\nInvoice Attributes should have Yes\r\nSegmentation - Trickle Invoices - Should be Yes\r\n\r\n*Test Scenarios:*\r\nRegular Non VDP order with PO required pin as [z] format\r\nSplit order with PO required pin as[zzz-abc] format\r\n\r\nNeed to cover some negative scenarios:\r\nValidate the pin without cross reference id , pin which is not in customer group but has cross reference and pin which is both not in customer group and not having cross reference id.\r\n\r\nWe need to follow the below steps:\r\n\r\n1) Create an azeo order and Generate invoice\r\n\r\n2) Validate in trickle that invoice has been sent to atg [trickles@qa-tracker-xl01|mailto:trickles@qa-tracker-xl01] CommInvoiceLoad.log\r\n\r\n3) Validate in atg that invoice info was received [ua000281@dv-blazer1-xl62|mailto:ua000281@dv-blazer1-xl62] [ua000281@dv-blazer1-xl62|mailto:ua000281@dv-blazer1-xl62]\r\nin the path /az/srvr/atg/invoice reports/pending_invoice\r\n\r\n4) Execute method [http://dv-blazer1-xl62.autozone.com:8280/dyn/admin/nucleus/autozone/pro/integrations/invoicereport/InvoiceReportService/?shouldInvokeMethod=processInvoicedReports] in dyn/admin\r\n\r\n5) Validate Generated ASN file in /az/srvr/atg/pending_asn\r\n\r\nCC: [~30081459] ",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=11050615",
+                  "name": "11050615",
+                  "key": "JIRAUSER163953",
+                  "emailAddress": "manjulatha.arumugam@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=11802",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=11802",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=11802",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=11802"
+                  },
+                  "displayName": "Manjulatha Arumugam",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-07T10:12:55.822-0500",
+                "updated": "2024-05-10T08:15:49.793-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/857323",
+                "id": "857323",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "*Test Scenarios:*\r\n\r\nValidate that ASN Json is generated when sending AZEO order with Monroe EDI configured pin and with po sent in request (Single Non VDP, Split Order) - Invoice through picking app\r\nValidate that ASN Json is generated when sending AZEO order with Monroe EDI configured pin and with po not sent in request (Multi Non VDPs, Multi VDPs) - Invoice through order validation/gemini\r\nValidate that ASN Json is not generated when pin is not configured or cross reference id is not available the pin \r\n        submit order with pin which has no cross reference id\r\n        submit order with pin which has cross reference but the pin is not MONROE EDI ORDER FEED\r\n        submit order with pin which is not MONROE EDI ORDER FEED and also not having cross reference id\r\n\r\nValidate the ASN Json is generated when sending AZEO order with different source id and Monroe configured pin\r\n\r\n \r\n\r\n[~10877817]  [~10568198]  Please review and let us know if we missed any scenarios.",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-07T13:54:47.516-0500",
+                "updated": "2024-05-08T11:07:24.965-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/860645",
+                "id": "860645",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Validated in QA. Below are the observations noticed. \r\n\r\n[~10568198]  Could you please review these and let us know if its expected?\r\n\r\n1. PO number truncated from 112233ACXMultiNonVDPs (given in request of AZEO) to 112233ACXMultiNon (in pending asn record)\r\n2. Alt part number displayed instead of part number\r\n{\r\n    \"ediVendorId\": \"30882\",\r\n    \"ediTypeId\": 856,\r\n    \"ediCrossReferanceId\": \"1234\",\r\n    \"pin\": \"112233\",\r\n    \"poNumber\": \"112233ACXMultiNon\",\r\n    \"cicNumber\": 266291,\r\n    \"invoiceDate\": \"2024-05-10\",\r\n    \"lineItems\": [\r\n        {\r\n            \"seqId\": 1,\r\n            \"lineCode\": \"OWI\",\r\n            \"partNumber\": \"DLA-24\",\r\n            \"skuNumber\": 361621,\r\n            \"quantity\": 1\r\n        },\r\n        {\r\n            \"seqId\": 2,\r\n            \"lineCode\": \"CWA\",\r\n           {color:#FF0000} *\"partNumber\": \"759000\", (PartNumber is 39000)*{color}\r\n            \"skuNumber\": 596411,\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}\r\n3. Able to see ASN file log generated even if cross reference id is not configured or pin is not in monroe configured\r\n{\r\n    \"ediVendorId\": \"30882\",\r\n    \"ediTypeId\": 856,\r\n{color:#FF0000}    *\"ediCrossReferanceId\": \"\",*{color}\r\n    \"pin\": \"112233\",\r\n    \"poNumber\": \"NoCrossRefID\",\r\n    \"cicNumber\": 266292,\r\n    \"invoiceDate\": \"2024-05-10\",\r\n    \"lineItems\": [\r\n        {\r\n            \"seqId\": 1,\r\n            \"lineCode\": \"OWI\",\r\n            \"partNumber\": \"DLA-24\",\r\n            \"skuNumber\": 361621,\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}\r\n\r\nBelow is when the pin is not in Monroe EDI Order Feed group.\r\n\r\n{\r\n    \"ediVendorId\": \"30882\",\r\n    \"ediTypeId\": 856,\r\n    \"ediCrossReferanceId\": \"1234\",\r\n    \"pin\": \"112233\",\r\n    \"poNumber\": \"NoMonroeConfigure\",\r\n    \"cicNumber\": 266293,\r\n    \"invoiceDate\": \"2024-05-10\",\r\n    \"lineItems\": [\r\n        {\r\n            \"seqId\": 1,\r\n            \"lineCode\": \"OWI\",\r\n            \"partNumber\": \"DLA-24\",\r\n            \"skuNumber\": 361621,\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}\r\n",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-10T14:36:23.260-0500",
+                "updated": "2024-05-10T14:36:23.260-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/860794",
+                "id": "860794",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~30081459]  Part number is taken from invoice info.\r\n\r\n!image-2024-05-10-15-54-05-192.png|width=876,height=511!\r\n\r\n!image-2024-05-10-15-54-52-445.png!\r\n\r\nPart number is OK\r\n\r\nIn regards of the cross reference id it should be 1234\r\n\r\n!image-2024-05-10-15-58-31-777.png|width=972,height=228!\r\n\r\nI see most of the examples from today have a valid cross reference id\r\n\r\n!image-2024-05-10-16-02-02-163.png|width=1038,height=320!\r\n\r\nSo must likely you tested when apigw was failing. You can retest and confirm that cross reference is not failing.",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-10T17:02:48.105-0500",
+                "updated": "2024-05-10T17:02:48.105-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/860881",
+                "id": "860881",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~10568198] \r\nFor cross reference id, I intentionally removed reference id from DB so that ASN logs will not generated.\r\nHowever we could still get ASN file with empty cross reference ID. Is that expected? Can we generate ASN file without cross reference id as well?\r\n\r\nAlso there is po number truncate observation. Please check.\r\n",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-11T18:31:58.317-0500",
+                "updated": "2024-05-11T18:31:58.317-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/861352",
+                "id": "861352",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~30081459] \r\n\r\non which DB did you remove the crossReferenceId?\r\n\r\nwhat is the expected PO number? is json it has the same value that appears in the pdf invoice",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-13T10:13:08.067-0500",
+                "updated": "2024-05-13T10:13:08.067-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/861356",
+                "id": "861356",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "I have removed cross reference from CF.CMRCL_CUST_ID_XREF and verified the same in [https://qa-api.autozone.com/customers/commercial/v3/customers/100818/cross-references?referenceTypeCode=MONRO&isActiveFl=true]",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-13T10:15:48.077-0500",
+                "updated": "2024-05-13T13:46:06.933-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/862614",
+                "id": "862614",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~10568198] Regarding the po number observation, PO number is same in invoice PDF, pending ASN file, in COS DB and also in Store.\r\n\r\n{\"ediVendorId\":\"30882\",\"ediTypeId\":856,\"ediCrossReferanceId\":\"14565\",\"pin\":\"156053\",\"poNumber\":\"156053MEOPONumber\",\"cicNumber\":266314,\"invoiceDate\":\"2024-05-14\",\"lineItems\":[\\{\"seqId\":1,\"lineCode\":\"OWI\",\"partNumber\":\"DLA-24\",\"skuNumber\":361621,\"quantity\":1},\\{\"seqId\":2,\"lineCode\":\"\",\"partNumber\":\"0\",\"skuNumber\":0,\"quantity\":1}]}\r\n\r\n !image-2024-05-14-11-19-41-960.png|thumbnail! \r\n !screenshot-1.png|thumbnail! \r\n !screenshot-2.png|thumbnail! \r\n \r\nChecking on other 2 observations.\r\nWhen pin is not monroe configured\r\nWhen pin does not have reference id in CF DB",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-14T11:19:10.076-0500",
+                "updated": "2024-05-14T11:19:45.072-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/862745",
+                "id": "862745",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~30081459] in regards of \"When pin does not have reference id in CF DB\" that is not a valid scenario. When we process the 810 files in monro edi processor job if the input data has an invalid cross reference the order will not be generated.\r\n\r\nThat means that orders are created only for pins having a cross reference, and therefore when the order is invoiced and the ASN is generated the pin will have always a crossreference id.\r\n\r\ncc [~10877817] ",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-14T13:11:29.727-0500",
+                "updated": "2024-05-14T13:11:29.727-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/862746",
+                "id": "862746",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Validated below scenarios in QA and works fine through AZEO service. Batch process will be handled in EOTP-1802.\r\n \r\n1. Validate that ASN Json is generated when sending AZEO order with Monroe EDI configured pin and with po sent in request (Single Non VDP, Split Order) - Invoice through picking app\r\n2. Validate that ASN Json is generated when sending AZEO order with Monroe EDI configured pin and with po not sent in request (Multi Non VDPs, Multi VDPs) - Invoice through order validation/gemini\r\n3. Validate the ASN Json is generated when sending AZEO order with different source id and Monroe configured pin\r\n\r\n[^EOTP-1794.docx] \r\n\r\nBelow scenario is not valid when we create order directly through AZEO endpoint. Only the batch process will check for cross reference id and whether the pin is in monroe configured or not. [~10568198] Could you please confirm on this understanding.\r\n\r\nValidate that ASN Json is not generated when pin is not configured or cross reference id is not available the pin \r\n        submit order with pin which has no cross reference id\r\n        submit order with pin which has cross reference but the pin is not MONROE EDI ORDER FEED\r\n        submit order with pin which is not MONROE EDI ORDER FEED and also not having cross reference id\r\n\r\nNote: The batch process for above scenarios will be validated in EOTP-1802",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=30081459",
+                  "name": "30081459",
+                  "key": "30081459",
+                  "emailAddress": "saranya.vijayakumar@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=30081459&avatarId=10707",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=30081459&avatarId=10707",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=30081459&avatarId=10707",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=30081459&avatarId=10707"
+                  },
+                  "displayName": "SARANYA VIJAYAKUMAR",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-14T13:11:40.244-0500",
+                "updated": "2024-05-14T13:12:15.025-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/862768",
+                "id": "862768",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~30081459] \r\n\r\nWhen pin is not in MONRO group then the invoice info won't be sent to AZPRO to generate the ASN.\r\n\r\nAny pin that is not in Invoice Recon or (MONRO, MAVIS) group id we be sent to ATG by default to be processed as AZPRO or Punchout order. If the Order was created in AZEO then the info will be rejected in AZPRO (that is expected).\r\n\r\n!https://b2b-devops-docs.apps.prod.mem.cloud.autozone.com/assets/images/Trickle/trickleInvoice.png!\r\n\r\nOnly when the order was created by a PIN in MONTO group will generate the ASN file",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-05-14T13:34:47.004-0500",
+                "updated": "2024-05-14T13:35:00.849-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/516229/comment/878260",
+                "id": "878260",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=11239835",
+                  "name": "11239835",
+                  "key": "JIRAUSER166528",
+                  "emailAddress": "arjun.vanga@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=JIRAUSER166528&avatarId=14518",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=JIRAUSER166528&avatarId=14518",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=JIRAUSER166528&avatarId=14518",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=JIRAUSER166528&avatarId=14518"
+                  },
+                  "displayName": "Arjun Vanga",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Validated in stage. Working as expected\r\n\r\n[^EOTP-1794_UAT Test Results.docx]",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=11239835",
+                  "name": "11239835",
+                  "key": "JIRAUSER166528",
+                  "emailAddress": "arjun.vanga@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=JIRAUSER166528&avatarId=14518",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=JIRAUSER166528&avatarId=14518",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=JIRAUSER166528&avatarId=14518",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=JIRAUSER166528&avatarId=14518"
+                  },
+                  "displayName": "Arjun Vanga",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-06-04T12:45:49.010-0500",
+                "updated": "2024-06-04T12:45:49.010-0500"
+              }
+            ],
+            "maxResults": 18,
+            "total": 18,
+            "startAt": 0
+          },
+          "fixVersions": [
+            {
+              "self": "https://track.autozone.com/rest/api/2/version/16860",
+              "id": "16860",
+              "description": "",
+              "name": "AZP-release-3.7.0",
+              "archived": false,
+              "released": false
+            }
+          ],
+          "assignee": {
+            "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+            "name": "10568198",
+            "key": "10568198",
+            "emailAddress": "enrique.sanchez@autozone.com",
+            "avatarUrls": {
+              "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+              "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+              "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+              "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+            },
+            "displayName": "ENRIQUE ANTONIO SANCHEZ",
+            "active": true,
+            "timeZone": "America/Chicago"
+          },
+          "status": {
+            "self": "https://track.autozone.com/rest/api/2/status/10001",
+            "description": "",
+            "iconUrl": "https://track.autozone.com/",
+            "name": "Done",
+            "id": "10001",
+            "statusCategory": {
+              "self": "https://track.autozone.com/rest/api/2/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "success",
+              "name": "Done"
+            }
+          }
+        }
+      },
+      {
+        "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+        "id": "506794",
+        "self": "https://track.autozone.com/rest/api/2/issue/506794",
+        "key": "EOTP-1723",
+        "fields": {
+          "summary": "ASN : ATG fulfillment Invoice report changes",
+          "creator": {
+            "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+            "name": "10877817",
+            "key": "10877817",
+            "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+            "avatarUrls": {
+              "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+              "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+              "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+              "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+            },
+            "displayName": "Mohanaprasad Pushpanathan",
+            "active": true,
+            "timeZone": "America/Chicago"
+          },
+          "resolutiondate": "2024-04-15T13:14:15.000-0500",
+          "created": "2024-03-20T16:00:08.000-0500",
+          "comment": {
+            "comments": [
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/506794/comment/831010",
+                "id": "831010",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10555397",
+                  "name": "10555397",
+                  "key": "10555397",
+                  "emailAddress": "manases.gudino@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10555397&avatarId=11238",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10555397&avatarId=11238",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10555397&avatarId=11238",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10555397&avatarId=11238"
+                  },
+                  "displayName": "Manases Gudino",
+                  "active": false,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Progress for April 3:\r\n * Created branches for Trickle and AZPro to commit changes.\r\n ** Trickle change is pending the group creation.\r\n ** AZPro changes are pending the confirmation of target servers, credentials etc.\r\n * Asked Sally to create the group to start the testing.",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10555397",
+                  "name": "10555397",
+                  "key": "10555397",
+                  "emailAddress": "manases.gudino@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10555397&avatarId=11238",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10555397&avatarId=11238",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10555397&avatarId=11238",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10555397&avatarId=11238"
+                  },
+                  "displayName": "Manases Gudino",
+                  "active": false,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-03T18:27:26.627-0500",
+                "updated": "2024-04-03T18:27:26.627-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/506794/comment/832294",
+                "id": "832294",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10555397",
+                  "name": "10555397",
+                  "key": "10555397",
+                  "emailAddress": "manases.gudino@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10555397&avatarId=11238",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10555397&avatarId=11238",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10555397&avatarId=11238",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10555397&avatarId=11238"
+                  },
+                  "displayName": "Manases Gudino",
+                  "active": false,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Progress for April 4:\r\n * Group was created in all environments.\r\n * Added the group ID to Trickle.\r\n ** Local tests were successful in identifying a PIN belonging to the new group.\r\n * Implemented most of the changes in AZPro, used placeholder values for target server.\r\n ** Successfully sent an invoice from local Trickle to local AZPro and the invoice was successfully processed, minus the file transfer.",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10555397",
+                  "name": "10555397",
+                  "key": "10555397",
+                  "emailAddress": "manases.gudino@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10555397&avatarId=11238",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10555397&avatarId=11238",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10555397&avatarId=11238",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10555397&avatarId=11238"
+                  },
+                  "displayName": "Manases Gudino",
+                  "active": false,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-04T18:25:00.639-0500",
+                "updated": "2024-04-04T18:25:00.639-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/506794/comment/838592",
+                "id": "838592",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "[~10877817] please perform code review\r\n\r\n[https://gitlab.autozone.com/commercial/b2b/azpro/-/merge_requests/4661]\r\n\r\n[https://gitlab.autozone.com/secrets/commercial/b2b/azpro-new/-/merge_requests/700]\r\n\r\nASN Sample: [^20240412222042624.monro.dev.report]",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+                  "name": "10568198",
+                  "key": "10568198",
+                  "emailAddress": "enrique.sanchez@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+                  },
+                  "displayName": "ENRIQUE ANTONIO SANCHEZ",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-12T17:23:57.489-0500",
+                "updated": "2024-04-12T17:40:40.012-0500"
+              },
+              {
+                "self": "https://track.autozone.com/rest/api/2/issue/506794/comment/839506",
+                "id": "839506",
+                "author": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+                  "name": "10877817",
+                  "key": "10877817",
+                  "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+                  },
+                  "displayName": "Mohanaprasad Pushpanathan",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "body": "Code review passsed",
+                "updateAuthor": {
+                  "self": "https://track.autozone.com/rest/api/2/user?username=10877817",
+                  "name": "10877817",
+                  "key": "10877817",
+                  "emailAddress": "mohanaprasad.pushpanathan@autozone.com",
+                  "avatarUrls": {
+                    "48x48": "https://track.autozone.com/secure/useravatar?avatarId=10346",
+                    "24x24": "https://track.autozone.com/secure/useravatar?size=small&avatarId=10346",
+                    "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&avatarId=10346",
+                    "32x32": "https://track.autozone.com/secure/useravatar?size=medium&avatarId=10346"
+                  },
+                  "displayName": "Mohanaprasad Pushpanathan",
+                  "active": true,
+                  "timeZone": "America/Chicago"
+                },
+                "created": "2024-04-15T13:14:06.145-0500",
+                "updated": "2024-04-15T13:14:06.145-0500"
+              }
+            ],
+            "maxResults": 4,
+            "total": 4,
+            "startAt": 0
+          },
+          "fixVersions": [
+            {
+              "self": "https://track.autozone.com/rest/api/2/version/16860",
+              "id": "16860",
+              "description": "",
+              "name": "AZP-release-3.7.0",
+              "archived": false,
+              "released": false
+            }
+          ],
+          "assignee": {
+            "self": "https://track.autozone.com/rest/api/2/user?username=10568198",
+            "name": "10568198",
+            "key": "10568198",
+            "emailAddress": "enrique.sanchez@autozone.com",
+            "avatarUrls": {
+              "48x48": "https://track.autozone.com/secure/useravatar?ownerId=10568198&avatarId=10942",
+              "24x24": "https://track.autozone.com/secure/useravatar?size=small&ownerId=10568198&avatarId=10942",
+              "16x16": "https://track.autozone.com/secure/useravatar?size=xsmall&ownerId=10568198&avatarId=10942",
+              "32x32": "https://track.autozone.com/secure/useravatar?size=medium&ownerId=10568198&avatarId=10942"
+            },
+            "displayName": "ENRIQUE ANTONIO SANCHEZ",
+            "active": true,
+            "timeZone": "America/Chicago"
+          },
+          "status": {
+            "self": "https://track.autozone.com/rest/api/2/status/10001",
+            "description": "",
+            "iconUrl": "https://track.autozone.com/",
+            "name": "Done",
+            "id": "10001",
+            "statusCategory": {
+              "self": "https://track.autozone.com/rest/api/2/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "success",
+              "name": "Done"
+            }
+          }
+        }
+      }
+    ]
+  }
