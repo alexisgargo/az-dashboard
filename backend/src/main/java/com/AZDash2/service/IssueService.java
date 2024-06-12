@@ -49,7 +49,9 @@ public class IssueService {
     @Value("#{'${jira.project.list}'.split(',')}")
     private List<String> projectList; 
 
-
+    // ***** 
+    // FOR AUTOZONES JIRA
+    // *****
     public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
     throws URISyntaxException, IOException, InterruptedException {
     HttpClient client = HttpClient.newHttpClient();
@@ -67,6 +69,29 @@ public class IssueService {
         return processHttpResponse(response.body());
         
     }
+
+    // ***** 
+    // FOR TESTING JIRA
+    // *****
+    // public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
+    // throws URISyntaxException, IOException, InterruptedException {
+    // HttpClient client = HttpClient.newHttpClient();
+    // HttpRequest request = HttpRequest.newBuilder()
+    //         .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven
+    //         + "&maxResults=1000&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,status"))
+    //         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+    //         .GET()
+    //         .build();
+    //     HttpResponse<String> response = client.send(request,
+    //             HttpResponse.BodyHandlers.ofString());
+    //     logger.debug("Response Http Status {}", response.statusCode());
+    //     logger.debug("Response Body {}", response.body());
+
+    //     return processHttpResponse(response.body());
+        
+    // }
+
+
 
     public List<Issue> getIssuesOfGivenVersionFromAllProjects(String versionGiven) throws URISyntaxException, IOException, InterruptedException {
         List<Issue> issues = new ArrayList<>();
@@ -370,3 +395,12 @@ public class IssueService {
 
 
 }
+
+
+
+    // FOR TESTING
+            // .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven +
+            // "&maxResults=1000&fields=id,summary,assignee,creator,created,resolutiondate,comment,status"))
+            // .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+            // .GET()
+            // .build();
