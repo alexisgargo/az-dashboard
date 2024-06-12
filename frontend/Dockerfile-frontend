@@ -1,13 +1,3 @@
-FROM maven:3.8.3-openjdk-17 AS build
-COPY backend/src /home/app/src
-COPY backend/pom.xml /home/app
-COPY backend/test-env.properties /home/app
-RUN mvn -f /home/app/pom.xml clean package
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/home/app/target/dashboard_b2b.jar"]
-
-
-
 # next 
 FROM node:18-alpine AS base
 
