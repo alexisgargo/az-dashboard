@@ -27,7 +27,7 @@ public interface ReleaseRepository extends JpaRepository<Release, Long> {
   Long countByIsRollback(@Param("startDate") Date startDate, @Param("endDate") Date endDate,
       @Param("currentDate") Date currentDate);
 
-  @Query("SELECT COUNT(r.id_release) FROM Release r WHERE r.is_hotfix = false AND r.is_rollback = false AND r.creation_date >= :startDate AND r.curr_release_date <= :endDate AND r.curr_release_date <= :currentDate")
+  @Query("SELECT COUNT(r.id_release) FROM Release r WHERE r.is_rollback = false AND r.creation_date >= :startDate AND r.curr_release_date <= :endDate AND r.curr_release_date <= :currentDate")
   Long countByIsNotHotfixAndIsNotRollback(@Param("startDate") Date startDate, @Param("endDate") Date endDate,
       @Param("currentDate") Date currentDate);
 

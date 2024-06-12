@@ -27,6 +27,5 @@ export async function getHistoricalIssueCount(
         `${API_URL}/az_dashboard/issues/count/${date}/${idRelease}`
     );
     const data = await res.json();
-    console.log(data);
     return data;
 }

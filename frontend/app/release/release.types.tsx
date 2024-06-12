@@ -2,7 +2,7 @@ export type release = {
     id_release: number;
     name: string;
     version: string;
-    engineer: { name: string; id: number };
+    engineer: { name: string; id_engineer: number };
     code_cutoff: string;
     init_release_date: string;
     curr_release_date: string;
@@ -11,8 +11,9 @@ export type release = {
     is_rollback: boolean;
     creation_date: string;
     admin: {
-        admin_name: string;
-        admin_password: string;
+        id_admin: number;
+        username: string;
+        adminPassword: string;
         creation_date: string;
     };
     last_modification_date: string;

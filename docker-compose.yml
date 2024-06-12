@@ -1,0 +1,57 @@
+version: "3.7"
+services:
+    api_service:
+        container_name: backend
+        build:
+            context: .
+            dockerfile: backend/Dockerfile-backend
+        restart: always
+        ports:
+            - 8080:8080
+        networks:
+            - springapimysql-net # otra network?
+        depends_on:
+            - mysqldb
+        volumes:
+            - .m2:/root/.m2
+            - ./env.properties:/env.properties
+    frontend:
+        container_name: frontend
+        build:
+            context: .
+            dockerfile: frontend/Dockerfile-frontend
+            args:
+                NEXT_PUBLIC_API_URL: http://localhost:8080
+        restart: always
+        ports:
+            - 3000:3000
+        networks:
+            - springapimysql-net # otra?
+        depends_on:
+            - api_service
+    mysqldb:
+        image: "mysql:8.2"
+        restart: always
+        ports:
+            - 3606:3606
+        networks:
+            - springapimysql-net
+        volumes:
+            - ./data/db:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: az_dashboard
+            MYSQL_USER: dashboard_user
+            MYSQL_PASSWORD_FILE: /run/secrets/db_password
+            MYSQL_ROOT_PASSWORD: /run/secrets/db_password_root
+        secrets:
+            - db_root_password
+            - db_password
+
+networks:
+    springapimysql-net:
+
+secrets:
+    db_password:
+        file: db_password.txt
+    db_root_password:
+        file: db_root_password.txt

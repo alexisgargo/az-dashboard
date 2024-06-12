@@ -7,31 +7,9 @@ import { issueCount, release, releaseProgress } from "./release.types";
 import { useEffect, useState } from "react";
 
 const useRelease = () => {
-    const [release, setRelease] = useState<release>({
-        id_release: 0,
-        name: "",
-        version: "",
-        engineer: { name: "", id: 0 },
-        code_cutoff: "",
-        init_release_date: "",
-        curr_release_date: "",
-        is_hotfix: false,
-        status: "",
-        is_rollback: false,
-        creation_date: "",
-        admin: { admin_name: "", admin_password: "", creation_date: "" },
-        last_modification_date: "",
-        release_note: "",
-    });
+    const [release, setRelease] = useState<release>();
 
-    const [progress, setProgress] = useState<releaseProgress>({
-        release: release,
-        recordDate: "",
-        percent_qa: 0,
-        percent_uat: 0,
-        percent_third_party: 0,
-        percent_pt: 0,
-    });
+    const [progress, setProgress] = useState<releaseProgress>();
 
     const [issueCount, setIssueCount] = useState<issueCount>({
         bugs: 0,
@@ -39,7 +17,6 @@ const useRelease = () => {
     });
 
     const [totalProgress, setTotalProgress] = useState<number>(0);
-    const [showCalendar, setShowCalendar] = useState(false);
     const [chosenDate, setChosenDate] = useState("");
 
     function setSelectedDate(date: string) {
@@ -47,14 +24,16 @@ const useRelease = () => {
     }
 
     useEffect(() => {
+        if (release === undefined) return;
         const fetchRelease = async () => {
-            setRelease(await getRelease(1));
+            setRelease(await getRelease(release.id_release));
         };
         fetchRelease();
     }, []);
 
     useEffect(() => {
         const fetchProgress = async () => {
+            if (release === undefined) return;
             setProgress(
                 await getHistoricalProgress(chosenDate, release.id_release)
             );
@@ -65,11 +44,8 @@ const useRelease = () => {
         fetchProgress();
     }, [release, chosenDate]);
 
-    const onOpen = () => {
-        setShowCalendar(!showCalendar);
-    };
-
     useEffect(() => {
+        if (progress === undefined) return;
         setTotalProgress(
             (progress.percent_qa +
                 progress.percent_uat +
@@ -84,7 +60,7 @@ const useRelease = () => {
         progress,
         issueCount,
         totalProgress,
-        showCalendar,
+        chosenDate,
         setRelease,
         setProgress,
         setIssueCount,
