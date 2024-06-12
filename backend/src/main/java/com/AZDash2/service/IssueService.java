@@ -184,12 +184,7 @@ public class IssueService {
 
             JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
             JsonArray allcomments = commentsObject.getAsJsonArray("comments");
-
             String lastComment = "";
-
-            JsonObject statusObject = fieldsObject.get("status").getAsJsonObject();
-            String status = statusObject.get("name").getAsString();
-
             for (JsonElement commentElement : allcomments) {
                 JsonObject commentObject = commentElement.getAsJsonObject();
 
@@ -220,7 +215,6 @@ public class IssueService {
             bug.setIssue_summary(issue_summary);
             bug.setCreated_by(created_by);
             bug.setCreation_date(creation_date);
-            bug.setIssue_status(status);
             bugs.add(bug);
 
         }
