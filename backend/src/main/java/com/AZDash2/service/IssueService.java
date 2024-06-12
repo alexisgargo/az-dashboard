@@ -3,11 +3,8 @@ package com.AZDash2.service;
 import com.AZDash2.entity.Issue;
 import com.AZDash2.valueobject.Changelog;
 import com.AZDash2.entity.Release;
-import com.AZDash2.entity.ReleaseHistorical;
 import com.AZDash2.repository.IssueRepository;
-import com.AZDash2.repository.ReleaseHistoricalRepository;
 import com.AZDash2.repository.ReleaseRepository;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +27,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -54,30 +49,66 @@ public class IssueService {
     @Autowired
     HttpClient client;
 
-    /*
-     * Gets all ISSUES' specified information.
-     */
-    public List<Issue> getIssues(String projectIdOrKey, String versionGiven)
-            throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder() //en vez de project=, hacer porejectIN
-                .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~"
-                        + versionGiven + "%20AND%20project=" + projectIdOrKey
-                        + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,status"))
-                .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
-                .GET()
-                .build();
+    @Value("#{'${jira.project.list}'.split(',')}")
+    private List<String> projectList; 
 
+    // ***** 
+    // FOR AUTOZONES JIRA
+    // *****
+    // public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
+    // throws URISyntaxException, IOException, InterruptedException {
+    // HttpClient client = HttpClient.newHttpClient();
+    // HttpRequest request = HttpRequest.newBuilder()
+    //         .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20fixVersion=" + versionGiven
+    //         + "&maxResults=1000&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,comment,status"))
+    //         .header(HttpHeaders.AUTHORIZATION, "Bearer " + jiraApiToken)
+    //         .GET()
+    //         .build();
+    //     HttpResponse<String> response = client.send(request,
+    //             HttpResponse.BodyHandlers.ofString());
+    //     logger.debug("Response Http Status {}", response.statusCode());
+    //     logger.debug("Response Body {}", response.body());
+
+    //     return processHttpResponse(response.body());
+        
+    // }
+
+    // ***** 
+    // FOR TESTING JIRA
+    // *****
+    public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
+    throws URISyntaxException, IOException, InterruptedException {
+    HttpClient client = HttpClient.newHttpClient();
+    HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven
+            + "&maxResults=1000&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,status"))
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+            .GET()
+            .build();
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
         logger.debug("Response Http Status {}", response.statusCode());
         logger.debug("Response Body {}", response.body());
 
-        return processHttpResponse(response);
+        return processHttpResponse(response.body());
+        
     }
 
-    private List<Issue> processHttpResponse(HttpResponse<String> response) {
 
-        JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
+
+    public List<Issue> getIssuesOfGivenVersionFromAllProjects(String versionGiven) throws URISyntaxException, IOException, InterruptedException {
+        List<Issue> issues = new ArrayList<>();
+        for (int i = 0; i < projectList.size(); ++i){
+            List<Issue> issuesFromProject = getIssuesFromProjectList(projectList.get(i), versionGiven);
+            issues.addAll(issuesFromProject);
+
+        }
+        return issues;
+    }
+
+    private List<Issue> processHttpResponse(String jsonString) {
+        
+        JsonObject issueJson = JsonParser.parseString(jsonString).getAsJsonObject();
         JsonArray allIssues = issueJson.getAsJsonArray("issues");
         List<Issue> issues = new ArrayList<>();
 
@@ -96,8 +127,6 @@ public class IssueService {
 
             JsonObject statusObject = fieldsObject.get("status").getAsJsonObject();
             String status = statusObject.get("name").getAsString();
-
-
 
             String lastComment = "";
 
@@ -141,6 +170,7 @@ public class IssueService {
         return issues;
     }
 
+    
     /*
      * Gets all BUGS' specified information
      */
@@ -286,7 +316,7 @@ public class IssueService {
         LocalTime currentTime = LocalTime.now(ZoneId.of("America/Chihuahua"));
         List<Issue> savedIssues= new ArrayList<>();
         for (Release release : releases) {
-            List<Issue> issueInformation = getIssues(release.getName(), release.getVersion() );
+            List<Issue> issueInformation = getIssuesOfGivenVersionFromAllProjects(release.getVersion() );
             try {
                 for (Issue issue : issueInformation) {
 
@@ -376,4 +406,15 @@ public class IssueService {
 
     }
 
+
+
 }
+
+
+
+    // FOR TESTING
+            // .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven +
+            // "&maxResults=1000&fields=id,summary,assignee,creator,created,resolutiondate,comment,status"))
+            // .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+            // .GET()
+            // .build();
