@@ -316,7 +316,11 @@ public class IssueService {
         LocalTime currentTime = LocalTime.now(ZoneId.of("America/Chihuahua"));
         List<Issue> savedIssues= new ArrayList<>();
         for (Release release : releases) {
-            List<Issue> issueInformation = getIssuesOfGivenVersionFromAllProjects(release.getVersion() );
+            // JIRA AZ
+            // List<Issue> issueInformation = getIssuesOfGivenVersionFromAllProjects(release.getName() + "-release-" + release.getVersion());
+            
+            // JIRA DAS
+            List<Issue> issueInformation = getIssuesOfGivenVersionFromAllProjects(release.getName() + "-" + release.getVersion());
             try {
                 for (Issue issue : issueInformation) {
 
