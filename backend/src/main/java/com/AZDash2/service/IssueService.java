@@ -77,7 +77,7 @@ public class IssueService {
     }
 
     // ***** 
-    // FOR TESTING JIRA
+    // FOR TESTING (DAS) JIRA
     // *****
     // public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
     // throws URISyntaxException, IOException, InterruptedException {
@@ -175,37 +175,29 @@ public class IssueService {
 
     
     /*
-     * FOR AUTOZONES JIRA
+     * FOR AUTOZONE'S JIRA
      */
-    public List<Issue> getBugsFromGivenVersion(String versionGiven)
+    public List<Issue> getBugsFromGivenRelease(String versionGiven)
             throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                // .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven
-                //         + "%20AND%20project=" + projectIdOrKey
-                //         + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055,comment,status"))
-                // .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
-                // .GET()
-                // .build();
-
                 .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + jiraBugsProject + "%20AND%20fixVersion=" + versionGiven
-                + "&maxResults=10&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,comment,status"))
+                + "&maxResults=100&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,comment,status,environment"))
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jiraApiToken)
                 .GET()
                 .build();
-
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
         logger.debug("Response Http Status {}", response.statusCode());
         logger.debug("Response Body {}", response.body());
 
-        return processHttpResponseBugs(response.body());
+        return processHttpResponseBugsAZ(response.body());
     }
 
 
     /*
-     * FOR TESTING JIRA
+     * FOR TESTING (DAS) JIRA
      */
-    // public List<Issue> getBugsFromGivenVersion(String versionGiven)
+    // public List<Issue> getBugsFromGivenRelease(String versionGiven)
     //     throws URISyntaxException, IOException, InterruptedException {
     //     HttpRequest request = HttpRequest.newBuilder()
     //             .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven
@@ -219,9 +211,13 @@ public class IssueService {
     //     logger.debug("Response Http Status {}", response.statusCode());
     //     logger.debug("Response Body {}", response.body());
 
-    //     return processHttpResponseBugs(response);
+    //     return processHttpResponseBugs(response.body());
     // }
 
+    /*
+     * FOR DAS JIRA
+     * noo need to comment or uncomment these for now
+     */
     private List<Issue> processHttpResponseBugs(String jsonString) {
         JsonObject issueJson = JsonParser.parseString(jsonString).getAsJsonObject();
         JsonArray allBugs = issueJson.getAsJsonArray("issues");
@@ -285,6 +281,77 @@ public class IssueService {
 
         return bugs;
     }
+
+    /*
+     * FOR AUTOZONE'S JIRA
+     * noo need to comment or uncomment these for now
+     */
+    private List<Issue> processHttpResponseBugsAZ(String jsonString) {
+        JsonObject issueJson = JsonParser.parseString(jsonString).getAsJsonObject();
+        JsonArray allBugs = issueJson.getAsJsonArray("issues");
+        List<Issue> bugs = new ArrayList<>();
+
+        for (JsonElement issueElement : allBugs) {
+            Issue bug = new Issue();
+            JsonObject issueObject = issueElement.getAsJsonObject();
+            String issue_number = issueObject.get("key").getAsString();
+            JsonObject fieldsObject = issueElement.getAsJsonObject().getAsJsonObject("fields");
+            String issue_summary = fieldsObject.get("summary").getAsString();
+            JsonObject creatorObject = fieldsObject.get("creator").getAsJsonObject();
+            String created_by = creatorObject.get("displayName").getAsString();
+            String creation_date = fieldsObject.get("created").getAsString();
+            JsonObject statusObject = fieldsObject.get("status").getAsJsonObject();
+
+            if (!fieldsObject.get("environment").isJsonNull()) {  
+                String environment = fieldsObject.get("environment").getAsString();
+                bug.setEnvironment(environment);
+            } else {
+                 bug.setEnvironment("No environment set");
+            }
+
+            JsonObject commentsObject = fieldsObject.get("comment").getAsJsonObject();
+            JsonArray allcomments = commentsObject.getAsJsonArray("comments");
+            String lastComment = "";
+            for (JsonElement commentElement : allcomments) {
+                JsonObject commentObject = commentElement.getAsJsonObject();
+
+                if (!commentObject.get("body").getAsString().toString().equals("null")) {
+                    lastComment = commentObject.get("body").getAsString();
+                    bug.setUpdates(lastComment);
+                } else {
+                    bug.setUpdates("No comment yet");
+                }
+            }
+
+            if (!fieldsObject.get("assignee").toString().equals("null")) {
+                JsonObject assigneeObject = fieldsObject.getAsJsonObject("assignee");
+                String displayName = assigneeObject.get("displayName").getAsString();
+                bug.setAssignee(displayName);
+            } else {
+                bug.setAssignee("Unassigned");
+            }
+
+            if (!fieldsObject.get("resolutiondate").toString().equals("null")) {
+                String status = statusObject.get("name").getAsString();
+                bug.setIssue_status(status);
+            } else {
+                bug.setIssue_status("no Status on this bug");
+            }
+
+            bug.setIssue_number(issue_number);
+            bug.setIssue_summary(issue_summary);
+            bug.setCreated_by(created_by);
+            bug.setCreation_date(creation_date);
+            bugs.add(bug);
+
+        }
+
+        return bugs;
+    }
+
+
+
+
 
     public Map<String, Long> getTicketAmount(String projectIdOrKey) throws URISyntaxException, IOException, InterruptedException {
 

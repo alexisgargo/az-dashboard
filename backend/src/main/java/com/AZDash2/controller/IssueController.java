@@ -81,7 +81,7 @@ public class IssueController {
     public ResponseEntity<List<Issue>> pullBugsFromGivenVersion(@PathVariable String versionGiven) {
     List<Issue> bugs;
         try {
-            bugs = issueService.getBugsFromGivenVersion(versionGiven);
+            bugs = issueService.getBugsFromGivenRelease(versionGiven);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
