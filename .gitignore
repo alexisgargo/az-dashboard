@@ -85,3 +85,7 @@ jspm_packages
 
 ### No subir este doc ###
 env.properties
+
+
+# docker
+/data

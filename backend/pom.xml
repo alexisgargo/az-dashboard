@@ -75,5 +75,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>dashboard_b2b</finalName>
 	</build>
 </project>

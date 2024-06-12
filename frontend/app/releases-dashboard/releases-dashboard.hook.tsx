@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
-import { getActiveReleasesProgress } from "./releases-dashboard.api";
+import { getActiveReleasesProgress, getYearMetrics } from "./releases-dashboard.api";
 import { releaseProgress, release } from "./releases-dashboard.types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function useReleases() {
-  const [release, setRelease] = useState<release>({
+  const release = {
     id_release: 0,
     name: "",
     version: "",
@@ -19,7 +19,7 @@ export default function useReleases() {
     admin: { admin_name: "", admin_password: "", creation_date: "" },
     last_modification_date: "",
     release_note: "",
-  });
+  };
 
   const [releases, setReleases] = useState<releaseProgress[]>([{
     release: release,
@@ -29,6 +29,9 @@ export default function useReleases() {
     percent_third_party: 0,
     percent_pt: 0,
   }])
+
+  const [metrics, setMetrics] = useState<number[]>([0, 0, 0])
+
   const [totalProgress, setTotalProgress] = useState<number[]>([]);
   const [chosenDate, setChosenDate] = useState(dayjs().toISOString().slice(0, 10));
 
@@ -39,8 +42,11 @@ export default function useReleases() {
   useEffect(() => {
     async function fetchReleasesProgress() {
       if (chosenDate) {
-        const response = await getActiveReleasesProgress(chosenDate);
-        setReleases(response);
+        const releasesResponse = await getActiveReleasesProgress(chosenDate);
+        setReleases(releasesResponse);
+
+        const metricsResponse = await getYearMetrics(chosenDate);
+        setMetrics(metricsResponse)
       }
     }
 
@@ -62,5 +68,5 @@ export default function useReleases() {
     setTotalProgress(totalsList)
   }, [releases]);
 
-  return { releases, totalProgress, chosenDate, setSelectedDate }
+  return { releases, totalProgress, metrics, chosenDate, setSelectedDate }
 }

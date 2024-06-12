@@ -22,7 +22,7 @@ public class Admin {
     private String username;
 
     @NotNull(message = "Password is mandatory")
-    @Size(min = 1, max = 50, message = "Password must be between 1 and 50 characters")
+    @Size(min = 1, max = 200, message = "Password must be between 1 and 200 characters")
     @Column(name = "admin_password")
     private String adminPassword;
 

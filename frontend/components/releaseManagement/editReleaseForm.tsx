@@ -3,70 +3,46 @@
 import { EntryForm } from "./entryForm";
 import { Divider } from "@nextui-org/divider";
 import { Checkbox } from "@nextui-org/checkbox";
+import { Button } from "@nextui-org/button";
 import { useState, useEffect } from "react";
 import { release } from "@/app/release/release.types";
 import { Select, SelectSection, SelectItem } from "@nextui-org/select";
 import { getRelease } from "@/app/release/release.api";
-import { Button } from "@nextui-org/button";
+import { putRelease, getEngineers } from "@/app/edit-release/edit-release.api";
+import { engineer } from "@/app/edit-release/release.types";
+import { useRouter } from "next/navigation";
 
 export const EditReleaseForm = (props: { id: number }) => {
-    const forms = [
+    const forms: {
+        label: string;
+        type: string;
+        attribute: keyof release;
+    }[] = [
         { label: "Release name", type: "text", attribute: "name" },
         { label: "Release version", type: "text", attribute: "version" },
-        // {
-        //     label: "Release description",
-        //     type: "text",
-        //     attribute: "description",
-        // },
-        { label: "Release goal", type: "text", attribute: "goal" },
         { label: "Release notes", type: "text", attribute: "release_note" },
         { label: "Code cutoff", type: "date", attribute: "code_cutoff" },
         { label: "Release date", type: "date", attribute: "curr_release_date" },
     ];
 
-    const engineers = [
-        {
-            id: 2,
-            name: "John Doe",
-        },
-        {
-            id: 1,
-            name: "Jane Doe",
-        },
-    ];
+    const [engineers, setEngineers] = useState<engineer[]>([]);
 
-    const [release, setRelease] = useState<release>({
-        id_release: 0,
-        name: "",
-        version: "",
-        engineer: { name: "", id: 0 },
-        code_cutoff: "",
-        init_release_date: "",
-        curr_release_date: "",
-        is_hotfix: false,
-        status: "",
-        is_rollback: false,
-        creation_date: "",
-        admin: {
-            admin_name: "",
-            admin_password: "",
-            creation_date: "",
-        },
-        last_modification_date: "",
-        release_note: "",
-    });
+    const [release, setRelease] = useState<release>();
+
+    const router = useRouter();
 
     const fetchRelease = async () => {
         setRelease(await getRelease(props.id));
+        setEngineers(await getEngineers());
     };
 
     useEffect(() => {
         fetchRelease();
     }, []);
 
-    useEffect(() => {
-        console.log(release);
-    }, [release]);
+    if (release == undefined) {
+        return <div>Searching...</div>;
+    }
 
     return (
         <div className="w-full">
@@ -96,19 +72,21 @@ export const EditReleaseForm = (props: { id: number }) => {
                 label="Engineer"
                 fullWidth
                 className="w-full"
+                defaultSelectedKeys={release.engineer.name}
                 onChange={(e) => {
                     setRelease({
                         ...release,
                         engineer: {
                             ...release.engineer,
-                            id: parseInt(e.target.value),
+                            id_engineer: parseInt(e.target.value),
                         },
                     });
-                }}
-            >
+                }}>
                 <SelectSection>
                     {engineers.map((engineer) => (
-                        <SelectItem key={engineer.id} value={engineer.name}>
+                        <SelectItem
+                            key={engineer.id_engineer}
+                            value={engineer.name}>
                             {engineer.name}
                         </SelectItem>
                     ))}
@@ -121,8 +99,7 @@ export const EditReleaseForm = (props: { id: number }) => {
                 checked={release.is_hotfix}
                 onChange={(e) =>
                     setRelease({ ...release, is_hotfix: e.target.checked })
-                }
-            >
+                }>
                 hotfix?
             </Checkbox>
 
@@ -136,8 +113,7 @@ export const EditReleaseForm = (props: { id: number }) => {
                                 ...release,
                                 is_rollback: e.target.checked,
                             })
-                        }
-                    >
+                        }>
                         rollback?
                     </Checkbox>
                 </div>
@@ -145,11 +121,12 @@ export const EditReleaseForm = (props: { id: number }) => {
 
             <Divider className="my-4" />
             <Button
-                onClick={() => {
-                    // TODO: call function to save release sending release object
-                    console.log(release);
-                }}
-            >
+                onClick={async () => {
+                    let responseCode = await putRelease(release, props.id);
+                    if (responseCode == 200) {
+                        router.push("/");
+                    }
+                }}>
                 Save
             </Button>
         </div>

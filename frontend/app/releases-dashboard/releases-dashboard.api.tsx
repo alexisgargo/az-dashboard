@@ -1,6 +1,6 @@
 import { releaseProgress } from "./releases-dashboard.types";
 
-const API_URL = "http://localhost:8080/";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function getActiveReleasesProgress(
   date: string
