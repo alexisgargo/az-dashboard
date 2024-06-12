@@ -81,14 +81,12 @@ export const EditReleaseForm = (props: { id: number }) => {
                             id_engineer: parseInt(e.target.value),
                         },
                     });
-                }}
-            >
+                }}>
                 <SelectSection>
                     {engineers.map((engineer) => (
                         <SelectItem
                             key={engineer.id_engineer}
-                            value={engineer.name}
-                        >
+                            value={engineer.name}>
                             {engineer.name}
                         </SelectItem>
                     ))}
@@ -101,8 +99,7 @@ export const EditReleaseForm = (props: { id: number }) => {
                 checked={release.is_hotfix}
                 onChange={(e) =>
                     setRelease({ ...release, is_hotfix: e.target.checked })
-                }
-            >
+                }>
                 hotfix?
             </Checkbox>
 
@@ -116,8 +113,7 @@ export const EditReleaseForm = (props: { id: number }) => {
                                 ...release,
                                 is_rollback: e.target.checked,
                             })
-                        }
-                    >
+                        }>
                         rollback?
                     </Checkbox>
                 </div>
@@ -126,12 +122,11 @@ export const EditReleaseForm = (props: { id: number }) => {
             <Divider className="my-4" />
             <Button
                 onClick={async () => {
-                    let data = await putRelease(release, props.id);
-                    if (data == 200) {
-                        router.push("/")
+                    let responseCode = await putRelease(release, props.id);
+                    if (responseCode == 200) {
+                        router.push("/");
                     }
-                }}
-            >
+                }}>
                 Save
             </Button>
         </div>

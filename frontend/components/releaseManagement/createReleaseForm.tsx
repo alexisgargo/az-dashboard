@@ -98,14 +98,12 @@ export const CreateReleaseForm = () => {
                             id_engineer: parseInt(e.target.value),
                         },
                     });
-                }}
-            >
+                }}>
                 <SelectSection>
                     {engineers.map((engineer) => (
                         <SelectItem
                             key={engineer.id_engineer}
-                            value={engineer.name}
-                        >
+                            value={engineer.name}>
                             {engineer.name}
                         </SelectItem>
                     ))}
@@ -117,19 +115,17 @@ export const CreateReleaseForm = () => {
                 checked={release.is_hotfix}
                 onChange={(e) =>
                     setRelease({ ...release, is_hotfix: e.target.checked })
-                }
-            >
+                }>
                 hotfix?
             </Checkbox>
             <Divider className="my-4" />
             <Button
                 onClick={async () => {
-                    let data = await postCreateRelease(release);
-                    if (data == 200) {
-                        router.push("/")
+                    let responseCode = await postCreateRelease(release);
+                    if (responseCode == 201) {
+                        router.push("/");
                     }
-                }}
-            >
+                }}>
                 Save
             </Button>
         </div>
