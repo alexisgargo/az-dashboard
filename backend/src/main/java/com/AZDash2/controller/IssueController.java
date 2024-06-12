@@ -77,11 +77,11 @@ public class IssueController {
         @ApiResponse(responseCode = "404", description = "Project not found", 
         content = @Content)
     })
-    @GetMapping("/bugs/{projectIdOrKey}/{versionGiven}")
-    public ResponseEntity<List<Issue>> pullBugs(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
+    @GetMapping("/bugs/{versionGiven}")
+    public ResponseEntity<List<Issue>> pullBugsFromGivenVersion(@PathVariable String versionGiven) {
     List<Issue> bugs;
         try {
-            bugs = issueService.getBugs(projectIdOrKey, versionGiven);
+            bugs = issueService.getBugsFromGivenVersion(versionGiven);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
