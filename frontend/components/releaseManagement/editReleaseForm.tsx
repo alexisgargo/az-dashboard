@@ -10,6 +10,7 @@ import { Select, SelectSection, SelectItem } from "@nextui-org/select";
 import { getRelease } from "@/app/release/release.api";
 import { putRelease, getEngineers } from "@/app/edit-release/edit-release.api";
 import { engineer } from "@/app/edit-release/release.types";
+import { useRouter } from "next/navigation";
 
 export const EditReleaseForm = (props: { id: number }) => {
     const forms: {
@@ -27,6 +28,8 @@ export const EditReleaseForm = (props: { id: number }) => {
     const [engineers, setEngineers] = useState<engineer[]>([]);
 
     const [release, setRelease] = useState<release>();
+
+    const router = useRouter();
 
     const fetchRelease = async () => {
         setRelease(await getRelease(props.id));
@@ -122,8 +125,11 @@ export const EditReleaseForm = (props: { id: number }) => {
 
             <Divider className="my-4" />
             <Button
-                onClick={() => {
-                    putRelease(release, props.id);
+                onClick={async () => {
+                    let data = await putRelease(release, props.id);
+                    if (data == 200) {
+                        router.push("/")
+                    }
                 }}
             >
                 Save

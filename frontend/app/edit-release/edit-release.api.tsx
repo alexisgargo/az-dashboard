@@ -1,11 +1,13 @@
 import { release, engineer } from "./release.types";
+import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function putRelease(
     Release: release,
     ID: number
-): Promise<release> {
+): Promise<number> {
+    
     const res = await fetch(`${API_URL}/releases/${ID}`, {
         method: "PUT",
         headers: {
@@ -13,8 +15,8 @@ export async function putRelease(
         },
         body: JSON.stringify(Release),
     });
-    const data = await res.json();
-    return data;
+
+    return res.status;
 }
 
 export async function getEngineers(): Promise<engineer[]> {

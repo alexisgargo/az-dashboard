@@ -2,7 +2,8 @@ import { release, engineer } from "@/app/create-release/release.types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function postCreateRelease(Release: release): Promise<release> {
+export async function postCreateRelease(Release: release): Promise<number> {
+
     const res = await fetch(`${API_URL}/releases`, {
         method: "POST",
         headers: {
@@ -10,8 +11,8 @@ export async function postCreateRelease(Release: release): Promise<release> {
         },
         body: JSON.stringify(Release),
     });
-    const data = await res.json();
-    return data;
+
+    return res.status;
 }
 
 export async function getEngineers(): Promise<engineer[]> {

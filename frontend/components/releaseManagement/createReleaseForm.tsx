@@ -12,6 +12,7 @@ import {
     postCreateRelease,
 } from "@/app/create-release/create-release.api";
 import { engineer } from "@/app/edit-release/release.types";
+import { useRouter } from "next/navigation";
 
 export const CreateReleaseForm = () => {
     const forms: {
@@ -27,6 +28,8 @@ export const CreateReleaseForm = () => {
     ];
 
     const [engineers, setEngineers] = useState<engineer[]>([]);
+
+    const router = useRouter();
 
     // TODO: admin loggeado
     const [release, setRelease] = useState<release>({
@@ -120,8 +123,11 @@ export const CreateReleaseForm = () => {
             </Checkbox>
             <Divider className="my-4" />
             <Button
-                onClick={() => {
-                    postCreateRelease(release);
+                onClick={async () => {
+                    let data = await postCreateRelease(release);
+                    if (data == 200) {
+                        router.push("/")
+                    }
                 }}
             >
                 Save
