@@ -14,7 +14,6 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/x-date-pickers": "^7.2.0",
-    "@next/font": "^14.2.2",
     "@nextui-org/button": "^2.0.31",
     "@nextui-org/card": "^2.0.27",
     "@nextui-org/checkbox": "^2.0.29",
