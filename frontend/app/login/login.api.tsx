@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:8080/";
 
-export async function login(username: string, password: string): Promise<string> {
+export async function login(username: string, password: string): Promise<{ success: boolean; message?: string }> {
     const res = await fetch(`${API_URL}login`, {
         method: 'POST',
         headers: {
@@ -14,5 +14,9 @@ export async function login(username: string, password: string): Promise<string>
         throw new Error(errorText);
     }
 
-    return res.text();
+    const data = await res.json();
+    return {
+        success: data.success,
+        message: data.message 
+    };
 }

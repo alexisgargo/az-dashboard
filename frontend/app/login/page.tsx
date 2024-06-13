@@ -9,11 +9,7 @@ import useLogin from './login.hook';
 import { title } from "@/components/primitives";
 
 const LoginPage: React.FC = () => {
-    const { username, setUsername, password, setPassword, message, handleLoginClick } = useLogin();
-
-    const handleCancelClick = () => {
-        console.log("Cancel clicked");
-    };
+    const { username, setUsername, password, setPassword, message, handleLoginClick, handleCancelClick } = useLogin();
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-black-900">
@@ -26,7 +22,7 @@ const LoginPage: React.FC = () => {
                         <LoginButton onClick={handleLoginClick} />
                         <CancelButton onClick={handleCancelClick} />
                     </div>
-                    <p className="mt-4 text-red-500">{message}</p>
+                    <p className={`mt-4 ${message === 'Login successful' ? 'text-green-500' : 'text-red-500'}`}>{message}</p>
                 </CardBody>
             </Card>
         </div>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.AZDash2.entity.Issue;
 import com.AZDash2.service.IssueService;
+import com.AZDash2.valueobject.Changelog;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -25,8 +26,6 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-
 
 
 @RestController
@@ -50,11 +49,13 @@ public class IssueController {
         @ApiResponse(responseCode = "404", description = "Project not found", 
         content = @Content)
     })
-    @GetMapping("/issue/{projectIdOrKey}/{versionGiven}")
-    public ResponseEntity<List<Issue>> pullIssues(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
+
+    @GetMapping("/projects-issues/{versionGiven}")
+    public ResponseEntity<List<Issue>> pullIssuesOfGivenVersionFromAllProjects(@PathVariable String versionGiven) {
     List<Issue> issues;
         try {
-            issues = issueService.getIssues(projectIdOrKey, versionGiven);
+            issues = issueService.getIssuesOfGivenVersionFromAllProjects(versionGiven);
+
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
@@ -77,11 +78,11 @@ public class IssueController {
         @ApiResponse(responseCode = "404", description = "Project not found", 
         content = @Content)
     })
-    @GetMapping("/bugs/{projectIdOrKey}/{versionGiven}")
-    public ResponseEntity<List<Issue>> pullBugs(@PathVariable String projectIdOrKey, @PathVariable String versionGiven) {
+    @GetMapping("/bugs/{versionGiven}")
+    public ResponseEntity<List<Issue>> pullBugsFromGivenVersion(@PathVariable String versionGiven) {
     List<Issue> bugs;
         try {
-            bugs = issueService.getBugs(projectIdOrKey, versionGiven);
+            bugs = issueService.getBugsFromGivenRelease(versionGiven);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
@@ -125,6 +126,19 @@ public class IssueController {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
             }
     
-            return new ResponseEntity<>(amount, HttpStatus.OK);
+        return new ResponseEntity<>(amount, HttpStatus.OK);
+    }
+
+    @GetMapping("/issue/{issueIdOrKey}/changelog")
+    public ResponseEntity<List<Changelog>> pullChangeLogs(@PathVariable String issueIdOrKey) {
+        List<Changelog> changelog;
+        try {
+            changelog = issueService.getChangelogs(issueIdOrKey);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return new ResponseEntity<>(changelog, HttpStatus.OK);
+    }
+
 }
+

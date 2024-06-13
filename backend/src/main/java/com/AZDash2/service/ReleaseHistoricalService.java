@@ -36,6 +36,9 @@ public class ReleaseHistoricalService {
   private ReleaseRepository releaseRepository;
   @Autowired private ReleaseHistoricalRepository releaseHistoricalRepository;
 
+  @Value("${jira.progress.project}")
+  private String jiraProgressProject;
+
   public Optional<ReleaseHistorical> getIssuesByDateAndRelease(Date date, Long idRelease) {
     return releaseHistoricalRepository.findByDateAndIdRelease(date, idRelease).stream().findFirst();
   }
@@ -78,18 +81,18 @@ public class ReleaseHistoricalService {
    * Gets the percent amount stated on Jira´s custom field "Progress" for all
    * tickets of type "TeamProgress" and specified version
    */
-  public ReleaseHistorical getProgressByVersion(String versionGiven, String projectIdOrKey)
-      throws URISyntaxException, IOException, InterruptedException {
-    HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request =
+    public ReleaseHistorical getProgressByVersion(String versionGiven)
+    throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request =
         HttpRequest.newBuilder()
-            .uri(
+        .uri(
                 new URI(
                     jiraApiUrl
                         + "/rest/api/2/search?jql=issuetype=teamprogress%20AND%20cf[10046]~"
                         + versionGiven
                         + "%20AND%20project="
-                        + projectIdOrKey
+                        + jiraProgressProject
                         + "&fields=customfield_10049,customfield_10048,value,customfield_10046"))
             .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
             .GET()
@@ -105,17 +108,65 @@ public class ReleaseHistoricalService {
     ReleaseHistorical teamProgress = new ReleaseHistorical();
     for (JsonElement issueElement : issues) {
 
+    JsonObject issueObject = issueElement.getAsJsonObject();
+    JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
+    BigDecimal progress = fieldsObject.get("customfield_10049").getAsBigDecimal();
+    JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
+    String team = teamObject.get("value").getAsString();
+
+    if (team.equals("QA")) {
+        teamProgress.setPercent_qa(progress);
+    } else if (team.equals("PT")) {
+        teamProgress.setPercent_pt(progress);
+    } else if (team.equals("3rd-Party")) {
+        teamProgress.setPercent_third_party(progress);
+        ;
+    } else if (team.equals("UAT")) {
+        teamProgress.setPercent_uat(progress);
+    }
+    }
+
+    return teamProgress;
+    }
+
+
+  public ReleaseHistorical getProgressByVersionAZ(String versionGiven)
+      throws URISyntaxException, IOException, InterruptedException {
+    HttpClient client = HttpClient.newHttpClient();
+    HttpRequest request =
+        HttpRequest.newBuilder()
+            .uri(
+                new URI(
+                    jiraApiUrl
+                    + "/rest/api/2/search?jql=project="+ jiraProgressProject +"%20AND%20fixVersion="
+                    + versionGiven
+                    + "&fields=summary,customfield_10803"))
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + jiraApiToken)
+            .GET()
+            .build();
+
+    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+    logger.debug("Response Http Status {}", response.statusCode());
+    logger.debug("Response Body {}", response.body());
+
+    JsonObject issueJson = JsonParser.parseString(response.body()).getAsJsonObject();
+    JsonArray issues = issueJson.getAsJsonArray("issues");
+
+    ReleaseHistorical teamProgress = new ReleaseHistorical();
+    for (JsonElement issueElement : issues) {
       JsonObject issueObject = issueElement.getAsJsonObject();
       JsonObject fieldsObject = issueObject.getAsJsonObject("fields");
-      BigDecimal progress = fieldsObject.get("customfield_10049").getAsBigDecimal();
-      JsonObject teamObject = fieldsObject.getAsJsonObject("customfield_10048");
-      String team = teamObject.get("value").getAsString();
+      JsonObject progressObject = fieldsObject.getAsJsonObject("customfield_10803");
+      String progressString = progressObject.get("value").getAsString();
+      String progressWithoutPercent = progressString.replace("%", "");
+      BigDecimal progress = new BigDecimal(progressWithoutPercent);
+      String team = fieldsObject.get("summary").getAsString();
 
       if (team.equals("QA")) {
         teamProgress.setPercent_qa(progress);
       } else if (team.equals("PT")) {
         teamProgress.setPercent_pt(progress);
-      } else if (team.equals("3rd-Party")) {
+      } else if (team.equals("3RDP")) {
         teamProgress.setPercent_third_party(progress);
         ;
       } else if (team.equals("UAT")) {
@@ -144,7 +195,7 @@ public class ReleaseHistoricalService {
 
       try {
         ReleaseHistorical teamProgress =
-            getProgressByVersion(release.getVersion(), release.getName());
+            getProgressByVersion(release.getName() + "-release-" + release.getVersion());
         if (teamProgress != null) {
           teamProgress.setRecordDate(Date.valueOf(currentDate));
           teamProgress.setRelease(release);
