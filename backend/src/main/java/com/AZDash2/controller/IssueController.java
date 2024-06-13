@@ -82,13 +82,7 @@ public class IssueController {
     public ResponseEntity<List<Issue>> pullBugsFromGivenVersion(@PathVariable String versionGiven) {
     List<Issue> bugs;
         try {
-            /* CHOSE ONE */
-            // FOR AUTOZONE'S JIRA
-            //bugs = issueService.getBugsFromGivenReleaseAZ(versionGiven);
-
-            // FOR DAS' JIRA
             bugs = issueService.getBugsFromGivenRelease(versionGiven);
-
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("JIRA API failed", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
