@@ -58,34 +58,13 @@ public class IssueService {
     // ***** 
     // FOR AUTOZONE'S JIRA
     // *****
-    public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
-    throws URISyntaxException, IOException, InterruptedException {
-    HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request = HttpRequest.newBuilder()
-            .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20fixVersion=" + versionGiven
-            + "&maxResults=1000&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,comment,status"))
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + jiraApiToken)
-            .GET()
-            .build();
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        logger.debug("Response Http Status {}", response.statusCode());
-        logger.debug("Response Body {}", response.body());
-
-        return processHttpResponse(response.body());
-        
-    }
-
-    // ***** 
-    // FOR TESTING (DAS) JIRA
-    // *****
     // public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
     // throws URISyntaxException, IOException, InterruptedException {
     // HttpClient client = HttpClient.newHttpClient();
     // HttpRequest request = HttpRequest.newBuilder()
-    //         .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven
-    //         + "&maxResults=1000&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,status"))
-    //         .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+    //         .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20fixVersion=" + versionGiven
+    //         + "&maxResults=1000&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,comment,status"))
+    //         .header(HttpHeaders.AUTHORIZATION, "Bearer " + jiraApiToken)
     //         .GET()
     //         .build();
     //     HttpResponse<String> response = client.send(request,
@@ -96,6 +75,27 @@ public class IssueService {
     //     return processHttpResponse(response.body());
         
     // }
+
+    // ***** 
+    // FOR TESTING (DAS) JIRA
+    // *****
+    public List<Issue> getIssuesFromProjectList(String projectIdOrKey, String versionGiven)
+    throws URISyntaxException, IOException, InterruptedException {
+    HttpClient client = HttpClient.newHttpClient();
+    HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + projectIdOrKey + "%20AND%20issueType%20in%20(story%2C%20task)%20AND%20cf[10051]~" + versionGiven
+            + "&maxResults=1000&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,customfield_10051,comment,status"))
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+            .GET()
+            .build();
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+        logger.debug("Response Http Status {}", response.statusCode());
+        logger.debug("Response Body {}", response.body());
+
+        return processHttpResponse(response.body());
+        
+    }
 
 
 
@@ -177,33 +177,12 @@ public class IssueService {
     /*
      * FOR AUTOZONE'S JIRA
      */
-    public List<Issue> getBugsFromGivenRelease(String versionGiven)
-            throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + jiraBugsProject + "%20AND%20fixVersion=" + versionGiven
-                + "&maxResults=100&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,comment,status,environment"))
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jiraApiToken)
-                .GET()
-                .build();
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        logger.debug("Response Http Status {}", response.statusCode());
-        logger.debug("Response Body {}", response.body());
-
-        return processHttpResponseBugsAZ(response.body());
-    }
-
-
-    /*
-     * FOR TESTING (DAS) JIRA
-     */
     // public List<Issue> getBugsFromGivenRelease(String versionGiven)
-    //     throws URISyntaxException, IOException, InterruptedException {
+    //         throws URISyntaxException, IOException, InterruptedException {
     //     HttpRequest request = HttpRequest.newBuilder()
-    //             .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven
-    //                     + "%20AND%20project=" + jiraBugsProject
-    //                     + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055,comment,status"))
-    //             .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+    //             .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=project=" + jiraBugsProject + "%20AND%20fixVersion=" + versionGiven
+    //             + "&maxResults=100&fields=fixVersions,id,summary,assignee,creator,created,resolutiondate,comment,status,environment"))
+    //             .header(HttpHeaders.AUTHORIZATION, "Bearer " + jiraApiToken)
     //             .GET()
     //             .build();
     //     HttpResponse<String> response = client.send(request,
@@ -211,12 +190,31 @@ public class IssueService {
     //     logger.debug("Response Http Status {}", response.statusCode());
     //     logger.debug("Response Body {}", response.body());
 
-    //     return processHttpResponseBugs(response.body());
+    //     return processHttpResponseBugsAZ(response.body());
     // }
+    /*
+     * FOR TESTING (DAS) JIRA
+     */
+    public List<Issue> getBugsFromGivenRelease(String versionGiven)
+        throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(jiraApiUrl + "/rest/api/2/search?jql=issueType%3Dbug%20AND%20cf[10053]~" + versionGiven
+                        + "%20AND%20project=" + jiraBugsProject
+                        + "&maxResults=100&fields=id,summary,assignee,creator,created,resolutiondate,customfield_10053,customfield_10055,comment,status"))
+                .header(HttpHeaders.AUTHORIZATION, "Basic " + jiraApiToken)
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+        logger.debug("Response Http Status {}", response.statusCode());
+        logger.debug("Response Body {}", response.body());
+
+        return processHttpResponseBugs(response.body());
+    }
 
     /*
      * FOR DAS JIRA
-     * noo need to comment or uncomment these for now
+     * no need to comment or uncomment these for now
      */
     private List<Issue> processHttpResponseBugs(String jsonString) {
         JsonObject issueJson = JsonParser.parseString(jsonString).getAsJsonObject();
@@ -284,7 +282,7 @@ public class IssueService {
 
     /*
      * FOR AUTOZONE'S JIRA
-     * noo need to comment or uncomment these for now
+     * no need to comment or uncomment these for now
      */
     private List<Issue> processHttpResponseBugsAZ(String jsonString) {
         JsonObject issueJson = JsonParser.parseString(jsonString).getAsJsonObject();
