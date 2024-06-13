@@ -58,7 +58,7 @@ public class testGetIssues {
 
         when(issueService.getIssues()).thenReturn(issues);
 
-        MvcResult mvcResult = mockMvc.perform(get("/az_dashboard/issues"))
+        MvcResult mvcResult = mockMvc.perform(get("/issues"))
                 .andExpect(status().isOk())
                 .andReturn();
 

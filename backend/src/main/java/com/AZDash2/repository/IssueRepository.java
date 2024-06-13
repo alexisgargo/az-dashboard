@@ -28,6 +28,14 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     long countBugByDateAndIdReleaseAndTime(@Param("date") Date date, @Param("idRelease") Long idRelease,
      @Param("time") Time time);
 
+     @Query("SELECT i FROM Issue i WHERE i.record_date = :date AND i.release.id_release = :idRelease AND i.record_time <= :time AND i.is_feature = true  ")
+     List<Issue> findIssuesByDateAndIdReleaseAndTime(@Param("date") Date date, @Param("idRelease") Long idRelease,
+         @Param("time") Time time);
+
+     @Query("SELECT i FROM Issue i WHERE i.record_date = :date AND i.release.id_release = :idRelease AND i.record_time <= :time AND i.is_feature = false AND i.close_date IS  NULL")
+        List<Issue> findBugByDateAndIdReleaseAndTime(@Param("date") Date date, @Param("idRelease") Long idRelease,
+          @Param("time") Time time);
+
     @Query("SELECT i FROM Issue i WHERE i.issue_number = :issueNumber")
     List<Issue> findByIssueNumber(@Param("issueNumber") String issueNumber);
 

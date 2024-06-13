@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("az_dashboard")
 public class DBIssueController {
 
   @Autowired DBIssueService issueService;
@@ -69,6 +68,63 @@ public class DBIssueController {
     List<Issue> issues;
     try {
       issues = issueService.getLatestIssuesByDateAndRelease(date, idRelease);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return new ResponseEntity<>(issues, HttpStatus.OK);
+  }
+  
+  @Operation(summary = "Get the latest Bugs by date and Release")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Latest Issues by date and Release found",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  array = @ArraySchema(schema = @Schema(implementation = Issue.class)))
+            }),
+        @ApiResponse(
+            responseCode = "500",
+            description = "An error occurred while fetching the Issues",
+            content = @Content)
+      })
+  @GetMapping("/OnlyBugs/{date}/{idRelease}")
+  public ResponseEntity<List<Issue>> getOnlyBugByDateAndRelease(
+      @PathVariable("date") Date date, @PathVariable("idRelease") Long idRelease) {
+    List<Issue> issues;
+    try {
+      issues = issueService.getOnlyBugs(date, idRelease);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return new ResponseEntity<>(issues, HttpStatus.OK);
+  }
+  @Operation(summary = "Get the latest only Issues by date and Release")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Latest Issues by date and Release found",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  array = @ArraySchema(schema = @Schema(implementation = Issue.class)))
+            }),
+        @ApiResponse(
+            responseCode = "500",
+            description = "An error occurred while fetching the Issues",
+            content = @Content)
+      })
+  @GetMapping("/OnlyIssues/{date}/{idRelease}")
+  public ResponseEntity<List<Issue>> getOnlyIssuesByDateAndRelease(
+      @PathVariable("date") Date date, @PathVariable("idRelease") Long idRelease) {
+    List<Issue> issues;
+    try {
+      issues = issueService.getOnlyIssues(date, idRelease);
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
