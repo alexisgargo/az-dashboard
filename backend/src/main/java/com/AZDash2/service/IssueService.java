@@ -257,8 +257,7 @@ public class IssueService {
    
     public List<Issue> getAndSaveIssues(String projectIdOrKey)
             throws URISyntaxException, IOException, InterruptedException {
-        List<Release> releases = releaseRepository.findByStatus("On Time");
-        //List<ReleaseHistorical> progressReleases = new ArrayList<>();
+        List<Release> releases = releaseRepository.findByStatus("In progress");
         LocalDate currentDate = LocalDate.now(ZoneId.of("America/Chihuahua"));
         LocalTime currentTime = LocalTime.now(ZoneId.of("America/Chihuahua"));
         List<Issue> savedIssues= new ArrayList<>();
@@ -277,9 +276,7 @@ public class IssueService {
                         savedIssues.add(savedIssue);
                     }
                     else{
-                        //me traigo primer issue
                         Issue foundIssue= issuesFound.get(0);
-                        //aqui tengo que poner los set de todos los atributos 
                         foundIssue.setAssignee(issue.getAssignee());
                         foundIssue.setCreated_by(issue.getCreated_by());
                         foundIssue.setCreation_date(issue.getCreation_date());
@@ -300,11 +297,11 @@ public class IssueService {
         }
         return savedIssues;
     }
-    //@Scheduled(cron = "0 0 * * * *", zone = "America/Chihuahua")
-    @Scheduled(cron = "0 */1 * * * * ", zone = "America/Chihuahua")
-    public void scheduledTask() {
+    
+    @Scheduled(cron = "0 1 * * * *", zone = "America/Chihuahua")
+    public void scheduledgetAndSaveIssues() {
         try {
-            getAndSaveIssues("DAS");
+            getAndSaveIssues(jiraApiToken);
         } catch (Exception e) {
             e.printStackTrace();
         }

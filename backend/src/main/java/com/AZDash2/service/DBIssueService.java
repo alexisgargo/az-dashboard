@@ -20,6 +20,15 @@ public class DBIssueService {
     public List<Issue> getIssues() {
         return issueRepository.findAll();
     }
+    
+    public List<Issue> getOnlyBugs(Date date,Long idRelease) {
+        Time latestTime = issueRepository.findLatestTimeByDateAndIdRelease(date, idRelease);
+        return issueRepository.findBugByDateAndIdReleaseAndTime(date,idRelease,latestTime);
+    }
+    public List<Issue> getOnlyIssues(Date date,Long idRelease) {
+        Time latestTime = issueRepository.findLatestTimeByDateAndIdRelease(date, idRelease);
+        return issueRepository.findIssuesByDateAndIdReleaseAndTime(date,idRelease,latestTime);
+    }
 
     public List<Issue> getLatestIssuesByDateAndRelease(Date date, Long idRelease) {
         Time latestTime = issueRepository.findLatestTimeByDateAndIdRelease(date, idRelease);

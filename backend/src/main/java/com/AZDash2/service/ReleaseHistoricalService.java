@@ -136,7 +136,7 @@ public class ReleaseHistoricalService {
 
   public List<ReleaseHistorical> getAndSaveProgressReleases(String projectIdOrKey)
       throws URISyntaxException, IOException, InterruptedException {
-    List<Release> releases = releaseRepository.findByStatus("On Time");
+    List<Release> releases = releaseRepository.findByStatus("In progress");
     List<ReleaseHistorical> progressReleases = new ArrayList<>();
     LocalDate currentDate = LocalDate.now(ZoneId.of("America/Chihuahua"));
     LocalTime currentTime = LocalTime.now(ZoneId.of("America/Chihuahua"));
@@ -189,15 +189,14 @@ public class ReleaseHistoricalService {
         logger.error(
             "Error saving progress for version: {} and name: {}",
             release.getVersion(),
-            release.getName(),
-            e);
+            release.getName());
       }
     }
     return progressReleases;
   }
 
   @Scheduled(cron = "0 0 * * * *", zone = "America/Chihuahua")
-  public void scheduledTask() {
+  public void scheduledGetAndSaveProgressReleases() {
     try {
       getAndSaveProgressReleases(jiraApiToken);
     } catch (Exception e) {
