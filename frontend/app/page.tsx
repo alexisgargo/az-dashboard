@@ -1,33 +1,54 @@
-'use client'
-import { title, subtitle } from "@/components/primitives";
+"use client";
+import ReleaseCard from "@/components/releases-dashboard/release-card";
+import useReleases from "./releases-dashboard/releases-dashboard.hook";
 import CalendarComponent from "@/components/Calendar/Calendar";
 import { Button } from "@nextui-org/button";
-import { useState } from "react";
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import DashboardBottom from "@/components/releases-dashboard/dashboard-bottom";
+import NavBar from "@/components/navbar/navbar";
 
-export default function Home() {
-  const [showCalendar, setShowCalendar] = useState(false);
+export default function ReleasePage() {
+    const { releases, totalProgress, metrics, chosenDate, setSelectedDate } =
+        useReleases();
 
-  const toggleCalendar = () => {
-    setShowCalendar(!showCalendar);
-  };
-  return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-lg text-center justify-center">
-        <h1 className={title()}>Make&nbsp;</h1>
-        <h1 className={title({ color: "violet" })}>beautiful&nbsp;</h1>
-        <br />
-        <h1 className={title()}>
-          websites regardless of your design experience.
-        </h1>
-        <h2 className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </h2>
-      </div>
-      <div>
-        <Button onClick={toggleCalendar}>CalendarComponent</Button>
-        {showCalendar && <CalendarComponent />}
-      </div>
-
-    </section>
-  );
+    return (
+        <div>
+            <NavBar />
+            <div className="mx-auto max-w-7xl">
+                <div className="pt-5">
+                    <h1 className="text-xl"> Autozone B2B Releases</h1>
+                    <div className="flex justify-end">
+                        <Popover placement="left" showArrow={true}>
+                            <PopoverTrigger>
+                                <Button variant="light">
+                                    <p> {chosenDate} </p>
+                                    <CalendarMonthIcon />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <div className="bg-white">
+                                    <CalendarComponent
+                                        setDate={setSelectedDate}
+                                    />
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                    <h1 className="text-4xl font-bold">In-Progress Releases</h1>
+                    <div className="flex flex-row gap-7 py-5 overflow-auto">
+                        {releases?.map((release, index) => (
+                            <ReleaseCard
+                                releaseInfo={release}
+                                totalRelease={totalProgress[index]}
+                                key={index}
+                                date={chosenDate}
+                            />
+                        ))}
+                    </div>
+                    <DashboardBottom metrics={metrics} />
+                </div>
+            </div>
+        </div>
+    );
 }
