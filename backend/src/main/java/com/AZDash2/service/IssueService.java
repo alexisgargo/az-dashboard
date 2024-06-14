@@ -451,7 +451,7 @@ public class IssueService {
         return savedIssues;
     }
     
-    @Scheduled(cron = "0 * * * * *", zone = "America/Chihuahua")
+    @Scheduled(cron = "0 1 * * * *", zone = "America/Chihuahua")
     public void scheduledgetAndSaveIssues() {
         try {
             getAndSaveIssues(jiraApiToken);
