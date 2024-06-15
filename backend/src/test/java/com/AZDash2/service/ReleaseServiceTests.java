@@ -17,8 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.AZDash2.entity.Admin;
 import com.AZDash2.entity.Engineer;
 import com.AZDash2.entity.Release;
+import com.AZDash2.entity.ReleaseHistorical;
 import com.AZDash2.repository.AdminRepository;
 import com.AZDash2.repository.EngineerRepository;
+import com.AZDash2.repository.ReleaseHistoricalRepository;
 import com.AZDash2.repository.ReleaseRepository;
 
 @SpringBootTest
@@ -31,6 +33,9 @@ public class ReleaseServiceTests {
 
   @Mock
   ReleaseRepository releaseRepository;
+
+  @Mock
+  ReleaseHistoricalRepository releaseHistoricalRepository;
 
   @InjectMocks
   ReleaseService releaseService;
@@ -113,6 +118,7 @@ public class ReleaseServiceTests {
     given(adminRepository.findById(admin.getId_admin())).willReturn(Optional.of(admin));
     given(engineerRepository.findById(engineer.getId_engineer())).willReturn(Optional.of(engineer));
     given(releaseRepository.save(any(Release.class))).willReturn(release);
+    given(releaseHistoricalRepository.save(any(ReleaseHistorical.class))).willReturn(null);
 
     // when
     Release savedRelease = releaseService.saveRelease(release);
