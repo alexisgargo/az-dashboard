@@ -91,11 +91,7 @@ public class ReleaseHistoricalController {
       @PathVariable String version) {
     ReleaseHistorical teamProgress;
     try {
-        // FOR DAS JIRA
-        teamProgress = releaseHistoricalService.getProgressByVersion(version);
-
-        // FOR AUTOZONE'S JIRA
-        //teamProgress = releaseHistoricalService.getProgressByVersionAZ(version);
+        teamProgress = releaseHistoricalService.getProgressByVersionAZ(version);
 
     } catch (URISyntaxException | IOException | InterruptedException e) {
       logger.error("Progress JIRA API failed", e);
