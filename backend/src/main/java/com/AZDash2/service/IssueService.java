@@ -412,7 +412,7 @@ public class IssueService {
         List<Issue> savedIssues= new ArrayList<>();
         for (Release release : releases) {
             // JIRA AZ
-            List<Issue> issueInformation = getIssuesOfGivenVersionFromAllProjects(release.getName() + "-release-" + release.getVersion());
+            List<Issue> issueInformation = getIssuesOfGivenVersionFromAllProjects(release.getVersion());
             
             // JIRA DAS
             // List<Issue> issueInformation = getIssuesOfGivenVersionFromAllProjects(release.getName() + "-" + release.getVersion());
