@@ -1,6 +1,9 @@
+"use client";
+import React from 'react';
 import { CreateReleaseForm } from "@/components/releaseManagement/createReleaseForm";
+import isAuth from "@/components/isAuth";
 
-export default function createReleasePage() {
+const createReleasePage = () => {
     return (
         <div className="w-full">
             <h1 className="text-3xl font-bold text-center">
@@ -9,4 +12,6 @@ export default function createReleasePage() {
             <CreateReleaseForm />
         </div>
     );
-}
+  };
+export default isAuth(createReleasePage);
+

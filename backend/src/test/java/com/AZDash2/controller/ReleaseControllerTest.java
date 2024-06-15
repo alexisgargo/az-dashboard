@@ -26,7 +26,7 @@ public class ReleaseControllerTest {
     expectedRelease.setId_release(id);
 
     this.mockMvc
-        .perform(get("/az_dashboard/release/" + id))
+        .perform(get("/releases/" + id))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id_release", is(id.intValue())));
   }
@@ -36,7 +36,7 @@ public class ReleaseControllerTest {
     Long idInexistente = 999L; 
 
     this.mockMvc
-        .perform(get("/az_dashboard/release/" + idInexistente))
+        .perform(get("/releases/" + idInexistente))
         .andExpect(status().isNotFound()); 
   }
 }

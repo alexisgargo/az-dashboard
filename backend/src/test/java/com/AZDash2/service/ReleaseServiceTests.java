@@ -33,7 +33,7 @@ public class ReleaseServiceTests {
 
   @Mock
   ReleaseRepository releaseRepository;
-
+ 
   @Mock
   ReleaseHistoricalRepository releaseHistoricalRepository;
 
@@ -111,8 +111,7 @@ public class ReleaseServiceTests {
   void testSaveRelease() {
     // given
     Engineer engineer = new Engineer(1L, "John Doe");
-    Admin admin = new Admin(1L, "Jane Doe", "123", null); // Assuming no specific date is required for admin in this
-                                                          // test
+    Admin admin = new Admin(1L, "Jane Doe", "123", null);
     Release release = new Release(1L, "AZPRO", "1.0", engineer, admin, null, null, null, null, null, true,
         "In Progress", true, "Release Note");
     given(adminRepository.findById(admin.getId_admin())).willReturn(Optional.of(admin));

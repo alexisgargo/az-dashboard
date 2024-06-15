@@ -24,7 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("az_dashboard")
 public class ReleaseHistoricalController {
   Logger logger = LoggerFactory.getLogger(IssueController.class);
 
@@ -87,12 +86,16 @@ public class ReleaseHistoricalController {
       @ApiResponse(responseCode = "400", description = "Invalid project name or version", content = @Content),
       @ApiResponse(responseCode = "404", description = "Project not found", content = @Content)
   })
-  @GetMapping("/progress/{projectIdOrKey}/{version}")
+  @GetMapping("/progress/{version}")
   public ResponseEntity<ReleaseHistorical> pullProgressByVersion(
-      @PathVariable String version, @PathVariable String projectIdOrKey) {
+      @PathVariable String version) {
     ReleaseHistorical teamProgress;
     try {
-      teamProgress = releaseHistoricalService.getProgressByVersion(version, projectIdOrKey);
+        // FOR DAS JIRA
+        teamProgress = releaseHistoricalService.getProgressByVersion(version);
+
+        // FOR AUTOZONE'S JIRA
+        //teamProgress = releaseHistoricalService.getProgressByVersionAZ(version);
 
     } catch (URISyntaxException | IOException | InterruptedException e) {
       logger.error("Progress JIRA API failed", e);
