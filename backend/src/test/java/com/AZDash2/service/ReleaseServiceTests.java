@@ -117,8 +117,7 @@ public class ReleaseServiceTests {
     given(adminRepository.findById(admin.getId_admin())).willReturn(Optional.of(admin));
     given(engineerRepository.findById(engineer.getId_engineer())).willReturn(Optional.of(engineer));
     given(releaseRepository.save(any(Release.class))).willReturn(release);
-    given(releaseHistoricalRepository.save(any(ReleaseHistorical.class)))
-        .willAnswer(invocation -> invocation.getArgument(0));
+    given(releaseHistoricalRepository.save(any(ReleaseHistorical.class))).willReturn(null);
 
     // when
     Release savedRelease = releaseService.saveRelease(release);
